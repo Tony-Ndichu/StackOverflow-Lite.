@@ -1,0 +1,181 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto' ,sans-serif;
+  font-size: 16px;
+}
+
+input, textarea, select, button {
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    border: 1px solid #efefef;
+    font-size: 16px;
+    padding: 9px 0 7px 8px;
+    background: #fafafa;
+    width: 100%;
+    -webkit-appearance: none;
+    margin-bottom: 15px;
+}
+
+button{
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+
+}
+
+p, h1{
+	text-align: center;
+
+}
+
+
+/*AUTH PAGES STYLING- Sign-Up and Sign-In pages*/
+
+
+.softborder{
+	border-radius: 5px;
+
+}
+
+.theme-shadow{
+	box-shadow: 0 0 15px #cc0000;
+}
+
+.container{
+	position: absolute;
+	top: 0;
+	width: 100%;
+
+}
+
+
+
+.themecolor-bg{
+	background-color:  #40a0e0;
+}
+
+.themecolor-text{
+	color: #40a0e0;
+}
+.weight-one{
+	font-weight: bold;
+}
+
+.weight-two{
+	font-weight: bolder;
+}
+
+
+.auth-page{
+	background-color: #fafafa;
+	padding-bottom: 5%;
+
+}
+.auth-page-centerbox{
+	display:flex;
+	justify-content: center;
+	align-content: center;
+	align-items: flex-start;
+	margin-top: 5%;
+	min-height: 100vh;
+
+}
+
+.auth-page-leftside{
+	overflow: hidden;
+	width:30%;
+	display: none;
+}
+
+.auth-page-rightside{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 2%;
+	border: 1px solid #e6e6e6;
+	width:100%;
+	margin-left: 3%;
+	padding: 2%;
+	background-color: white;
+}
+
+
+.auth-page-banner{
+	display: block;
+	float:left;
+	width:100%;
+}
+
+.auth-page-banner img{
+	width: 100%;
+}
+
+nav {
+	background: linear-gradient(to right, #40e0d0 , #d040e0);
+	color: white;
+	padding: 10px;
+	padding-top:10px;
+
+}
+
+nav h3{
+	margin: 0;
+}
+
+
+/* Medium devices (tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+.auth-page-centerbox{
+	margin-top: 25%;
+}
+
+
+
+.auth-page-leftside{
+	display: none;
+}
+	
+.auth-page-rightside{
+	width:60%;
+}
+
+}
+
+/* Large devices (desktops, 992px and up */
+@media only screen and (min-width: 992px) {
+
+.auth-page-centerbox{
+	margin-top: 20%;
+}
+
+.auth-page-leftside{
+		display: block;
+		width:30%;
+}
+
+.auth-page-rightside{
+	width: 30%;
+}
+
+	
+}
+
+/* // Extra large devices (large desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+	.auth-page-centerbox{
+	margin-top: 5%;
+}
+	
+}
+
