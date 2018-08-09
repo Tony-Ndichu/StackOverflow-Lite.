@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto' ,sans-serif;
+  font-family: 'Varela Round', sans-serif !important;
   font-size: 16px;
 }
 
@@ -102,6 +102,9 @@ input, textarea, select, button {
   color: white;
 }
 
+.txt-grey{
+  color: grey;
+}
 /*widths*/
 .w-40{
   width:40%;
@@ -424,7 +427,7 @@ nav {
 
 .title{
   display: block;
-  width: 100%;
+  max-width: 100%;
   padding-left: 20%;
 }
 
@@ -546,7 +549,54 @@ nav {
   text-align: left;
   width: 50%;
   margin-left: 5%;
+  margin-top: 0;
 }
+
+hr {
+    border: none;
+    border-top: 1px solid #e8e8e8;
+    }
+
+.toggleable{
+    width:90%;
+    display: block;
+    margin: 0 auto;
+    overflow: auto;
+    margin-top: 5%;
+}
+
+.tog-nav{
+  display: flex;
+}
+
+.tog-nav p{
+  margin:0;
+}
+.tog-nav-item{
+  padding: 12px 22px 11px;
+}
+
+.selected{
+  border: 1px solid #e8e8e8;
+    background: #fff;
+    border-bottom-color: #fff;
+    color: #2c2d30;
+    cursor: default;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.tog-pane{
+  display: block;
+  background: #fff;
+    box-shadow: 0 1px 0 rgba(0,0,0,.25);
+    padding: 2rem 2rem 1rem;
+    margin: 0 auto 3rem;
+    border: 1px solid #e8e8e8;
+    border-top-style: none;
+    
+}
+
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
@@ -583,7 +633,7 @@ nav {
 
 
 .profile-details{
-    width: 30%;
+    width: 35%;
   }
 }
 
@@ -675,6 +725,13 @@ nav {
   margin-top: 6%;
 }
 
+.profile-box{
+    width:60%;
+  }
+
+.toggleable{
+  width: 70%;
+}
 }
 	
 
