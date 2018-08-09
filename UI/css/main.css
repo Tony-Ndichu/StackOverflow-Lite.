@@ -33,6 +33,10 @@ input, textarea, select, button {
 
 }
 
+/* MARGIN */
+.m-l-10{
+  margin-left: 10%;
+}
 /*FONT SIZE*/
 .fs-1 {font-size: 1px;}
 .fs-2 {font-size: 2px;}
@@ -183,6 +187,10 @@ input, textarea, select, button {
 	font-weight: bolder;
 }
 
+/* UPPERCASE*/
+.upper{
+    text-transform: uppercase;
+}
 
 .auth-page{
 	background-color: #fafafa;
@@ -276,7 +284,6 @@ nav {
 
 }
 
-
 .main-box{
 	display: block;
 	width: 100%;
@@ -284,6 +291,8 @@ nav {
 }
 
 .whole{
+  display: block;
+  margin: 0 auto;
   margin-top: 20%;
 }
 .menubody {
@@ -317,7 +326,7 @@ nav {
 .close{
   position: fixed;
   top:1%;
-  right:5%;
+  left:5%;
   font-size: 50px;
   font-weight: bold;
   color: black;
@@ -392,13 +401,12 @@ nav {
 
 .inner-nav{
   float:left;
-  width:20%;
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 20px;
   border-right:2px solid;
   cursor: pointer;
-  margin-right: 5%;
+  padding-right: 6%;
 }
 
 .view{
@@ -416,8 +424,8 @@ nav {
 
 .title{
   display: block;
-  float: left;
-  margin-left: 15%;
+  width: 100%;
+  padding-left: 20%;
 }
 
 .n-of-answ{
@@ -493,6 +501,52 @@ nav {
 .add-que{
     height: 100px;
 }
+
+.profile-box{
+  display: block;
+  margin: 0 auto;
+  width:95%;
+  padding-top: 2%;
+  background-color: white;
+}
+
+.profile-image{
+  display: block;
+  margin: 0 auto;
+  width:300px;
+  overflow: hidden;
+  border-radius: 15px;
+
+}
+
+.profile-details{
+  width:90%;
+  display: block;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+.profile-image img{
+    width: 100%;
+}
+
+.prof-label{
+    display: block;
+    float: left;
+    clear: left;
+    color: grey;
+    text-align: left;
+    width: 40%;
+    margin-top: 0;
+}
+
+.prof-deet{
+  display: block;
+  float:left;
+  text-align: left;
+  width: 50%;
+  margin-left: 5%;
+}
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
@@ -526,9 +580,11 @@ nav {
   float:right;
 }
 
-.whole{
-  margin-top: 15%;
-}
+
+
+.profile-details{
+    width: 30%;
+  }
 }
 
 /* Large devices (desktops, 992px and up */
@@ -555,8 +611,7 @@ nav {
   width:15%;
 }
 
-	
-  #menu-word{
+#menu-word{
   display: block;
 }
 
@@ -565,16 +620,15 @@ nav {
 }
 
 .whole{
-  margin-top: 10%;
+  margin-top: 12%;
 }
 
-.inner-nav{
-  padding: 0px;
-  }
 
 .q-box{
   margin-bottom: 2%;
 }
+
+
 
 
 }
@@ -611,13 +665,15 @@ nav {
   width:50%;
 }
 
-.whole{
-  margin-top: 5%;
-}
 
 .inner-nav{
-  padding: 0px;
+  padding: 15px;
+  padding-right: 7%;
   }
+
+.whole{
+  margin-top: 6%;
+}
 
 }
 	
