@@ -243,6 +243,10 @@ input, textarea, select, button {
 	
 }
 
+.q-name{
+  display: block;
+  color: grey;
+}
 .q-time{
     color: grey;
 }
@@ -408,6 +412,42 @@ nav {
   float: left;
   margin-left: 15%;
 }
+
+.n-of-answ{
+   margin-left: 15%;
+}
+
+.ans-box{
+  display: block;
+  float:right;
+  width:90%;
+}
+
+.que-box{
+  width:100%;
+  display: block;
+  margin: 0 auto;
+  padding-top: 3%;
+}
+
+.comm-box{
+  display: block;
+  margin: 0 auto;
+  width:90%;
+}
+.comment-box{
+  display: flex;
+  align-items: center;
+  padding:5%;
+  background-color: white;
+
+}
+
+.add-comm{
+  width:35%;
+  color: white;
+  background-color: blue;
+}
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
@@ -482,10 +522,37 @@ nav {
 .whole{
   margin-top: 10%;
 }
+
+.inner-nav{
+  padding: 0px;
+  }
+
+.q-box{
+  margin-bottom: 2%;
+}
+
+
 }
 
 /* // Extra large devices (large desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+
+.ans-box{
+  display: block;
+  float: none;
+  margin: 0 auto;
+  width:50%;
+}
+
+.comment-box{
+  padding: 2%;
+}
+
+
+.que-box{
+  width: 60%;
+  padding-top: 1%;
+}
 
 	.auth-page-centerbox{
 	margin-top: 5%;
@@ -502,6 +569,10 @@ nav {
 .whole{
   margin-top: 5%;
 }
+
+.inner-nav{
+  padding: 0px;
+  }
 
 }
 	

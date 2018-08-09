@@ -1,0 +1,6 @@
+<div class="comm-box">
+				 <div class="comment-box">
+				 	<input type="text" placeholder="Give an answer...." />
+				 	<button class="add-comm">Answer</button>
+				 </div>
+				</div>
