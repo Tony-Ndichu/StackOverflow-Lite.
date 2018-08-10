@@ -4,17 +4,21 @@ StackOverflow-Lite is a platform where people can ask questions and get the answ
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
-Local host server
+What things you need to install the software and how to install them
 
+```
+Give examples
+```
 
 ### Installing
 
+A step by step series of examples that tell you how to get a development env running
 
-Clone a copy of the main StackOverflow-Lite git repo by running:
+Clone a copy of the main jQuery git repo by running:
 
 ```
 $ git clone https://github.com/Tony-Ndichu/StackOverflow-Lite.git
@@ -33,6 +37,11 @@ $ cd UI
 * [CSS](http://devdocs.io/css/) - CSS
 * [JAVASCRIPT](http://devdocs.io/javascript/) - And some good old plain javascript.
 
+
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
