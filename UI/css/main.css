@@ -767,9 +767,10 @@ hr {
 
 
 .search-box{
+  display: none;
   position: relative;
   width:20%;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 
 .search-box input{
@@ -782,15 +783,15 @@ hr {
   padding: 10px;
   pointer-events: none;
   color: blue;
-  right: 0;
+  left: 0;
   padding-bottom: 5px;
 
 }
 
 .search-input{
   border-style: solid;
-  border-color:red;
-  padding-right: 30px;
+  border-color:blue
+  padding-left: 30px;
 }
 
 .hide-this{
@@ -839,6 +840,10 @@ hr {
 
 .profile-details{
     width: 35%;
+  }
+
+ .search-box{
+    display: block;
   }
 
 
@@ -890,6 +895,10 @@ hr {
     height: 39vw;
   }
 
+ .search-box{
+    display: block;
+    margin-left: 15%;
+  }
 
 
 
@@ -964,6 +973,12 @@ hr {
 
 .auth-page-banner{
     height: 26vw;
+  }
+
+
+  .search-box{
+    display: block;
+    margin-left: 30%;
   }
 
 
