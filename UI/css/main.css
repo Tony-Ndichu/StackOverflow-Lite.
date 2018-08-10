@@ -267,6 +267,9 @@ input, textarea, select, button {
 }
 .q-time{
     color: grey;
+    clear:both;
+    float: right;
+    clear: right;
 }
 
 .q-pic img{
@@ -597,6 +600,10 @@ hr {
     
 }
 
+.specs{
+    display: flex;
+    float: right;
+}
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
