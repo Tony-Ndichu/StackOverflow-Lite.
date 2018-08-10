@@ -612,6 +612,12 @@ hr {
     cursor: default;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
+    cursor: pointer;
+}
+
+.not-selected{
+   color: #40a0e0 ;
+   cursor: pointer;
 }
 
 .tog-pane{
@@ -649,6 +655,41 @@ hr {
   margin: 0 auto;
   float: none !important;
   text-align: center;
+}
+
+.search-box{
+  position: relative;
+  width:20%;
+  margin-left: 20%;
+}
+
+.search-box input{
+  margin-bottom: 0;
+  padding-left:40px;
+}
+
+.pos{
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+  color: blue;
+  right: 0;
+  padding-bottom: 5px;
+
+}
+
+.search-input{
+  border-style: solid;
+  border-color:red;
+  padding-right: 30px;
+}
+
+.hide-this{
+  display: none !important;
+}
+
+.show-this{
+  display: block !important;
 }
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
