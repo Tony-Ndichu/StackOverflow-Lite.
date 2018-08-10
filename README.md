@@ -45,7 +45,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Antony Ndichu** - *Initial work* - [StackOverflow-Lite](https://github.com/Tony-Ndichu/)
+* **Antony Ndichu** - *Initial work* - [StackOverflow-Lite](https://github.com/Tony-Ndichu/StackOverflow-Lite)
 
 
 ## License

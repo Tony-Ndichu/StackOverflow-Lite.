@@ -325,6 +325,7 @@ nav {
   display: block;
   margin: 0 auto;
   margin-top: 20%;
+  padding-bottom: 10%;
 }
 .menubody {
     display: block;
@@ -637,6 +638,7 @@ hr {
 }
 
 
+
 .thefooter{
   position: absolute;
   width: 100%;
@@ -644,6 +646,9 @@ hr {
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: #40a0e0;
+  color: white;
+
 }
 
 .centered{
