@@ -29,7 +29,7 @@ input, textarea, select, button {
 
   }
 
-input[type="text"], input[type="password"]
+input[type="text"], input[type="password"], input[type="email"]
 {
     font-size:20px;
       font-family: 'Varela Round', sans-serif !important;
@@ -53,9 +53,8 @@ input[type="text"], input[type="password"]
 }
 
 /* MARGIN */
-.m-l-10{
-  margin-left: 10%;
-}
+.m-l-10{margin-left: 10%;}
+.m-r-50{margin-right: 50%;}
 /*FONT SIZE*/
 .fs-1 {font-size: 1px;}
 .fs-2 {font-size: 2px;}
@@ -115,6 +114,7 @@ input[type="text"], input[type="password"]
 .p-r-3{padding-right: 3%;}
 .p-r-4{padding-right: 4%;}
 .p-r-5{padding-right: 5%;}
+.p-1{padding: 1%;}
 
 /*COLOURED TEXTS*/
 .txt-wht{
@@ -752,6 +752,15 @@ hr {
 }
 
 
+.block{
+  display: block;
+  margin: 0 auto;
+  float: none !important;
+  text-align: center;
+}
+
+
+
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
@@ -785,11 +794,11 @@ hr {
   float:right;
 }
 
-
-
 .profile-details{
     width: 35%;
   }
+
+
 }
 
 /* Large devices (desktops, 992px and up */
