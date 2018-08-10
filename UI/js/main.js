@@ -1,13 +1,10 @@
 
+//THIS THE MENU JS CODE
+
 let theMenuButton = document.getElementById('menu');
 
 let theCloseButton = document.getElementById('closer');
 
-
-window.onload = () =>{
-	this.showMenu()
-	this.hideMenu()
-}
 
 function showMenu() {
 	theMenuButton.onclick = function () {
@@ -74,6 +71,34 @@ close_button.classList.add('hide');
 }
 }
 
+//THIS IS THE MODAL JS CODE
+
+
+var overlay = document.getElementById('overlay');
+let modalOpener = document.getElementById('open-modal')
+let modalCloser = document.getElementById('close-modal')
 
 
 
+function openModal(){
+	modalOpener.onclick = function () {
+         overlay.classList.remove("is-hidden");
+     }
+}
+
+
+function closeModal(){
+	modalCloser.onclick = function () {
+
+   overlay.classList.add("is-hidden");
+}
+}
+
+//TO ENSURE THESE JS FILES ONLY RUN WHEN DOM ELEMENTS HAVE LOADED
+
+window.onload = () =>{
+	this.showMenu()
+	this.hideMenu()
+	this.openModal()
+	this.closeModal()
+}
