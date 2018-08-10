@@ -3,33 +3,62 @@
 <html>
 
 	<head>
+		<title>Sign-Up</title>
 		<meta charset="utf-8">
+		<meta name="description" content="The only platform you need to get the answers to your questions.">
+		<meta name="keywords" content="questions, answers">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">		
 		<link rel="stylesheet" href="../css/main.css" type="text/css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	</head>
 
 	<body>
 		<div class="auth-page container">
 			<nav>
-				<div class="inner-nav" id="menu">
-          		<h3 class="upper">StackOverflow-Lite </h3>
-          		</div>
+					<div class="inner-nav" id="menu">
+						<div id="menu" class="menu-button fl-l cl-n">
+							<i class="fas fa-lg fa-bars"></i>
+						</div>
 
-          		<h3 class="upper m-l-10">Getting Started </h3>
+						<h3 id="menu-word" class="f-w-800 fl-l">MENU</h3>
+					</div>
 
-            </nav>
+					<h3 class="upper m-l-10">StackOverflow-Lite </h3>
+					
+					<div class="search-box right-addon">
+						<i class="fas pos fa-lg fa-search"></i>
+						<input type="text" class="search-input" placeholder="Search...">
+					</div>
+				
+			</nav>
+
+				  <div id="closer" class="close hide">
+				  	&#xd7;
+				  </div>
+
+  
+
+      <div class="menubody not-visible" id="bodyMenu" >
+        <ul>
+          <li class="menu-item" ><a href="index.html">Recently Asked Questions & Post Question</a></li>
+          <li class="menu-item" ><a href="UserProfile.html">User Profile and lists of questions related to user</a></li>
+          <li class="menu-item" ><a href="ViewQuestion.html">View Question & It's Answers & Add Answer</a></li>
+          <li class="menu-item" ><a href="Sign-Up.html" class="active">Sign-Up</a></li>
+          <li class="menu-item" ><a href="Sign-In.html">Sign-In</a></li>
+        </ul>
+      </div>
 
 				<div class="auth-page-centerbox">
 
 					<div class="auth-page-leftside softborder">
 
-					<div class="auth-page-banner b-2">
-										
-					</div>
+						<div class="auth-page-banner b-2">
+											
+						</div>
 
-				</div>
+					</div>
 
 					<div class="auth-page-rightside">
 
@@ -63,4 +92,5 @@
 
 		</div> 
 	</body>
+<script type="text/javascript" src="../js/main.js"></script>
 </html>

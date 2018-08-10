@@ -81,21 +81,32 @@ let modalCloser = document.getElementById('close-modal')
 
 
 function openModal(){
+//CHECK FIRST IF MODAL EXISTS IN PAGE
+	var element =  document.getElementById('open-modal');
+if (typeof(element) != 'undefined' && element != null)
+{
 	modalOpener.onclick = function () {
          overlay.classList.remove("is-hidden");
      }
+ }
 }
 
 
 function closeModal(){
+
+//CHECK FIRST IF MODAL EXISTS IN PAGE
+	var element =  document.getElementById('close-modal');
+if (typeof(element) != 'undefined' && element != null)
+{
 	modalCloser.onclick = function () {
 
    overlay.classList.add("is-hidden");
 }
 }
+}
+
 
 //TO ENSURE THESE JS FILES ONLY RUN WHEN DOM ELEMENTS HAVE LOADED
-
 window.onload = () =>{
 	this.showMenu()
 	this.hideMenu()
