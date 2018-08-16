@@ -1,9 +1,14 @@
 def check_if_already_exists(list_name, title , description):
     
-    for question in list_name:
-        if question['title'] == title or question['description'] == description:
+    for item in list_name:
+        if item['title'] == title or item['description'] == description:
             return True
-        return False
+    
+def check_for_answer(list_name , answer):
+
+	for item in list_name:
+		if item['answer'] == answer:
+			return True   
 
 def question_verification(title, description):
     '''check the quality of questions sent to the platform'''
@@ -15,3 +20,16 @@ def question_verification(title, description):
     	return 'You cannot have a title with digits only, Please describe with some words'
     if description.isdigit():
     	return 'You cannot have a description with digits only, Please describe with some words'
+
+def check_using_id(list_name , other_id):
+
+	my_item = next((item for item in list_name if item['question_id'] == other_id), None)
+
+	if my_item:
+		return my_item
+	return False
+
+def check_quality(item):
+	
+	if len(item) < 1:
+		return 'Too Short, Please add more input'
