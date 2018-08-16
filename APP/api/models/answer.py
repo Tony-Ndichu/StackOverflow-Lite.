@@ -22,7 +22,12 @@ class AnswerModel():
             accept_status=False,
             date_accepted= None ,
 
+
+            accept_status=False,
+            date_accepted= None ,
+
             accepted=False,
             date_accepted= "null" ,
+
 
         )

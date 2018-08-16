@@ -15,8 +15,9 @@ app = Flask(__name__)
 question_blueprint = Blueprint('question', __name__)
 api = Api(question_blueprint, prefix='/api/v1')
 
-
 QUESTION_LIST = []
+
+
 
 
 QUESTION_LIST = [
@@ -26,6 +27,7 @@ QUESTION_LIST = [
         "description" : "hshshshshss"
     }
 ]
+
 
 
 class AllQuestions(Resource):
@@ -92,6 +94,28 @@ class SpecificQuestion(Resource):
         if CheckID:
             return CheckID , 200
         return {'message' : 'Oops, that question is missing' }, 404
+
+class SpecificQuestion(Resource):
+
+    @classmethod 
+    def get(cls , questionid):
+
+        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
+        if CheckID:
+            return CheckID , 200
+        return {'message' : 'Oops, that question is missing' }, 404
+
+    @classmethod
+    def delete(cls, questionid):
+
+        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
+        if not CheckID:
+            return { "message" :  "Sorry, we couldn't find that question, it may have already been deleted"} , 404
+
+        QUESTION_LIST.remove(CheckID)
+        return { "message" : "Success!! The question has been deleted successfully"} , 200
 
 class SpecificQuestion(Resource):
 

@@ -7,6 +7,9 @@ def check_if_already_exists(list_name, title , description):
 
 
 
+
+
+
     
 def check_for_answer(list_name , answer):
 
@@ -16,7 +19,10 @@ def check_for_answer(list_name , answer):
 
 
 
+
+
         
+
 
 
 
@@ -41,6 +47,9 @@ def check_using_id(list_name , other_id):
 
 
 
+
+
+
 	return False
 
 def check_quality(item):
@@ -49,14 +58,21 @@ def check_quality(item):
 		return 'Too Short, Please add more input'
 
 
+
+
+
 def find_answers_to_a_question(list_name, question_id):	
 	answers = []
 	for answer in list_name:
 		if answer['question_id'] == int(question_id):
 			answers.append(answer)
 
+
+	return answers
+
 	return answers
 
 	return False
+
 
 

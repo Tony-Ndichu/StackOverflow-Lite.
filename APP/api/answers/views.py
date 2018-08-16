@@ -14,6 +14,12 @@ from datetime import datetime
 
 
 
+from datetime import datetime
+
+
+
+
+
 app = Flask(__name__)
 
 
@@ -21,6 +27,9 @@ answer_blueprint = Blueprint('answer', __name__)
 api = Api(answer_blueprint, prefix='/api/v1')
 
 ANSWER_LIST = []
+
+
+
 
 
 
@@ -71,14 +80,22 @@ class Answer(Resource):
 		return {"message" : "Success!! Your answer has been added"} , 201
 
 
+
+
+
 	@classmethod
 	def get(cls, questionid):
 
 		CheckAnswer = validator.find_answers_to_a_question(ANSWER_LIST , int(questionid))
 
 		if CheckAnswer:			
+
+			
+			return CheckAnswer , 200
+
 			ANSWER_LIST.append(CheckAnswer)
 			return ANSWER_LIST
+
 		return {"message" : "Sorry, this question has no answers as per now."}, 404
 
 
@@ -106,7 +123,10 @@ api.add_resource(Answer, "/questions/<questionid>/answers")
 api.add_resource(AcceptAnswer, "/questions/<questionid>/answers/<answerid>")
 
 
-api.add_resource(Answer, "/questions/<questionid>/answers")
+
+
+
+
 
 
 if __name__ == '__main__':

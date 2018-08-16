@@ -7,6 +7,12 @@ from api.questions.views import QUESTION_LIST
 
 from api.answers.views import ANSWER_LIST
 
+class Base(TestCase):
+
+
+from api.answers.views import ANSWER_LIST
+
+
 
 
 
@@ -157,10 +163,16 @@ class TestApp(Base):
 
 
 
+
+
+
         self.post_for_testing_purposes()
 
         response = self.client.get('/api/v1/questions/1')
         self.assertEqual(response.status_code, 200)
+
+
+
 
 
     def test_user_can_delete_question(self):
@@ -171,11 +183,15 @@ class TestApp(Base):
             'api/v1/questions/1',
             content_type="application/json")
 
+
+        self.assertEqual(result.status_code, 200)
+
         self.assertEqual(result.status_code, 200)
 
 
         response = self.client.get('/api/v1/questions/1')
         self.assertEqual(response.status_code, 200)
         
+
 
 
