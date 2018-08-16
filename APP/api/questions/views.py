@@ -16,7 +16,13 @@ question_blueprint = Blueprint('question', __name__)
 api = Api(question_blueprint, prefix='/api/v1')
 
 
-QUESTION_LIST = []
+QUESTION_LIST = [
+    {
+        "question_id" : 1,
+        "title" : "bla bla bla",
+        "description" : "hshshshshss"
+    }
+]
 
 
 class AllQuestions(Resource):
@@ -74,7 +80,11 @@ class SpecificQuestion(Resource):
     @classmethod 
     def get(cls , questionid):
 
+
+        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
         CheckID = validator.check_using_id(QUESTION_LIST , questionid)
+
 
         if CheckID:
             return CheckID , 200

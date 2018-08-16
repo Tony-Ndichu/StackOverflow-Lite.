@@ -47,6 +47,7 @@ class Base(TestCase):
         }
 
         self.sample_data7 = {
+          
             'title' : 'What is a tuple?',
             'description' : 'A tuple is a python data structure'
         }
@@ -148,6 +149,13 @@ class TestApp(Base):
     def test_fetch_a_question(self):
         
 
+        self.post_for_testing_purposes()
+
+        response = self.client.get('/api/v1/questions/1')
+        self.assertEqual(response.status_code, 200)
+
+
         response = self.client.get('/api/v1/questions/1')
         self.assertEqual(response.status_code, 200)
         
+
