@@ -6,7 +6,7 @@ from flask import make_response, jsonify, Flask, Blueprint, request
 from flask_restful import reqparse, abort, Api, Resource
 from ..common import validator
 from ..models import question
-from ..models.question import Question
+from ..models.question import QuestionModel
 
 
 app = Flask(__name__)
@@ -15,9 +15,7 @@ app = Flask(__name__)
 question_blueprint = Blueprint('question', __name__)
 api = Api(question_blueprint, prefix='/api/v1')
 
-
 QUESTION_LIST = []
-
 
 class AllQuestions(Resource):
     """
@@ -61,7 +59,7 @@ class AllQuestions(Resource):
         for item in QUESTION_LIST:
             id_count += 1
 
-        new_question = Question(data['title'], data['description'])
+        new_question = QuestionModel(data['title'], data['description'])
 
         new_question_dict = new_question.make_dict(id_count)
 
@@ -70,7 +68,30 @@ class AllQuestions(Resource):
         return {'message': 'Your question has been added successfully'} , 201
 
 
+class SpecificQuestion(Resource):
+
+    @classmethod 
+    def get(cls , questionid):
+
+        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
+        if CheckID:
+            return CheckID , 200
+        return {'message' : 'Oops, that question is missing' }, 404
+
+    @classmethod
+    def delete(cls, questionid):
+
+        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
+        if not CheckID:
+            return { "message" :  "Sorry, we couldn't find that question, it may have already been deleted"} , 404
+
+        QUESTION_LIST.remove(CheckID)
+        return { "message" : "Success!! The question has been deleted successfully"} , 200
+
 api.add_resource(AllQuestions, "/questions")
+api.add_resource(SpecificQuestion, "/questions/<questionid>")
 
 
 if __name__ == '__main__':
