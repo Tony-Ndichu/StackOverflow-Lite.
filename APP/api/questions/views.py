@@ -6,7 +6,7 @@ from flask import make_response, jsonify, Flask, Blueprint, request
 from flask_restful import reqparse, abort, Api, Resource
 from ..common import validator
 from ..models import question
-from ..models.question import Question
+from ..models.question import QuestionModel
 
 
 app = Flask(__name__)
@@ -61,7 +61,7 @@ class AllQuestions(Resource):
         for item in QUESTION_LIST:
             id_count += 1
 
-        new_question = Question(data['title'], data['description'])
+        new_question = QuestionModel(data['title'], data['description'])
 
         new_question_dict = new_question.make_dict(id_count)
 
@@ -69,8 +69,19 @@ class AllQuestions(Resource):
 
         return {'message': 'Your question has been added successfully'} , 201
 
+class SpecificQuestion(Resource):
+
+    @classmethod 
+    def get(cls , questionid):
+
+        CheckID = validator.check_using_id(QUESTION_LIST , questionid)
+
+        if CheckID:
+            return CheckID , 200
+        return {'message' : 'Oops, that question is missing' }, 404
 
 api.add_resource(AllQuestions, "/questions")
+api.add_resource(SpecificQuestion, "/questions/<questionid>")
 
 
 if __name__ == '__main__':
