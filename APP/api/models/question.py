@@ -1,4 +1,4 @@
-class Question():
+class QuestionModel():
   
     def __init__(self, title, description):
             ''' constructor method to give a question its attributes'''
@@ -11,4 +11,5 @@ class Question():
         return dict(
             title=self.title,
             description=self.description,
+            question_id = questionId
         )
