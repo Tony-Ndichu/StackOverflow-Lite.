@@ -80,7 +80,11 @@ class SpecificQuestion(Resource):
     @classmethod 
     def get(cls , questionid):
 
+
         CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
+        CheckID = validator.check_using_id(QUESTION_LIST , questionid)
+
 
         if CheckID:
             return CheckID , 200
