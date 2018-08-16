@@ -18,6 +18,16 @@ class AnswerModel():
             answer_date=self.answer_date,            
             question_id=questionid,
             votes=0,
+
             accept_status=False,
             date_accepted= None ,
+
+
+            accept_status=False,
+            date_accepted= None ,
+
+            accepted=False,
+            date_accepted= "null" ,
+
+
         )
