@@ -15,7 +15,18 @@ app = Flask(__name__)
 question_blueprint = Blueprint('question', __name__)
 api = Api(question_blueprint, prefix='/api/v1')
 
+
 QUESTION_LIST = []
+
+
+QUESTION_LIST = [
+    {
+        "question_id" : 1,
+        "title" : "bla bla bla",
+        "description" : "hshshshshss"
+    }
+]
+
 
 class AllQuestions(Resource):
     """
@@ -67,6 +78,20 @@ class AllQuestions(Resource):
 
         return {'message': 'Your question has been added successfully'} , 201
 
+class SpecificQuestion(Resource):
+
+    @classmethod 
+    def get(cls , questionid):
+
+
+        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+
+        CheckID = validator.check_using_id(QUESTION_LIST , questionid)
+
+
+        if CheckID:
+            return CheckID , 200
+        return {'message' : 'Oops, that question is missing' }, 404
 
 class SpecificQuestion(Resource):
 

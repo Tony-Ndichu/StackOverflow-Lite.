@@ -8,7 +8,10 @@ from ..common import validator
 from ..models import answer
 from ..models.answer import AnswerModel
 from ..questions.views import QUESTION_LIST
+
 from datetime import datetime
+
+
 
 
 app = Flask(__name__)
@@ -18,6 +21,9 @@ answer_blueprint = Blueprint('answer', __name__)
 api = Api(answer_blueprint, prefix='/api/v1')
 
 ANSWER_LIST = []
+
+
+
 
 
 class Answer(Resource):
@@ -64,6 +70,7 @@ class Answer(Resource):
 
 		return {"message" : "Success!! Your answer has been added"} , 201
 
+
 	@classmethod
 	def get(cls, questionid):
 
@@ -97,6 +104,10 @@ class AcceptAnswer(Resource):
 
 api.add_resource(Answer, "/questions/<questionid>/answers")
 api.add_resource(AcceptAnswer, "/questions/<questionid>/answers/<answerid>")
+
+
+api.add_resource(Answer, "/questions/<questionid>/answers")
+
 
 if __name__ == '__main__':
     app.run()
