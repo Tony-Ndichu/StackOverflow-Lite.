@@ -6,6 +6,10 @@ import json
 from api.questions.views import QUESTION_LIST
 from api.answers.views import ANSWER_LIST
 
+
+
+
+
 class Base(TestCase):
 
     def create_app(self):
@@ -23,6 +27,13 @@ class Base(TestCase):
         self.answer = {
         	"answer" : "This is a sample answer"
         }
+
+
+        self.empty_answer = {
+        	'answer' : ""
+        }
+
+
     def tearDown(self):
         '''make the questions list empty after each test case'''
         del QUESTION_LIST[:]
@@ -34,6 +45,17 @@ class TestApp(Base):
 		result = self.client.post('api/v1/questions', data=json.dumps(self.sample_data1),content_type='application/json')
 		return result
 
+
+	def post_answer_for_testing_purposes(self):
+		result = self.client.post(
+            'api/v1/questions/1/answers',
+            data=json.dumps(self.answer),
+            content_type='application/json')
+
+		return result
+
+
+
 	def test_user_can_answer_question(self):
 
 		self.post_question_for_testing_purposes()
@@ -44,5 +66,21 @@ class TestApp(Base):
             content_type='application/json')
 
 		self.assertEqual(answer.status_code, 201)
+
+
+	def test_user_cannot_answer_with_empty_content(self):
+
+		self.post_question_for_testing_purposes()
+
+		result = self.client.post(
+			'api/v1/questions/1/answers',
+			data=json.dumps(self.empty_answer),
+			content_type='application/json')
+
+		self.assertEqual(result.status_code, 409)
+
+	
+
         
+
 

@@ -9,6 +9,10 @@ from ..models import answer
 from ..models.answer import AnswerModel
 from ..questions.views import QUESTION_LIST
 
+from datetime import datetime
+
+
+
 
 app = Flask(__name__)
 
@@ -17,6 +21,10 @@ answer_blueprint = Blueprint('answer', __name__)
 api = Api(answer_blueprint, prefix='/api/v1')
 
 ANSWER_LIST = []
+
+
+
+
 
 class Answer(Resource):
 
@@ -63,7 +71,43 @@ class Answer(Resource):
 		return {"message" : "Success!! Your answer has been added"} , 201
 
 
+	@classmethod
+	def get(cls, questionid):
+
+		CheckAnswer = validator.find_answers_to_a_question(ANSWER_LIST , int(questionid))
+
+		if CheckAnswer:			
+			ANSWER_LIST.append(CheckAnswer)
+			return ANSWER_LIST
+		return {"message" : "Sorry, this question has no answers as per now."}, 404
+
+
+
+class AcceptAnswer(Resource):
+
+		@classmethod
+		def put(cls, questionid, answerid):
+			
+			CheckID = validator.check_using_id(ANSWER_LIST , int(answerid))
+
+			if not CheckID:
+				return {"message" : "Sorry, we can't seem to find that answer"}, 404
+
+			if CheckID['accept_status'] == True:
+				return { "message" : "You have already accepted this answer" }, 409
+			else:
+				CheckID['accept_status'] = True
+				CheckID['date_accepted'] = datetime.now()
+				return {"message" : "Success!! You have accepted this answer"}, 200
+
+
+
 api.add_resource(Answer, "/questions/<questionid>/answers")
+api.add_resource(AcceptAnswer, "/questions/<questionid>/answers/<answerid>")
+
+
+api.add_resource(Answer, "/questions/<questionid>/answers")
+
 
 if __name__ == '__main__':
     app.run()
