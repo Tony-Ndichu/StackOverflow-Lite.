@@ -1,71 +1,78 @@
 """
-This is the code for get all questions
+#app/api/answers/views.py
+This is the module that handles question operations and their methods
 """
 
-from flask import make_response, jsonify, Flask, Blueprint, request
-from flask_restful import reqparse, abort, Api, Resource
+from flask import Flask, Blueprint
+from flask_restful import reqparse, Api, Resource
 from ..common import validator
-from ..models import question
 from ..models.question import QuestionModel
 
 
-app = Flask(__name__)
+APP = Flask(__name__)
 
 
-question_blueprint = Blueprint('question', __name__)
-api = Api(question_blueprint, prefix='/api/v1')
-
-QUESTION_LIST = []
-
-
-
+QUESTION_BLUEPRINT = Blueprint('question', __name__)
+API = Api(QUESTION_BLUEPRINT, prefix='/api/v1')
 
 QUESTION_LIST = [
     {
-        "question_id" : 1,
-        "title" : "bla bla bla",
-        "description" : "hshshshshss"
+        "question_id": 1,
+        "title": "Here",
+        "description": "sdsfdffsfd"
+    },
+    {
+        "question_id": 2,
+        "title": "Here",
+        "description": "sdsfdffsfd"
     }
-]
 
+]
 
 
 class AllQuestions(Resource):
     """
-    this enables getting all the questions and posting a new
-    question"""
+    this class deals with posting questions and getting all questions
+    """
 
     parser = reqparse.RequestParser()
     parser.add_argument('title',
                         type=str,
                         required=True,
                         help='Please enter a title.',
-                        
+
                         )
 
     parser.add_argument('description',
                         type=str,
                         required=True,
                         help='Please enter a description.',
-                        
+
                         )
+
     @classmethod
-    def get(self):
+    def get(cls):
+        """Handles getting a list of all questions"""
         if not QUESTION_LIST:
             return {'Empty': 'Sorry, but there are no questions at the moment'}, 404
         return QUESTION_LIST, 200
 
     @classmethod
     def post(cls):
+        """Handles posting a question"""
         data = cls.parser.parse_args()
 
-        if validator.check_if_already_exists(QUESTION_LIST, data['title'], data['description']):
-            return {"message": "Sorry, this question has already been posted"}, 409
+        exists = validator.check_if_already_exists(
+            QUESTION_LIST, data['title'], data['description'])
 
-        Verify_Question = validator.question_verification(data['title'] , data['description'])
+        if exists:
+            return {"message": exists}, 409
 
-        if Verify_Question:
-            return {"message" : Verify_Question }, 409
+        verify_question = validator.question_verification(
+            data['title'], data['description'])
+
+        if verify_question:
+            return {"message": verify_question}, 409
 
         id_count = 1
 
@@ -78,70 +85,38 @@ class AllQuestions(Resource):
 
         QUESTION_LIST.append(new_question_dict)
 
-        return {'message': 'Your question has been added successfully'} , 201
+        return {'message': 'Your question has been added successfully'}, 201
+
 
 class SpecificQuestion(Resource):
+    """this class handles fetching a specific question and deleting it"""
 
-    @classmethod 
-    def get(cls , questionid):
+    @classmethod
+    def get(cls, questionid):
+        """this handles getting the question using it's id"""
 
+        check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
-        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
-
-        CheckID = validator.check_using_id(QUESTION_LIST , questionid)
-
-
-        if CheckID:
-            return CheckID , 200
-        return {'message' : 'Oops, that question is missing' }, 404
-
-class SpecificQuestion(Resource):
-
-    @classmethod 
-    def get(cls , questionid):
-
-        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
-
-        if CheckID:
-            return CheckID , 200
-        return {'message' : 'Oops, that question is missing' }, 404
+        if check_id:
+            return check_id, 200
+        return {'message': 'Oops, that question is missing'}, 404
 
     @classmethod
     def delete(cls, questionid):
+        """this handles deleting the question using it's id"""
 
-        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
+        check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
-        if not CheckID:
-            return { "message" :  "Sorry, we couldn't find that question, it may have already been deleted"} , 404
+        if not check_id:
+            return {"message":
+                    "Sorry, we couldn't find that question, it may have already been deleted"}, 404
 
-        QUESTION_LIST.remove(CheckID)
-        return { "message" : "Success!! The question has been deleted successfully"} , 200
+        QUESTION_LIST.remove(check_id)
+        return {"message": "Success!! The question has been deleted successfully"}, 200
 
-class SpecificQuestion(Resource):
-
-    @classmethod 
-    def get(cls , questionid):
-
-        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
-
-        if CheckID:
-            return CheckID , 200
-        return {'message' : 'Oops, that question is missing' }, 404
-
-    @classmethod
-    def delete(cls, questionid):
-
-        CheckID = validator.check_using_id(QUESTION_LIST , int(questionid))
-
-        if not CheckID:
-            return { "message" :  "Sorry, we couldn't find that question, it may have already been deleted"} , 404
-
-        QUESTION_LIST.remove(CheckID)
-        return { "message" : "Success!! The question has been deleted successfully"} , 200
-
-api.add_resource(AllQuestions, "/questions")
-api.add_resource(SpecificQuestion, "/questions/<questionid>")
+API.add_resource(AllQuestions, "/questions")
+API.add_resource(SpecificQuestion, "/questions/<questionid>")
 
 
 if __name__ == '__main__':
-    app.run()
+    APP.run()

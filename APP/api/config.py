@@ -1,24 +1,28 @@
-''' configaration file for various environments such as production or testing'''
-import os
+"""
+#app/api/config.py
+"""
+
 
 class BaseConfig():
-    '''parent class subclassed by all other environ ment classes'''
+    """parent clas that all other classes inherit"""
     DEBUG = False
     TESTING = False
 
+
 class Development(BaseConfig):
-    '''class contains all configs relatedd to development enviroment'''
+    """config related to config environment"""
     DEBUG = True
-    TESTING =True
+    TESTING = True
+
 
 class Test(BaseConfig):
-    '''the class is used to run tests'''
+    """config related to testing environment"""
     TESTING = True
     DEBUG = True
 
 
 class Production(BaseConfig):
-    '''production configarations'''
+    """config related to testing environment"""
     TESTING = False
 
 
