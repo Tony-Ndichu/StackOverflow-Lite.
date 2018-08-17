@@ -1,136 +1,115 @@
 """
-This is the code for post an answer
+#app/api/answers/view.py
+This is the module that handles answers and their methods
 """
-
-from flask import make_response, jsonify, Flask, Blueprint, request
-from flask_restful import reqparse, abort, Api, Resource
+from datetime import datetime
+from flask import Flask, Blueprint
+from flask_restful import reqparse, Api, Resource
 from ..common import validator
-from ..models import answer
 from ..models.answer import AnswerModel
 from ..questions.views import QUESTION_LIST
 
-from datetime import datetime
+APP = Flask(__name__)
 
 
+ANSWER_BLUEPRINT = Blueprint('answer', __name__)
+API = Api(ANSWER_BLUEPRINT, prefix='/api/v1')
 
-
-from datetime import datetime
-
-
-
-
-
-app = Flask(__name__)
-
-
-answer_blueprint = Blueprint('answer', __name__)
-api = Api(answer_blueprint, prefix='/api/v1')
-
-ANSWER_LIST = []
-
-
-
-
-
-
+ANSWER_LIST = [
+    {
+        "answer_id": 1,
+        "answer": "HGHH",
+        "question_id": 1,
+        "votes" : 0,
+        "accept_status" : False,
+        "date_accepted" : None
+    },
+    {
+        "answer_id": 2,
+        "answer": "HGHgggfgfgH",
+        "question_id": 1,
+        "votes" : 0,
+        "accept_status" : False,
+        "date_accepted" : None
+    }
+]
 
 
 class Answer(Resource):
+    """This class deals with posting answers and getting answers to specific questions"""
+    parser = reqparse.RequestParser()
+    parser.add_argument('answer', type=str, required=True,
+                        help='Please enter an answer.')
 
-	parser = reqparse.RequestParser()
-	parser.add_argument('answer',
-                        type=str,
-                        required=True,
-                        help='Please enter an answer.'                        
-                        )
+    @classmethod
+    def post(cls, questionid):
+        """Handles posting of questions"""
 
-	@classmethod 
-	def post(cls, questionid):
+        data = cls.parser.parse_args()
 
-		data = cls.parser.parse_args()
+        check_question = validator.check_using_id(
+            QUESTION_LIST, int(questionid))
 
-        
-		CheckQuestion = validator.check_using_id(QUESTION_LIST , int(questionid))
+        if not check_question:
+            return {'message': 'Oops, that question is missing, you cant add answers to it'}, 404
 
-		if not CheckQuestion:
-			return {'message' : 'Oops, that question is missing, you cant add answers to it' }, 404
+        check_answer = validator.check_for_answer(ANSWER_LIST, data['answer'])
 
+        if check_answer:
+            return {"message":
+                    "Please enter a different answer, you cannot enter the same answer twice"}, 409
 
+        check_quality = validator.check_quality(data['answer'])
 
-		CheckAnswer = validator.check_for_answer(ANSWER_LIST , data['answer'])
+        if check_quality:
+            return {"message": check_quality}, 409
 
-		if CheckAnswer:
-			return {"message" : "Please enter a different answer, you cannot enter the same answer twice"} , 409
+        id_num = 1
+        for item in ANSWER_LIST:
+            id_num += 1
 
-		CheckQuality = validator.check_quality(data['answer'])
+        new_answer = AnswerModel(data['answer'])
 
-		if CheckQuality:
-			return {"message" : CheckQuality}, 409
+        new_answer_dict = new_answer.make_answer_dict(id_num, questionid)
 
-		id_num = 1
-		for item in ANSWER_LIST:
-			id_num += 1
+        ANSWER_LIST.append(new_answer_dict)
 
-		new_answer = AnswerModel(data['answer'])
+        return {"message": "Success!! Your answer has been added"}, 201
 
-		new_answer_dict = new_answer.make_answer_dict(id_num, questionid)
+    @classmethod
+    def get(cls, questionid):
+        """Handles getting answers for a specific question"""
 
-		ANSWER_LIST.append(new_answer_dict)
+        check_answer = validator.find_answers_to_a_question(
+            ANSWER_LIST, int(questionid))
 
-		return {"message" : "Success!! Your answer has been added"} , 201
-
-
-
-
-
-	@classmethod
-	def get(cls, questionid):
-
-		CheckAnswer = validator.find_answers_to_a_question(ANSWER_LIST , int(questionid))
-
-		if CheckAnswer:			
-
-			
-			return CheckAnswer , 200
-
-			ANSWER_LIST.append(CheckAnswer)
-			return ANSWER_LIST
-
-		return {"message" : "Sorry, this question has no answers as per now."}, 404
-
+        if check_answer:
+            return check_answer, 200
+        return {"message": "Sorry, this question has no answers at the moment."}, 404
 
 
 class AcceptAnswer(Resource):
+    """This class handles accepting answers as the official answer to questions"""
 
-		@classmethod
-		def put(cls, questionid, answerid):
-			
-			CheckID = validator.check_using_id(ANSWER_LIST , int(answerid))
+    @classmethod
+    def put(cls, answerid):
+        """Handles updating an answer to 'accepted' status """
 
-			if not CheckID:
-				return {"message" : "Sorry, we can't seem to find that answer"}, 404
+        check_id = validator.check_using_id(ANSWER_LIST, int(answerid))
 
-			if CheckID['accept_status'] == True:
-				return { "message" : "You have already accepted this answer" }, 409
-			else:
-				CheckID['accept_status'] = True
-				CheckID['date_accepted'] = datetime.now()
-				return {"message" : "Success!! You have accepted this answer"}, 200
+        if not check_id:
+            return {"message": "Sorry, we can't seem to find that answer"}, 404
 
+        if check_id['accept_status']:
+            return {"message": "You have already accepted this answer"}, 409
 
-
-api.add_resource(Answer, "/questions/<questionid>/answers")
-api.add_resource(AcceptAnswer, "/questions/<questionid>/answers/<answerid>")
+        check_id['accept_status'] = True
+        check_id['date_accepted'] = datetime.now()
+        return {"message": "Success!! You have accepted this answer"}, 200
 
 
-
-
-
-
-
+API.add_resource(Answer, "/questions/<questionid>/answers")
+API.add_resource(AcceptAnswer, "/questions/<questionid>/answers/<answerid>")
 
 if __name__ == '__main__':
-    app.run()
-
-       
-
+    APP.run()
