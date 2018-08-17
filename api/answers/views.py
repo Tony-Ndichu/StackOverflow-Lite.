@@ -18,7 +18,7 @@ API = Api(ANSWER_BLUEPRINT, prefix='/api/v1')
 ANSWER_LIST = [
     {
         "answer_id": 1,
-        "answer": "HGHH",
+        "answer": "First answer",
         "question_id": 1,
         "votes" : 0,
         "accept_status" : False,
@@ -26,7 +26,7 @@ ANSWER_LIST = [
     },
     {
         "answer_id": 2,
-        "answer": "HGHgggfgfgH",
+        "answer": "Second answer",
         "question_id": 1,
         "votes" : 0,
         "accept_status" : False,
@@ -88,28 +88,7 @@ class Answer(Resource):
         return {"message": "Sorry, this question has no answers at the moment."}, 404
 
 
-class AcceptAnswer(Resource):
-    """This class handles accepting answers as the official answer to questions"""
-
-    @classmethod
-    def put(cls, answerid):
-        """Handles updating an answer to 'accepted' status """
-
-        check_id = validator.check_using_id(ANSWER_LIST, int(answerid))
-
-        if not check_id:
-            return {"message": "Sorry, we can't seem to find that answer"}, 404
-
-        if check_id['accept_status']:
-            return {"message": "You have already accepted this answer"}, 409
-
-        check_id['accept_status'] = True
-        check_id['date_accepted'] = datetime.now()
-        return {"message": "Success!! You have accepted this answer"}, 200
-
-
 API.add_resource(Answer, "/questions/<questionid>/answers")
-API.add_resource(AcceptAnswer, "/questions/<questionid>/answers/<answerid>")
 
 if __name__ == '__main__':
     APP.run()

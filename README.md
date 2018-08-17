@@ -8,13 +8,11 @@
 
 * StackOverFLow-Lite a platform where people can ask questions and receive answers therefore providing an interactive Q&A platform.
 
-## NB
-For now, the app has no data persistance since it only uses python data structures
 
 ## Technologies used & needed.
 * **[Python3.6.5](https://www.python.org/downloads/release/python-365/)**
 * **[Flask](flask.pocoo.org/)**
-* **[Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/) **
+* **[Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)**
 
 ## Link to heroku:
 

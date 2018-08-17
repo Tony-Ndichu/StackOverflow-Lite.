@@ -3,25 +3,25 @@
 """
 
 
-class BaseConfig():
+class Base():
     """parent clas that all other classes inherit"""
     DEBUG = False
     TESTING = False
 
 
-class Development(BaseConfig):
+class Development(Base):
     """config related to config environment"""
     DEBUG = True
     TESTING = True
 
 
-class Test(BaseConfig):
+class Test(Base):
     """config related to testing environment"""
     TESTING = True
     DEBUG = True
 
 
-class Production(BaseConfig):
+class Production(Base):
     """config related to testing environment"""
     TESTING = False
 

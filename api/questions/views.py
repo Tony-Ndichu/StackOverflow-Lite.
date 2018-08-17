@@ -18,13 +18,13 @@ API = Api(QUESTION_BLUEPRINT, prefix='/api/v1')
 QUESTION_LIST = [
     {
         "question_id": 1,
-        "title": "Here",
-        "description": "sdsfdffsfd"
+        "title": "First ",
+        "description": "This is the first question"
     },
     {
         "question_id": 2,
-        "title": "Here",
-        "description": "sdsfdffsfd"
+        "title": "Second",
+        "description": "This is the second question"
     }
 
 ]
