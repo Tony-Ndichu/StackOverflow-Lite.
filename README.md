@@ -44,7 +44,7 @@
     
 
 * #### Delete a question.
-    `DELETE /api/v1/questions/questionId/delete`:
+    `DELETE /api/v1/questions/<questionId>/delete`:
     ```
     headers = {content_type:application/json}
 
@@ -52,13 +52,20 @@
 
 
 * #### Add answer to a question.
-    `POST /api/v1/questions/questionId/answers`:
+    `POST /api/v1/questions/<questionId>/answers`:
     ```
     headers = {content_type:application/json}
 
     {
         "answer": "This is the answer body"
     }
+    ```
+
+* #### Fetch answers to a specific question.
+    `GET /api/v1/questions/<questionId>/answers`:
+    ```
+    headers = {content_type:application/json}
+
     ```
 
 
