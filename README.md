@@ -1,57 +1,101 @@
-# StackOverflow-Lite
+[![Build Status](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite..svg?branch=ch2-add-continuous-integration)](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite.)
+[![Coverage Status](https://coveralls.io/repos/github/Tony-Ndichu/StackOverflow-Lite./badge.svg?branch=develop)](https://coveralls.io/github/Tony-Ndichu/StackOverflow-Lite.?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c10ba3fef8ed9ae5b71c/maintainability)](https://codeclimate.com/github/Tony-Ndichu/StackOverflow-Lite./maintainability)
+# StackOverFlow-Lite.
 
-StackOverflow-Lite is a platform where people can ask questions and get the answers they need.
+## Introduction
+* This is the API for the project StackOverflow-Lite. The fornt-end can be found  **[```here```](https://github.com/Tony-Ndichu/StackOverflow-Lite)**
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Clone a copy of the main jQuery git repo by running:
-
-```
-$ git clone https://github.com/Tony-Ndichu/StackOverflow-Lite.git
-```
-
-And then cd into the UI directory to run the index file
-
-```
-$ cd UI
-```
+* StackOverFLow-Lite a platform where people can ask questions and receive answers therefore providing an interactive Q&A platform.
 
 
-## Built With
+## Technologies used & needed.
+* **[Python3.6.5](https://www.python.org/downloads/release/python-365/)**
+* **[Flask](flask.pocoo.org/)**
+* **[Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)**
 
-* [HTML](http://www.dropwizard.io/1.0.2/docs/) - HTML
-* [CSS](http://devdocs.io/css/) - CSS
-* [JAVASCRIPT](http://devdocs.io/javascript/) - And some good old plain javascript.
+## Link to heroku:
+
+## Current endpoints
+
+* #### Add a question.
+    `POST /api/v1/questions`: 
+    ```
+    headers = {content_type:application/json}
+
+    {
+        "title": "Sample Title",
+        "description" : "This is a sample description"
+
+    }
+    ```
+* #### Fetch all questions.
+    `GET /api/v1/questions`
+    ```
+    headers = {content_type:application/json}
+    ```
 
 
+* #### Fetch a specific question.   
+    `GET /api/v1/questions/<questionId>` 
+    ```
+    headers = {content_type:application/json} 
+    ```
+    
+
+* #### Delete a question.
+    `DELETE /api/v1/questions/<questionId>/delete`:
+    ```
+    headers = {content_type:application/json}
+
+    ```
+
+
+* #### Add answer to a question.
+    `POST /api/v1/questions/<questionId>/answers`:
+    ```
+    headers = {content_type:application/json}
+
+    {
+        "answer": "This is the answer body"
+    }
+    ```
+
+* #### Fetch answers to a specific question.
+    `GET /api/v1/questions/<questionId>/answers`:
+    ```
+    headers = {content_type:application/json}
+
+    ```
+
+
+## Installation guide and usage
+
+ #### **Clone the branch.**
+    ```
+    $ git clone -b develop https://github.com/Tony-Ndichu/StackOverflow-Lite.git
+    ```
+ #### **Cd to app entry point(run.py)**
+    ```
+    $ cd StackOverflow-Lite   
+    ```
+ #### **Activate your virtual environment**
  
+ #### **Install dependencies**
+    ```
+    (myenv)$ pip install -r requirements.txt
+    ```
+### **Set environment variables**
+    ```
+    (myenv)$ set FLASK_APP=run.py
+    ```
 
-## Authors
-
-* **Antony Ndichu** - *Initial work* - [StackOverflow-Lite](https://github.com/Tony-Ndichu/StackOverflow-Lite)
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Love for code
-* Coffee
-* Inspiration
+#### **Run the app**
+   ```
+    (myenv)$ flask run
+   ```
+#### **Run Tests**
+  ```
+  (myenv)$ python -m unittest
+  ```
 
