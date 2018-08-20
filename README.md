@@ -37,13 +37,6 @@ $ cd UI
 * [JAVASCRIPT](http://devdocs.io/javascript/) - And some good old plain javascript.
 
 
- 
-
-## Authors
-
-* **Antony Ndichu** - *Initial work* - [StackOverflow-Lite](https://github.com/Tony-Ndichu/StackOverflow-Lite)
-
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
