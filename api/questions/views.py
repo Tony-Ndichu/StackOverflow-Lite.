@@ -7,7 +7,10 @@ from flask import Flask, Blueprint
 from flask_restful import reqparse, Api, Resource
 from ..common import validator
 from ..models.question import QuestionModel
-
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
 
 APP = Flask(__name__)
 
@@ -58,9 +61,14 @@ class AllQuestions(Resource):
         return QUESTION_LIST, 200
 
     @classmethod
+    @jwt_required
     def post(cls):
         """Handles posting a question"""
+        current_user_id = get_jwt_identity()
+
         data = cls.parser.parse_args()
+
+        QUESTION_LIST = QuestionModel.get_all_questions()
 
         exists = validator.check_if_already_exists(
             QUESTION_LIST, data['title'], data['description'])
@@ -74,18 +82,13 @@ class AllQuestions(Resource):
         if verify_question:
             return {"message": verify_question}, 409
 
-        id_count = 1
+        model_data = QuestionModel(data['title'], data['description'] , current_user_id)
 
-        for item in QUESTION_LIST:
-            id_count += 1
+        save_to_db = model_data.save_to_db()
 
-        new_question = QuestionModel(data['title'], data['description'])
-
-        new_question_dict = new_question.make_dict(id_count)
-
-        QUESTION_LIST.append(new_question_dict)
-
-        return {'message': 'Your question has been added successfully'}, 201
+        if save_to_db:
+            return {'message': 'Your question has been added successfully'}, 201
+        return {'message' : 'Sorry. an error occured during saving'}, 409
 
 
 class SpecificQuestion(Resource):

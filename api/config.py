@@ -2,7 +2,6 @@
 #app/api/config.py
 """
 
-
 class Base():
     """parent clas that all other classes inherit"""
     DEBUG = False
@@ -19,6 +18,7 @@ class Test(Base):
     """config related to testing environment"""
     TESTING = True
     DEBUG = True
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
 class Production(Base):
