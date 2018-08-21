@@ -7,6 +7,7 @@ from flask import Flask
 from .config import CONFIG
 from .questions.views import QUESTION_BLUEPRINT
 from .answers.views import ANSWER_BLUEPRINT
+from .users.views import USER_BLUEPRINT
 
 
 def create_app(config):
@@ -17,4 +18,5 @@ def create_app(config):
 
     app.register_blueprint(QUESTION_BLUEPRINT)
     app.register_blueprint(ANSWER_BLUEPRINT)
+    app.register_blueprint(USER_BLUEPRINT)
     return app
