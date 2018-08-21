@@ -87,6 +87,7 @@ class Registration(Resource):
         'access_token' : access_token , 'refresh_token' : refresh_token}, 201
  
 
+
 class Login(Resource):
     """this class handles fetching a specific question and deleting it"""
     parser = reqparse.RequestParser()
@@ -126,3 +127,10 @@ API.add_resource(Login, "/auth/login")
 
 if __name__ == '__main__':
     APP.run()
+
+API.add_resource(Registration, "/auth/signup")
+
+
+if __name__ == '__main__':
+    APP.run()
+
