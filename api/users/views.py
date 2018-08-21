@@ -86,8 +86,51 @@ class Registration(Resource):
         return {'message': 'Success!! User account has been created successfully',
         'access_token' : access_token , 'refresh_token' : refresh_token}, 201
  
+
+
+class Login(Resource):
+    """this class handles fetching a specific question and deleting it"""
+    parser = reqparse.RequestParser()
+    parser.add_argument('username',
+                        type=str,
+                        required=True,
+                        help='Please enter your username.',
+
+                        )
+
+    parser.add_argument('password',
+                        type=str,
+                        required=True,
+                        help='Please enter your email.',
+
+                        )
+
+    @classmethod
+    def post(cls):
+        """this handles a user's login"""
+        data = cls.parser.parse_args()
+
+        user_check = UserModel.find_by_username(
+            data['username'], data['password'])
+
+        access_token = create_access_token(identity = data['username'])
+        refresh_token = create_refresh_token(identity = data['username'])
+
+        if user_check:
+            return {"message": user_check}, 200
+        return {"message": "Sorry, wrong credentials" }, 401
+
+
+API.add_resource(Registration, "/auth/signup")
+API.add_resource(Login, "/auth/login")
+
+
+if __name__ == '__main__':
+    APP.run()
+
 API.add_resource(Registration, "/auth/signup")
 
 
 if __name__ == '__main__':
     APP.run()
+
