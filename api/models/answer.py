@@ -5,7 +5,6 @@ This is the answer model
 """
 from datetime import datetime
 
-
 class AnswerModel():
     """handles operations for the answers"""
 
@@ -24,3 +23,5 @@ class AnswerModel():
             accept_status=False,
             date_accepted=None,
         )
+
+
