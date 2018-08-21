@@ -1,10 +1,15 @@
 """
 
-#app/test/test_users.py
+#app/test/test_answers.py
 Handles all the tests related to answers
 """
 import json
+from api import create_app
 from flask_testing import TestCase
+from api.questions.views import QUESTION_LIST
+from api.answers.views import ANSWER_LIST
+from manage import create_tables
+from api.database.connect import conn, cur
 import os
 
 
@@ -17,6 +22,7 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
+        create_tables()
         os.environ['APP_SETTINGS'] = 'testing'
         self.app = create_app("testing")
         self.app_context = self.app.app_context()
@@ -25,9 +31,14 @@ class Base(TestCase):
         self.signup_details = {
             "first_name" : "John",
             "last_name" : "Doe",
-            "username" : "johndoe",
-            "email" : "johndoe@gmail.com",
+            "username" : "josdhndoe",
+            "email" : "johndsdoe@gmail.com",
             "password" : "absdcd1234"
+            } 
+
+        self.login_details = {            
+            "username" : "josdhndoe",
+            "password" : "absdcd1234"           
             } 
 
     def tearDown(self):
@@ -47,7 +58,3 @@ class TestUsers(Base):
             content_type='application/json')
 
         self.assertEqual(req.status_code, 409)
-
-
-
-   
