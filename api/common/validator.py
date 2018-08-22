@@ -13,9 +13,9 @@ def check_if_already_exists(list_name, title, description):
     """
 
     for item in list_name:
-        if item['title'] == title:
+        if item[2] == title:
             return 'Sorry, This title has already been used in another question'
-        if item['description'] == description:
+        if item[3] == description:
             return 'Sorry, This description has already been used in another question'
 
 

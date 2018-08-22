@@ -58,6 +58,9 @@ class TestUsers(Base):
             content_type='application/json')
 
 
+
+
+
         self.assertEqual(req.status_code, 409)
 
     def test_user_can_login(self):
@@ -70,7 +73,5 @@ class TestUsers(Base):
         self.assertEqual(req.status_code, 200)
 
 
-   
 
-        self.assertEqual(req.status_code, 409)
 

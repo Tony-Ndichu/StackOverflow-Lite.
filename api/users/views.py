@@ -10,11 +10,20 @@ from ..models.user import UserModel
 from flask_jwt_extended import (create_access_token, create_refresh_token,
 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 
+from flask_jwt_extended import JWTManager
+
+
+
+
 APP = Flask(__name__)
 
 
 USER_BLUEPRINT = Blueprint('user', __name__)
 API = Api(USER_BLUEPRINT, prefix='/api/v1')
+
+
+
+
 
 
 class Registration(Resource):
@@ -80,12 +89,19 @@ class Registration(Resource):
         create_user = UserModel.create_user(data['first_name'], data['last_name'], data[
                                             'username'], data['email'], data['password'])
 
+
+
+        return {'message': 'Success!! User account has been created successfully'}, 201
+ 
+
+
         access_token = create_access_token(identity = data['username'])
         refresh_token = create_refresh_token(identity = data['username'])
 
         return {'message': 'Success!! User account has been created successfully',
         'access_token' : access_token , 'refresh_token' : refresh_token}, 201
  
+
 
 
 class Login(Resource):
@@ -113,11 +129,21 @@ class Login(Resource):
         user_check = UserModel.find_by_username(
             data['username'], data['password'])
 
+
+    
+        if user_check:
+            access_token = create_access_token(identity = user_check)
+            refresh_token = create_refresh_token(identity = user_check)
+
+            return {"message": "Successfully logged in!!", "access_token" : access_token , "refresh_token" : refresh_token}, 200
+
+
         access_token = create_access_token(identity = data['username'])
         refresh_token = create_refresh_token(identity = data['username'])
 
         if user_check:
             return {"message": user_check}, 200
+
         return {"message": "Sorry, wrong credentials" }, 401
 
 
@@ -128,9 +154,12 @@ API.add_resource(Login, "/auth/login")
 if __name__ == '__main__':
     APP.run()
 
+
+
 API.add_resource(Registration, "/auth/signup")
 
 
 if __name__ == '__main__':
     APP.run()
+
 
