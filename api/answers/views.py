@@ -7,32 +7,18 @@ from flask import Flask, Blueprint
 from flask_restful import reqparse, Api, Resource
 from ..common import validator
 from ..models.answer import AnswerModel
-from ..questions.views import QUESTION_LIST
+from ..models.question import QuestionModel
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
+
 
 APP = Flask(__name__)
 
 
 ANSWER_BLUEPRINT = Blueprint('answer', __name__)
 API = Api(ANSWER_BLUEPRINT, prefix='/api/v1')
-
-ANSWER_LIST = [
-    {
-        "answer_id": 1,
-        "answer": "First answer",
-        "question_id": 1,
-        "votes" : 0,
-        "accept_status" : False,
-        "date_accepted" : None
-    },
-    {
-        "answer_id": 2,
-        "answer": "Second answer",
-        "question_id": 1,
-        "votes" : 0,
-        "accept_status" : False,
-        "date_accepted" : None
-    }
-]
 
 
 class Answer(Resource):
@@ -42,10 +28,13 @@ class Answer(Resource):
                         help='Please enter an answer.')
 
     @classmethod
+    @jwt_required
     def post(cls, questionid):
         """Handles posting of questions"""
 
         data = cls.parser.parse_args()
+
+        QUESTION_LIST = QuestionModel.get_all_questions()
 
         check_question = validator.check_using_id(
             QUESTION_LIST, int(questionid))
@@ -53,7 +42,7 @@ class Answer(Resource):
         if not check_question:
             return {'message': 'Oops, that question is missing, you cant add answers to it'}, 404
 
-        check_answer = validator.check_for_answer(ANSWER_LIST, data['answer'])
+        check_answer = validator.check_for_answer(data['answer'])
 
         if check_answer:
             return {"message":
@@ -64,17 +53,14 @@ class Answer(Resource):
         if check_quality:
             return {"message": check_quality}, 409
 
-        id_num = 1
-        for item in ANSWER_LIST:
-            id_num += 1
+        current_user_id = get_jwt_identity()
 
-        new_answer = AnswerModel(data['answer'])
+        save_answer = AnswerModel.save_answer(
+            current_user_id, int(questionid), data['answer'])
 
-        new_answer_dict = new_answer.make_answer_dict(id_num, questionid)
-
-        ANSWER_LIST.append(new_answer_dict)
-
-        return {"message": "Success!! Your answer has been added"}, 201
+        if save_answer:
+            return {"message": "Success!! Your answer has been added"}, 201
+        return {"message": "Sorry, an error occured during saving"}
 
     @classmethod
     def get(cls, questionid):
@@ -88,7 +74,35 @@ class Answer(Resource):
         return {"message": "Sorry, this question has no answers at the moment."}, 404
 
 
+class AcceptAnswer(Resource):
+    """Handles updating an answer's status"""
+    @classmethod
+    @jwt_required
+    def put(cls, question_id, answer_id):
+        """Handles accepting an answer"""
+
+        current_user_id = get_jwt_identity()
+        confirm_that_user_asked_que = AnswerModel.confirm_que_poster(
+            current_user_id, int(question_id))
+
+        if confirm_that_user_asked_que:
+            return {"message": confirm_that_user_asked_que}, 401
+
+        check_if_already_accepted = AnswerModel.check_if_already_accepted(
+            int(question_id))
+
+        if check_if_already_accepted:
+            return {"message": check_if_already_accepted}, 409
+
+        accept_answer = AnswerModel.accept_answer(int(answer_id))
+
+        if accept_answer:
+            return {"message": "Success!! You have accepted this answer"}, 201
+
+
 API.add_resource(Answer, "/questions/<questionid>/answers")
+API.add_resource(
+    AcceptAnswer, "/questions/<question_id>/answers/<answer_id>/accept")
 
 if __name__ == '__main__':
     APP.run()
