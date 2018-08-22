@@ -1,7 +1,7 @@
 """
 #app/api/config.py
 """
-import os
+
 
 class Base():
     """parent clas that all other classes inherit"""
@@ -19,8 +19,6 @@ class Test(Base):
     """config related to testing environment"""
     TESTING = True
     DEBUG = True
-    PRESERVE_CONTEXT_ON_EXCEPTION = False
-    TESTDB_URL = os.getenv("DB_TEST_URL")
 
 
 class Production(Base):

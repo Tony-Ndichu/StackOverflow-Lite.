@@ -10,19 +10,6 @@ install:
 script: 
   - py.test --cov=api
 
-services:
-  - postgresql
-
-env:
-  DB_TEST_URL = "postgresql://postgres:tony1234@localhost/test_db"
-
-before_script:
-  - psql -c 'create database stackoveflowlite;' -U postgres
 
 after_success:
 - coveralls
-
-addons:
-  postgresql: "9.5"
-
-

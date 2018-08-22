@@ -6,9 +6,9 @@ Handles question-related tests
 
 import json
 from flask_testing import TestCase
-from .api import create_app
-from .api.questions.views import QUESTION_LIST
-from .api.answers.views import ANSWER_LIST
+from api import create_app
+from api.questions.views import QUESTION_LIST
+from api.answers.views import ANSWER_LIST
 
 
 class Base(TestCase):
