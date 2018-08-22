@@ -30,9 +30,10 @@ class QuestionModel():
         result = cur.fetchall()
 
         for i in result:
-            question_list.append(result)
+            question_list.append(dict(question_id = i[0] , user_id = i[3], title = i[2], description = i[3]))
 
-        return result
+        print(question_list)
+        return question_list
 
     def save_to_db(self):
         """save new qestion"""
@@ -45,3 +46,13 @@ class QuestionModel():
         conn.commit()
 
         return "Successfully added question"
+
+
+    def delete_question(queid):
+        """Delete a question"""
+
+        delete_que = "DELETE FROM questions WHERE id = %s;"
+        cur.execute(delete_que, [queid])
+        conn.commit()
+        
+

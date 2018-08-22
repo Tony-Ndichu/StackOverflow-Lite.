@@ -1,4 +1,4 @@
-from api.database.connect import conn, cur
+from .database.connect import conn, cur
 import psycopg2
 
 
