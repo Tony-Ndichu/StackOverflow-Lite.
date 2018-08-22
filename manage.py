@@ -1,4 +1,8 @@
+
 from .api.database.connect import conn, cur
+
+from api.database.connect import conn, cur
+
 import psycopg2
 
 
@@ -13,12 +17,17 @@ def create_tables():
           username varchar(255) UNIQUE NOT NULL,
           email varchar(255) UNIQUE NOT NULL,
           password varchar(255) NOT NULL,
+
           created_at timestamp  
+
+          created_at timestamp NULL DEFAULT NULL 
+
         )
         """
     
 
     create_questions = """ CREATE TABLE IF NOT EXISTS questions (
+
             id bigserial NOT NULL PRIMARY KEY,
             user_id int NOT NULL,
             title varchar(255) UNIQUE NOT NULL,
@@ -51,5 +60,7 @@ def create_tables():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
+
 if __name__ == ('__main__'):
     create_tables()
+
