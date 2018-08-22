@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite..svg?branch=ch2-add-continuous-integration)](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite.)
+[![Build Status](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite..svg?branch=challenge2)](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite.)
 [![Coverage Status](https://coveralls.io/repos/github/Tony-Ndichu/StackOverflow-Lite./badge.svg?branch=develop)](https://coveralls.io/github/Tony-Ndichu/StackOverflow-Lite.?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c10ba3fef8ed9ae5b71c/maintainability)](https://codeclimate.com/github/Tony-Ndichu/StackOverflow-Lite./maintainability)
 # StackOverFlow-Lite.
@@ -73,6 +73,9 @@
     $ cd StackOverflow-Lite   
     ```
  #### **Activate your virtual environment**
+	```
+	$ workon my-venv
+	```
  
  #### **Install dependencies**
     ```
