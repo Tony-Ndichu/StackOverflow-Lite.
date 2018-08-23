@@ -66,7 +66,8 @@ class Base(TestCase):
             content_type='application/json')
 
     def tearDown(self):
-        self.app_context.pop()     
+
+        self.app_context.pop() 
 
 class TestApp(Base):
 
@@ -123,5 +124,30 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(result.status_code, 409)
+
+
+    def test_user_can_view_questions_with_the_most_answers(self):
+        """checks that user can view the most answered question"""
+
+        result = json.loads(self.que.data.decode())
+        access_token = result['access_token']
+
+        self.post_question_for_testing_purposes()
+
+        self.client.post(
+            'api/v1/questions/1/answers',
+            data=json.dumps(self.answer),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        self.client.post(
+            'api/v1/questions/1/answers',
+            data=json.dumps(self.answer2),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        result = self.client.get(
+            'api/v1/questions/most_answered',
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        self.assertEqual(result.status_code, 200)
 
 
