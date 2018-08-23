@@ -44,6 +44,15 @@ class UserModel():
 
 		conn.commit()
 		
+	def check_if_exists(username):
+		"""checks if user exists in system"""
+		fetch_question = "SELECT * FROM users WHERE username = %s;"
+		fetched_question = cur.execute(fetch_question, [username])
+		result = cur.fetchall()
+
+		return result
+
+
 
 	def find_by_username(username, password):
 		"""check user dedtails on login"""
@@ -68,3 +77,17 @@ class UserModel():
 				return u_id
 
 			
+	def get_user_questions(current_user_id):
+		"""retireves all the questions a user has ever asked on the platform"""
+
+		question_list = []
+
+		fetch_user_questions = "SELECT * FROM questions WHERE user_id = %s;"
+		fetched_questions = cur.execute(fetch_user_questions, [current_user_id])
+		result = cur.fetchall()
+
+		for i in result:
+			question_list.append(dict(question_id=i[0], user_id=i[
+	                                 1], title=i[2], description=i[3]))
+
+		return question_list

@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite..svg?branch=ch2-add-continuous-integration)](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite.)
-[![Coverage Status](https://coveralls.io/repos/github/Tony-Ndichu/StackOverflow-Lite./badge.svg?branch=develop)](https://coveralls.io/github/Tony-Ndichu/StackOverflow-Lite.?branch=develop)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c10ba3fef8ed9ae5b71c/maintainability)](https://codeclimate.com/github/Tony-Ndichu/StackOverflow-Lite./maintainability)
+[![Build Status](https://travis-ci.com/Tony-Ndichu/testdb.svg?branch=master)](https://travis-ci.com/Tony-Ndichu/testdb)
+[![Coverage Status](https://coveralls.io/repos/github/Tony-Ndichu/testdb/badge.svg?branch=master)](https://coveralls.io/github/Tony-Ndichu/testdb?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4bd09b6fc0b59d95bcc9/maintainability)](https://codeclimate.com/github/Tony-Ndichu/testdb/maintainability)
 # StackOverFlow-Lite.
 
 ## Introduction
@@ -91,4 +91,7 @@
   ```
   (myenv)$ python -m unittest
   ```
+
+
+
 

@@ -14,20 +14,29 @@ class AnswerModel():
         self.answer = answer
         self.answer_date = datetime.now()
 
-    def make_answer_dict(self, id_num, questionid):
-        """receives answer object and turns it to dict"""
-        return dict(
-            answer=self.answer,
-            answer_id=id_num,
-            answer_date=self.answer_date,
-            question_id=questionid,
-            votes=0,
-            accept_status=False,
-            date_accepted=None,
-        )
+    def get_all_answers():
+        """retrieve all users from the database"""
+        answer_list = []
+        conn
+        que = cur.execute("SELECT * FROM answers")
+
+        try:
+            que
+        except (Exception, psycopg2.DatabaseError) as error:
+            print (error)
+            conn
+            cur
+
+        result = cur.fetchall()
+
+        for i in result:
+            answer_list.append(dict(answer_id = i[0] , user_id = i[3], question_id = i[2], answer_body = i[3], preffered = i[4]))
+
+        return answer_list
+
 
     def save_answer(user_id, question_id, answer_body):
-        """save new qestion"""
+        """save new answer"""
 
         data = dict(userid=user_id, questionid=question_id,
                     answerbody=answer_body)
