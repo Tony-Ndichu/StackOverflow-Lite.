@@ -4,13 +4,11 @@
 Handles all the tests related to answers
 """
 import json
-from api import create_app
+from ..api import create_app
 from flask_testing import TestCase
 #from manage import create_tables
-from api.database.connect import conn, cur
+from ..api.database.connect import conn, cur
 import os
-
-
 
 class Base(TestCase):
     """contains config for testing"""
@@ -21,10 +19,6 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
-#       create_tables()
-        os.environ['APP_SETTINGS'] = 'testing'
-        os.getenv("DB_TEST_URL")
-        self.app = create_app("testing")
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.test_client = self.app.test_client()
@@ -41,17 +35,14 @@ class Base(TestCase):
             "password" : "absdcd1234"           
             } 
 
+
     def tearDown(self):
         self.app_context.pop()     
 
 
 class TestUsers(Base):
     """contains the test methods"""
-
-
-    def test_user_can_signup(self):
-        """checks that users can add an answer"""
-
+    def test_user_can_register(self):
         req = self.client.post(
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details),
@@ -60,7 +51,6 @@ class TestUsers(Base):
         self.assertEqual(req.status_code, 409)
 
     def test_user_can_login(self):
-
         req = self.client.post(
             '/api/v1/auth/login',
             data=json.dumps(self.login_details),
@@ -68,5 +58,18 @@ class TestUsers(Base):
 
         self.assertEqual(req.status_code, 200)
 
+    def test_user_can_logout(self):
 
-   
+        que = self.client.post(
+            '/api/v1/auth/login',
+            data=json.dumps(self.login_details),
+            content_type='application/json')
+
+        result = json.loads(que.data.decode())
+        access_token = result['access_token']
+
+        req = self.client.post(
+            '/api/v1/auth/logout',
+            content_type='application/json',headers = {'Authorization' : 'Bearer '+ access_token })
+
+        self.assertEqual(req.status_code, 200)
