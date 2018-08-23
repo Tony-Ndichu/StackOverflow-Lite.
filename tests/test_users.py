@@ -6,11 +6,10 @@ Handles all the tests related to answers
 import json
 from api import create_app
 from flask_testing import TestCase
-from api.questions.views import QUESTION_LIST
-from api.answers.views import ANSWER_LIST
-from manage import create_tables
+#from manage import create_tables
 from api.database.connect import conn, cur
 import os
+
 
 
 class Base(TestCase):
@@ -22,8 +21,9 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
-        create_tables()
+#       create_tables()
         os.environ['APP_SETTINGS'] = 'testing'
+        os.getenv("DB_TEST_URL")
         self.app = create_app("testing")
         self.app_context = self.app.app_context()
         self.app_context.push()
@@ -57,10 +57,6 @@ class TestUsers(Base):
             data=json.dumps(self.signup_details),
             content_type='application/json')
 
-
-
-
-
         self.assertEqual(req.status_code, 409)
 
     def test_user_can_login(self):
@@ -73,5 +69,4 @@ class TestUsers(Base):
         self.assertEqual(req.status_code, 200)
 
 
-
-
+   

@@ -64,11 +64,7 @@ class UserModel():
 		for i in result:
 
 			if i[3] == username and check_password_hash(i[5]  , password):
-
 				u_id = i[0]
 				return u_id
-
-				return "Successfully logged in"
-
 
 			

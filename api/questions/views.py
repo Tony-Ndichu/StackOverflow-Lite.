@@ -18,20 +18,6 @@ APP = Flask(__name__)
 QUESTION_BLUEPRINT = Blueprint('question', __name__)
 API = Api(QUESTION_BLUEPRINT, prefix='/api/v1')
 
-QUESTION_LIST = [
-    {
-        "question_id": 1,
-        "title": "First ",
-        "description": "This is the first question"
-    },
-    {
-        "question_id": 2,
-        "title": "Second",
-        "description": "This is the second question"
-    }
-
-]
-
 
 class AllQuestions(Resource):
     """
@@ -54,11 +40,13 @@ class AllQuestions(Resource):
                         )
 
     @classmethod
+    @jwt_required
     def get(cls):
         """Handles getting a list of all questions"""
+        QUESTION_LIST = QuestionModel.get_all_questions()
         if not QUESTION_LIST:
             return {'Empty': 'Sorry, but there are no questions at the moment'}, 404
-        return QUESTION_LIST, 200
+        return {"message": "Success!! Here are your records", "list": QUESTION_LIST}, 200
 
     @classmethod
     @jwt_required
@@ -82,31 +70,37 @@ class AllQuestions(Resource):
         if verify_question:
             return {"message": verify_question}, 409
 
-        model_data = QuestionModel(data['title'], data['description'] , current_user_id)
+        model_data = QuestionModel(
+            data['title'], data['description'], current_user_id)
 
         save_to_db = model_data.save_to_db()
 
         if save_to_db:
             return {'message': 'Your question has been added successfully'}, 201
-        return {'message' : 'Sorry. an error occured during saving'}, 409
+        return {'message': 'Sorry. an error occured during saving'}, 409
 
 
 class SpecificQuestion(Resource):
     """this class handles fetching a specific question and deleting it"""
 
     @classmethod
+    @jwt_required
     def get(cls, questionid):
         """this handles getting the question using it's id"""
+
+        QUESTION_LIST = QuestionModel.get_all_questions()
 
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
         if check_id:
-            return check_id, 200
+            return {"message": "Successfully retrieved question", "question": check_id}, 200
         return {'message': 'Oops, that question is missing'}, 404
 
     @classmethod
     def delete(cls, questionid):
         """this handles deleting the question using it's id"""
+
+        QUESTION_LIST = QuestionModel.get_all_questions()
 
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
@@ -114,8 +108,10 @@ class SpecificQuestion(Resource):
             return {"message":
                     "Sorry, we couldn't find that question, it may have already been deleted"}, 404
 
-        QUESTION_LIST.remove(check_id)
-        return {"message": "Success!! The question has been deleted successfully"}, 200
+        queid = int(questionid)
+        delete_que = QuestionModel.delete_question(queid)
+
+        return {"message": "Success!! The question has been deleted."}, 200
 
 API.add_resource(AllQuestions, "/questions")
 API.add_resource(SpecificQuestion, "/questions/<questionid>")
