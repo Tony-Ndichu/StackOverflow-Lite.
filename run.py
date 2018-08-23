@@ -3,7 +3,7 @@
 Provides entry point for app
 """
 import os
-from .api import create_app
+from api import create_app
 
 APP = create_app(config=os.getenv("CONFIG"))
 
