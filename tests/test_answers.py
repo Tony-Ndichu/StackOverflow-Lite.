@@ -66,8 +66,8 @@ class Base(TestCase):
             content_type='application/json')
 
     def tearDown(self):
+
         self.app_context.pop() 
-   
 
 class TestApp(Base):
 
@@ -125,6 +125,7 @@ class TestApp(Base):
 
         self.assertEqual(result.status_code, 409)
 
+
     def test_user_can_view_questions_with_the_most_answers(self):
         """checks that user can view the most answered question"""
 
@@ -148,4 +149,5 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(result.status_code, 200)
+
 
