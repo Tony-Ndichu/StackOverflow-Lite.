@@ -10,7 +10,7 @@ install:
 
 env:
   DB_URL="postgres://postgres:tony1234@localhost/stackoverflowlite"
-  FLASK_APP = run
+  FLASK_APP=run
   CONFIG=development
 
 script: 

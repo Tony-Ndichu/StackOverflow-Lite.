@@ -36,8 +36,17 @@ def create_tables():
             created_at timestamp 
         )
         """
+    create_token = """CREATE TABLE IF NOT EXISTS tokens (
+            id bigserial NOT NULL PRIMARY KEY,
+            token varchar(255) NOT NULL,
+            expired varchar(255),
+            created_at timestamp 
+        )
+        """
 
-    table_list= [create_users , create_questions , create_answers ]
+
+
+    table_list= [create_users , create_questions , create_answers, create_token ]
         
     try:
         # create table one by one

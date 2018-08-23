@@ -88,6 +88,7 @@ class Registration(Resource):
 
 class Login(Resource):
     """this class handles fetching a specific question and deleting it"""
+    token = ()
     parser = reqparse.RequestParser()
     parser.add_argument('username',
                         type=str,
@@ -119,11 +120,13 @@ class Login(Resource):
     
         if user_check:
             access_token = create_access_token(identity = user_check, expires_delta=False)
-            refresh_token = create_refresh_token(identity = user_check, expires_delta=False)
+            save_token =  UserModel.save_token(access_token)
 
-            return {"message": "Successfully logged in!!", "access_token" : access_token , "refresh_token" : refresh_token}, 200
+            return {"message": "Successfully logged in!!", "access_token" : access_token }, 200
 
         return {"message": "Sorry, wrong credentials" }, 401
+
+
 
 
 class Logout(Resource):
@@ -132,9 +135,14 @@ class Logout(Resource):
     @classmethod
     @jwt_required
     def post(cls):
-        blacklist = set()
-        jti = get_raw_jwt()['jti']
-        blacklist.add(jti)
+
+        check_if_logged_out = UserModel.check_if_logged_out()
+
+        if check_if_logged_out:
+            return {"message" : check_if_logged_out }, 409
+
+        expire_token = UserModel.expire_token()
+
         return { "msg": "Successfully logged out" }, 200
 
 
@@ -142,7 +150,7 @@ class UserQuestions(Resource):
     """"get all the questions a user has ever asked on the platform"""
     @classmethod
     @jwt_required
-    def get(slass):
+    def get(cls):
         current_user_id = get_jwt_identity()
 
         get_user_questions = UserModel.get_user_questions(current_user_id)

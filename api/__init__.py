@@ -28,3 +28,4 @@ def create_app(config):
 	app.register_blueprint(ANSWER_BLUEPRINT)
 	app.register_blueprint(USER_BLUEPRINT)
 	return app
+

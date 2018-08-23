@@ -69,6 +69,7 @@ class Answer(Resource):
         return {"message": "Sorry, an error occured during saving"}
 
     @classmethod
+    @jwt_required
     def get(cls, questionid):
         """Handles getting answers for a specific question"""
 

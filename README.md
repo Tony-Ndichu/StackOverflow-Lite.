@@ -18,7 +18,46 @@
 
 ## Current endpoints
 
-* #### Add a question.
+* #### User registration.
+    `POST /api/v1/auth/signup`: 
+    ```
+    headers = {content_type:application/json}
+
+    {
+        "first_name": "John",
+        "last_name" : "Doe",
+        "username" : "Johnny",
+        "email" : "johndoe@gmail.com",
+        "password" : "johndoe1234"
+
+    }
+    ```
+
+* #### User login.
+    `POST /api/v1/auth/login`: 
+    ```
+    headers = {content_type:application/json}
+
+    {
+        "username" : "Johnny",
+        "password" : "johndoe1234"
+    }
+    ```
+
+* #### Get all questions.
+    `GET /api/v1/questions`
+    ```
+    headers = {content_type:application/json}
+    ```
+
+
+* #### Get a question.   
+    `GET /api/v1/questions/<questionId>` 
+    ```
+    headers = {content_type:application/json} 
+    ```
+    
+* #### Post a question.
     `POST /api/v1/questions`: 
     ```
     headers = {content_type:application/json}
@@ -29,19 +68,6 @@
 
     }
     ```
-* #### Fetch all questions.
-    `GET /api/v1/questions`
-    ```
-    headers = {content_type:application/json}
-    ```
-
-
-* #### Fetch a specific question.   
-    `GET /api/v1/questions/<questionId>` 
-    ```
-    headers = {content_type:application/json} 
-    ```
-    
 
 * #### Delete a question.
     `DELETE /api/v1/questions/questionId/delete`:
@@ -51,7 +77,7 @@
     ```
 
 
-* #### Add answer to a question.
+* #### Post an answer to a question.
     `POST /api/v1/questions/questionId/answers`:
     ```
     headers = {content_type:application/json}
@@ -60,6 +86,31 @@
         "answer": "This is the answer body"
     }
     ```
+* #### Mark an answer as preferred question.
+    `PUT /questions/<question_id>/answers/<answer_id>/accept`:
+    ```
+    headers = {content_type:application/json}
+
+    {
+        "answer": "This is the answer body"
+    }
+    ```
+
+* #### Fetch all questions a user has ever asked on the platform.
+    `POST /api/v1/auth/questions`:
+    ```
+    headers = {content_type:application/json}
+
+    ```
+
+* #### View questions with the most answers
+
+    `GET /api/v1/auth/questions/most_answered`:
+    ```
+    headers = {content_type:application/json}
+
+    ```
+
 
 
 ## Installation guide and usage
@@ -89,7 +140,7 @@
    ```
 #### **Run Tests**
   ```
-  (myenv)$ python -m unittest
+  (myenv)$ pytest
   ```
 
 
