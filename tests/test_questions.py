@@ -4,10 +4,10 @@
 Handles all the tests related to answers
 """
 import json
-from .api import create_app
+from api import create_app
 from flask_testing import TestCase
 #from manage import create_tables
-from .api.database.connect import conn, cur
+from api.database.connect import conn, cur
 import os
 
 
