@@ -11,6 +11,7 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
+from ..models.answer import AnswerModel
 
 APP = Flask(__name__)
 
@@ -58,8 +59,7 @@ class AllQuestions(Resource):
 
         QUESTION_LIST = QuestionModel.get_all_questions()
 
-        exists = validator.check_if_already_exists(
-            QUESTION_LIST, data['title'], data['description'])
+        exists = validator.check_if_already_exists( QUESTION_LIST, data['title'])
 
         if exists:
             return {"message": exists}, 409
@@ -87,6 +87,10 @@ class SpecificQuestion(Resource):
     @jwt_required
     def get(cls, questionid):
         """this handles getting the question using it's id"""
+        try:
+            val = int(questionid)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
 
         QUESTION_LIST = QuestionModel.get_all_questions()
 
@@ -97,8 +101,16 @@ class SpecificQuestion(Resource):
         return {'message': 'Oops, that question is missing'}, 404
 
     @classmethod
+    @jwt_required 
     def delete(cls, questionid):
         """this handles deleting the question using it's id"""
+
+        current_user_id = get_jwt_identity()
+
+        check_if_user_posted = QuestionModel.check_who_posted(current_user_id)
+
+        if check_if_user_posted:
+            return {"message" : "Sorry, you can't delete this question, only owner has permission"}, 401
 
         QUESTION_LIST = QuestionModel.get_all_questions()
 
@@ -109,12 +121,31 @@ class SpecificQuestion(Resource):
                     "Sorry, we couldn't find that question, it may have already been deleted"}, 404
 
         queid = int(questionid)
-        delete_que = QuestionModel.delete_question(queid)
+        delete_que = QuestionModel.delete_question_and_its_answers(queid)
+
 
         return {"message": "Success!! The question has been deleted."}, 200
 
+class MostAnswered(Resource):
+    """handles getting most answered question"""
+    @classmethod
+    @jwt_required
+    def get(cls):
+        """Handles getting a list of all questions"""
+        check_if_answers = AnswerModel.get_all_answers()
+
+        if not check_if_answers:
+            return { "message" : "No answers exist at the moment"}, 404
+
+        most_answered = QuestionModel.most_answered()
+
+        if most_answered:
+            return { "message" : "Here, is your most answered question", "question" : most_answered  }, 200
+
 API.add_resource(AllQuestions, "/questions")
 API.add_resource(SpecificQuestion, "/questions/<questionid>")
+API.add_resource(MostAnswered, "/questions/most_answered")
+
 
 
 if __name__ == '__main__':

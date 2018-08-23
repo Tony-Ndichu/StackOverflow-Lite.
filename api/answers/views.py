@@ -32,7 +32,13 @@ class Answer(Resource):
     def post(cls, questionid):
         """Handles posting of questions"""
 
+        try:
+            val = int(questionid)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+
         data = cls.parser.parse_args()
+
 
         QUESTION_LIST = QuestionModel.get_all_questions()
 
@@ -66,11 +72,18 @@ class Answer(Resource):
     def get(cls, questionid):
         """Handles getting answers for a specific question"""
 
+        try:
+            val = int(questionid)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+
+        ANSWER_LIST = AnswerModel.get_all_answers()
+
         check_answer = validator.find_answers_to_a_question(
-            ANSWER_LIST, int(questionid))
+            ANSWER_LIST, questionid)
 
         if check_answer:
-            return check_answer, 200
+            return { "message" : "Success!! Here are your answers" , "list" :  check_answer }, 200
         return {"message": "Sorry, this question has no answers at the moment."}, 404
 
 
@@ -81,23 +94,32 @@ class AcceptAnswer(Resource):
     def put(cls, question_id, answer_id):
         """Handles accepting an answer"""
 
+        try:
+            val = int(question_id)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+
+        try:
+            val = int(answer_id)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+
         current_user_id = get_jwt_identity()
         confirm_that_user_asked_que = AnswerModel.confirm_que_poster(
-            current_user_id, int(question_id))
+            current_user_id, question_id)
 
         if confirm_that_user_asked_que:
             return {"message": confirm_that_user_asked_que}, 401
 
-        check_if_already_accepted = AnswerModel.check_if_already_accepted(
-            int(question_id))
+        check_if_already_accepted = AnswerModel.check_if_already_accepted(question_id)
 
         if check_if_already_accepted:
             return {"message": check_if_already_accepted}, 409
 
-        accept_answer = AnswerModel.accept_answer(int(answer_id))
+        accept_answer = AnswerModel.accept_answer(answer_id)
 
         if accept_answer:
-            return {"message": "Success!! You have accepted this answer"}, 201
+            return {"message": "Success!! You have accepted this answer"}, 204
 
 
 API.add_resource(Answer, "/questions/<questionid>/answers")

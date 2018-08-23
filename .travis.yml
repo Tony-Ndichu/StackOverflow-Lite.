@@ -3,26 +3,30 @@ language: python
 python:
   - "3.6.5"
 
+
 install:
   - pip install -r requirements.txt
   - pip install coveralls
 
+env:
+  DB_URL="postgres://postgres:tony1234@localhost/stackoverflowlite"
+  FLASK_APP = run
+  CONFIG=development
+
 script: 
   - py.test --cov=api
+
 
 services:
   - postgresql
 
-env:
-  DB_TEST_URL = "postgresql://postgres:tony1234@localhost/test_db"
 
 before_script:
-  - psql -c 'create database stackoveflowlite;' -U postgres
+  - psql -c 'create database stackoverflowlite;' -U postgres
 
 after_success:
 - coveralls
 
 addons:
   postgresql: "9.5"
-
 
