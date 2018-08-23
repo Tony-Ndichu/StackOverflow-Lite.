@@ -30,7 +30,7 @@ class Answer(Resource):
     @classmethod
     @jwt_required
     def post(cls, questionid):
-        """Handles posting of questions"""
+        """Handles posting of answers"""
 
         try:
             val = int(questionid)
@@ -78,10 +78,7 @@ class Answer(Resource):
         except ValueError:
             return { "message" : "Sorry, questionid must be a number or an integer" }, 400
 
-        ANSWER_LIST = AnswerModel.get_all_answers()
-
-        check_answer = validator.find_answers_to_a_question(
-            ANSWER_LIST, questionid)
+        check_answer = AnswerModel.get_answers_to_a_question(questionid)
 
         if check_answer:
             return { "message" : "Success!! Here are your answers" , "list" :  check_answer }, 200

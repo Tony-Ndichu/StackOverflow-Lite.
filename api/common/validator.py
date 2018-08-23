@@ -103,3 +103,13 @@ def user_detail_verification(firstname, lastname, username):
         return 'Too long, please remove some characters'
     if firstname.isdigit() or lastname.isdigit() or lastname.isdigit():
         return 'This cannot be digits'
+
+def check_answer_using_id(list_name, other_id):
+    """use the relevant id to find item in a list"""
+
+    my_item = next((item for item in list_name if item[
+                   'answer_id'] == other_id), None)
+
+    if my_item:
+        return my_item
+    return False
