@@ -22,7 +22,7 @@ def create_tables():
             id bigserial NOT NULL PRIMARY KEY,
             user_id int NOT NULL,
             title varchar(100) UNIQUE NOT NULL,
-            description varchar(255) UNIQUE NOT NULL,    
+            description varchar(255) NOT NULL,    
             created_at timestamp
         )
         """

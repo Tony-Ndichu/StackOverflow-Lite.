@@ -1,4 +1,4 @@
-from api.database.connect import conn, cur
+from .database.connect import conn2, cur2
 import psycopg2
 
 
@@ -22,7 +22,7 @@ def create_tables():
             id bigserial NOT NULL PRIMARY KEY,
             user_id int NOT NULL,
             title varchar(100) UNIQUE NOT NULL,
-            description varchar(255) UNIQUE NOT NULL,    
+            description varchar(255) NOT NULL,    
             created_at timestamp
         )
         """
@@ -42,11 +42,11 @@ def create_tables():
     try:
         # create table one by one
         for table in table_list:
-            cur.execute(table)
+            cur2.execute(table)
         # close communication with the PostgreSQL database server
         
         # commit the changes
-        conn.commit()
+        conn2.commit()
         print("Created successfully")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

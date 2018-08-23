@@ -8,7 +8,7 @@ import psycopg2
 from ..database.connect import conn, cur
 
 
-def check_if_already_exists(list_name, title, description):
+def check_if_already_exists(list_name, title):
     """"
     check if the question title or description
     already exists in storage
@@ -17,8 +17,7 @@ def check_if_already_exists(list_name, title, description):
     for item in list_name:
         if item['title'] == title:
             return 'Sorry, This title has already been used in another question'
-        if item['description'] == description:
-            return 'Sorry, This description has already been used in another question'
+
 
 
 def check_for_answer(answer):
@@ -52,9 +51,9 @@ def question_verification(title, description):
     if len(description) < 1:
         return 'You cannot post an empty description, Please add a description'
     if title.isdigit():
-        return 'You cannot have a title with digits only, Please describe with some words'
+        return 'You cannot post a title with digits only, Please describe with some words'
     if description.isdigit():
-        return 'You cannot have a description with digits only, Please describe with some words'
+        return 'You cannot post a description with digits only, Please describe with some words'
 
 
 def check_using_id(list_name, other_id):
