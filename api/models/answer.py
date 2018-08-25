@@ -14,10 +14,18 @@ class AnswerModel():
         self.answer = answer
         self.answer_date = datetime.now()
 
-    def get_all_answers():
-        """retrieve all users from the database"""
+    def get_answers(*args):
+
+        user_details=[]
         answer_list = []
-        conn
+
+        if args is not None:
+            for questionid in args:
+                fetch_user_answers = "SELECT * FROM answers WHERE question_id = %s;"
+                fetched_answers = cur.execute(fetch_user_answers, [questionid])
+                result = cur.fetchall()
+
+
         que = cur.execute("SELECT * FROM answers")
 
         try:
@@ -29,8 +37,10 @@ class AnswerModel():
 
         result = cur.fetchall()
 
+
         for i in result:
-            answer_list.append(dict(answer_id = i[0] , user_id = i[3], question_id = i[2], answer_body = i[3], preffered = i[4]))
+            answer_list.append(dict(answer_id=i[0], user_id=i[
+                1], question_id=i[2], answer_body=i[3], accepted=i[4]))
 
         return answer_list
 
@@ -79,16 +89,3 @@ class AnswerModel():
 
         return "Successfully accepted answer"
 
-    def get_answers_to_a_question(questionid):
-        """gets all the answers to a question"""
-        answer_list = []
-
-        fetch_user_answers = "SELECT * FROM answers WHERE question_id = %s;"
-        fetched_answers = cur.execute(fetch_user_answers, [questionid])
-        result = cur.fetchall()
-
-        for i in result:
-            answer_list.append(dict(answer_id=i[0], user_id=i[
-                1], question_id=i[2], answer_body=i[3], accepted=i[4]))
-
-        return answer_list

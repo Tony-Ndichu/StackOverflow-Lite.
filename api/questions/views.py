@@ -44,7 +44,7 @@ class AllQuestions(Resource):
     @jwt_required
     def get(cls):
         """Handles getting a list of all questions"""
-        QUESTION_LIST = QuestionModel.get_all_questions()
+        QUESTION_LIST = QuestionModel.get_questions()
         if not QUESTION_LIST:
             return {'Empty': 'Sorry, but there are no questions at the moment'}, 404
         return {"message": "Success!! Here are your records", "list": QUESTION_LIST}, 200
@@ -57,7 +57,7 @@ class AllQuestions(Resource):
 
         data = cls.parser.parse_args()
 
-        QUESTION_LIST = QuestionModel.get_all_questions()
+        QUESTION_LIST = QuestionModel.get_questions()
 
         exists = validator.check_if_already_exists( QUESTION_LIST, data['title'])
 
@@ -92,7 +92,7 @@ class SpecificQuestion(Resource):
         except ValueError:
             return { "message" : "Sorry, questionid must be a number or an integer" }, 400
 
-        QUESTION_LIST = QuestionModel.get_all_questions()
+        QUESTION_LIST = QuestionModel.get_questions()
 
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
@@ -112,7 +112,7 @@ class SpecificQuestion(Resource):
         if check_if_user_posted:
             return {"message" : "Sorry, you can't delete this question, only owner has permission"}, 401
 
-        QUESTION_LIST = QuestionModel.get_all_questions()
+        QUESTION_LIST = QuestionModel.get_questions()
 
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
@@ -132,7 +132,7 @@ class MostAnswered(Resource):
     @jwt_required
     def get(cls):
         """Handles getting a list of all questions"""
-        check_if_answers = AnswerModel.get_all_answers()
+        check_if_answers = AnswerModel.get_answers()
 
         if not check_if_answers:
             return { "message" : "No answers exist at the moment"}, 404

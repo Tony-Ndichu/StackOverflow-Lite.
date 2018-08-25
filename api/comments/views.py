@@ -40,7 +40,7 @@ class Comment(Resource):
         data = cls.parser.parse_args()
 
 
-        ANSWER_LIST = AnswerModel.get_all_answers()
+        ANSWER_LIST = AnswerModel.get_answers()
 
         check_question = validator.check_answer_using_id(
             ANSWER_LIST, int(answerid))
@@ -60,7 +60,7 @@ class Comment(Resource):
 
         if save_comment:
             return {"message": "Success!! Your comment has been added"}, 201
-            
+
         return {"message": "Sorry, an error occured during saving"}
 
 API.add_resource(Comment, "/questions/<questionid>/answers/<answerid>/comments")

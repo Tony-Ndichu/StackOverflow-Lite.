@@ -7,6 +7,7 @@ from flask import Flask, Blueprint
 from flask_restful import reqparse, Api, Resource
 from ..common import validator
 from ..models.user import UserModel
+from ..models.question import QuestionModel
 from flask_jwt_extended import (create_access_token, create_refresh_token,
 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt,)
 from flask_jwt_extended import JWTManager
@@ -152,7 +153,7 @@ class UserQuestions(Resource):
     def get(cls):
         current_user_id = get_jwt_identity()
 
-        get_user_questions = UserModel.get_user_questions(current_user_id)
+        get_user_questions = QuestionModel.get_questions(current_user_id)
 
         if get_user_questions:
             return { "message" : "Success!! Here are your questions" , "question_list" : get_user_questions }, 200

@@ -15,24 +15,34 @@ class QuestionModel():
         self.description = description
         self.user_id = user_id
 
-    def get_all_questions():
-        """retrieve all users from the database"""
+    def get_questions(*args):
+
         question_list = []
-        conn
+
+        if args is not None:
+            for current_user_id in args:
+                fetch_user_questions = "SELECT * FROM questions WHERE user_id = %s;"
+                fetched_questions = cur.execute(
+                    fetch_user_questions, [current_user_id])
+                result = cur.fetchall()
+
+
+
         que = cur.execute("SELECT * FROM questions")
 
         try:
             que
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            print (error)
             conn
             cur
 
         result = cur.fetchall()
 
+
         for i in result:
             question_list.append(dict(question_id=i[0], user_id=i[
-                                 1], title=i[2], description=i[3]))
+                1], title=i[2], description=i[3]))
 
         return question_list
 

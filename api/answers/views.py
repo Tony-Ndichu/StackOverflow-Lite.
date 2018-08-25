@@ -40,7 +40,7 @@ class Answer(Resource):
         data = cls.parser.parse_args()
 
 
-        QUESTION_LIST = QuestionModel.get_all_questions()
+        QUESTION_LIST = QuestionModel.get_questions()
 
         check_question = validator.check_using_id(
             QUESTION_LIST, int(questionid))
@@ -66,7 +66,7 @@ class Answer(Resource):
 
         if save_answer:
             return {"message": "Success!! Your answer has been added"}, 201
-            
+
         return {"message": "Sorry, an error occured during saving"}
 
     @classmethod
@@ -79,7 +79,7 @@ class Answer(Resource):
         except ValueError:
             return { "message" : "Sorry, questionid must be a number or an integer" }, 400
 
-        check_answer = AnswerModel.get_answers_to_a_question(questionid)
+        check_answer = AnswerModel.get_answers(questionid)
 
         if check_answer:
             return { "message" : "Success!! Here are your answers" , "list" :  check_answer }, 200
