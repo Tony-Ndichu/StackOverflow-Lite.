@@ -55,11 +55,12 @@ class Comment(Resource):
 
         current_user_id = get_jwt_identity()
 
-        save_answer = CommentModel.save_comment(
+        save_comment = CommentModel.save_comment(
             current_user_id, int(answerid), data['comment'])
 
-        if save_answer:
+        if save_comment:
             return {"message": "Success!! Your comment has been added"}, 201
+            
         return {"message": "Sorry, an error occured during saving"}
 
 API.add_resource(Comment, "/questions/<questionid>/answers/<answerid>/comments")

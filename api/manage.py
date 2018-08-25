@@ -75,7 +75,7 @@ def create_tables():
 
 def drop_tables():
     """ 
-    create tables in the database
+    drop tables in the database
     """
     drop_users = "DROP TABLE IF EXISTS users"
 
