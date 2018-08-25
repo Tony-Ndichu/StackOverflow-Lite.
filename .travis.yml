@@ -10,8 +10,9 @@ install:
 
 env:
   DB_URL="postgres://postgres:tony1234@localhost/stackoverflowlite"
+  DB_TEST_URL="postgres://postgres:tony1234@localhost/test_stackoverflowlite"
   FLASK_APP=run
-  CONFIG=development
+  CONFIG=testing
 
 script: 
   - py.test --cov=api
@@ -23,6 +24,7 @@ services:
 
 before_script:
   - psql -c 'create database stackoverflowlite;' -U postgres
+  - psql -c 'create database test_stackoverflowlite;' -U postgres
 
 after_success:
 - coveralls
