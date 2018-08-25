@@ -153,3 +153,16 @@ class TestApp(Base):
 
         self.assertEqual(result.status_code, 200)
 
+    def test_user_can_accept_answer_as_preffered(self):
+        """checks that a user can choose and answer to be the preferred answer"""
+        self.post_question_for_testing_purposes()
+        self.post_answer_for_testing_purposes()
+        result = json.loads(self.que.data.decode())
+        access_token = result['access_token']
+
+        accept_que=self.client.put(
+            'api/v1/questions/1/answers/1/accept',
+            data=json.dumps(self.answer2),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        self.assertEqual(accept_que.status_code, 204)
