@@ -8,6 +8,8 @@ from api import create_app
 from flask_testing import TestCase
 #from manage import create_tables
 from api.database.connect import conn, cur
+from api.manage import create_tables
+from api.manage import drop_tables
 import os
 
 
@@ -21,6 +23,7 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
+        create_tables()
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.test_client = self.app.test_client()
@@ -69,6 +72,7 @@ class Base(TestCase):
 
     def tearDown(self):
         self.app_context.pop() 
+        drop_tables()
    
 
 class TestApp(Base):
@@ -104,11 +108,12 @@ class TestApp(Base):
     def test_user_can_add_comment(self):
         """checks that users can add an answer"""
         self.post_question_for_testing_purposes()
+        self.post_answer_for_testing_purposes()
         access_que = json.loads(self.que.data.decode())
         access_token = access_que['access_token']
 
         comment = self.client.post(
-            'api/v1/questions/1/answers/1/comment',
+            'api/v1/questions/1/answers/1/comments',
             data=json.dumps(self.comment),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 

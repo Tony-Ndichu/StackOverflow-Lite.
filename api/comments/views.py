@@ -62,7 +62,7 @@ class Comment(Resource):
             return {"message": "Success!! Your comment has been added"}, 201
         return {"message": "Sorry, an error occured during saving"}
 
-API.add_resource(Comment, "/questions/<questionid>/answers/<answerid>/comment")
+API.add_resource(Comment, "/questions/<questionid>/answers/<answerid>/comments")
 
 if __name__ == '__main__':
     APP.run()

@@ -70,3 +70,33 @@ def create_tables():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
+
+
+
+def drop_tables():
+    """ 
+    create tables in the database
+    """
+    drop_users = "DROP TABLE IF EXISTS users"
+
+    drop_questions = "DROP TABLE IF EXISTS questions"
+
+    drop_answers = "DROP TABLE IF EXISTS answers"
+
+    drop_comments = "DROP TABLE IF EXISTS comments"
+
+    drop_token = "DROP TABLE IF EXISTS token"
+
+    table_list= [drop_users , drop_questions , drop_answers, drop_token, drop_comments ]
+        
+    try:
+        # create table one by one
+        for table in table_list:
+            cur.execute(table)
+        # close communication with the PostgreSQL database server
+        
+        # commit the changes
+        conn.commit()
+        print("Dropped successfully")
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)

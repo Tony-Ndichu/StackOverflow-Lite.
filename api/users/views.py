@@ -133,7 +133,6 @@ class Logout(Resource):
     """logout a user and revoke his/her jwt identity"""
 
     @classmethod
-    @jwt_required
     def post(cls):
 
         check_if_logged_out = UserModel.check_if_logged_out()

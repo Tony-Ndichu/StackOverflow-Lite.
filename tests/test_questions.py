@@ -9,6 +9,10 @@ from flask_testing import TestCase
 #from manage import create_tables
 from api.database.connect import conn, cur
 import os
+from api.manage import create_tables
+from api.manage import drop_tables
+
+
 
 
 
@@ -21,6 +25,7 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
+        create_tables()
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.test_client = self.app.test_client()
@@ -87,12 +92,12 @@ class Base(TestCase):
 
 
     def tearDown(self):
-        self.app_context.pop()     
+        self.app_context.pop()    
+        drop_tables() 
 
 class TestApp(Base):
 
     """Contains all the methods for testing questions"""
-
 
     def post_for_testing_purposes(self):
         """post question to enable testing"""
@@ -106,16 +111,26 @@ class TestApp(Base):
         return result
 
     def test_get_all_questions(self):
-        """checks that a 404 status code is given when no questions are available"""
-       
+        """checks that a 200 status code is given when questions are available"""
+
+        self.post_for_testing_purposes()
         result = json.loads(self.que.data.decode())
         access_token = result['access_token']
 
-        response = self.client.get('/api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
+        response = self.client.get('api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
         self.assertEqual(response.status_code, 200)
 
     def test_get_all_questions_status_code_when_questions_exist(self):
         """checks that a successful 200 status code is given when questions exist"""
+
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
+
+        self.client.post(
+            'api/v1/questions',
+            data=json.dumps(self.sample_data7),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
         result = json.loads(self.que.data.decode())
         access_token = result['access_token']
 
