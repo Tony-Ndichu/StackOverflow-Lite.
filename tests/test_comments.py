@@ -6,10 +6,8 @@ Handles all the tests related to answers
 import json
 from api import create_app
 from flask_testing import TestCase
-#from manage import create_tables
 from api.database.connect import conn, cur
-from api.manage import create_tables
-from api.manage import drop_tables
+from api.manage import tables
 import os
 
 
@@ -23,7 +21,7 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
-        create_tables()
+        tables("create")
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.test_client = self.app.test_client()
@@ -72,7 +70,7 @@ class Base(TestCase):
 
     def tearDown(self):
         self.app_context.pop() 
-        drop_tables()
+        tables("drop")
    
 
 class TestApp(Base):

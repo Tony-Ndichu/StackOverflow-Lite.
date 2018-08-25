@@ -4,11 +4,11 @@ Provides entry point for app
 """
 import os
 from api import create_app
-from api.manage import create_tables 
+from api.manage import tables 
 
 APP = create_app(config=os.getenv("CONFIG"))
 
-create_tables()
+tables(create)
 
 
 if __name__ == ('__main__'):
