@@ -177,7 +177,7 @@ class TestApp(Base):
             data=json.dumps(self.answer2),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
-        self.assertEqual(accept_que.status_code, 204)
+        self.assertEqual(accept_que.status_code, 200)
 
     def test_user_can_get_answers_to_specific_question(self):
         
