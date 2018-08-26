@@ -23,8 +23,7 @@ def tables(value):
                 id bigserial NOT NULL PRIMARY KEY,
                 user_id int NOT NULL,
                 title varchar(100) UNIQUE NOT NULL,
-                description varchar(255) NOT NULL,    
-                created_at timestamp
+                description varchar(255) NOT NULL 
             )
             """
 
@@ -83,6 +82,5 @@ def tables(value):
         
         # commit the changes
         conn.commit()
-        print("Dropped successfully")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

@@ -42,7 +42,7 @@ class Comment(Resource):
 
         ANSWER_LIST = AnswerModel.get_answers()
 
-        check_question = validator.check_answer_using_id(
+        check_question = validator.check_using_id(
             ANSWER_LIST, int(answerid))
 
         if not check_question:
@@ -55,8 +55,10 @@ class Comment(Resource):
 
         current_user_id = get_jwt_identity()
 
-        save_comment = CommentModel.save_comment(
-            current_user_id, int(answerid), data['comment'])
+        make_save_dict = validator.make_save_dict(current_user_id, int(answerid), data['comment'])
+
+
+        save_comment = CommentModel.save_comment(make_save_dict)
 
         if save_comment:
             return {"message": "Success!! Your comment has been added"}, 201

@@ -9,14 +9,11 @@ from ..database.connect import conn, cur
 
 class CommentModel():
     """handles operations for the answers"""
-    def save_comment(user_id, answer_id, comment_body):
+    def save_comment(res):
         """save new answer"""
 
-        data = dict(userid=user_id, answerid=answer_id,
-                    commentbody=comment_body)
-
         submit = cur.execute("""INSERT INTO comments(user_id, answer_id, comment_body, created_at) VALUES 
-                    (%(userid)s, %(answerid)s, %(commentbody)s, current_timestamp )""", data)
+                    (%(arg1)s, %(arg2)s, %(arg3)s, current_timestamp )""", res)
 
         conn.commit()
 

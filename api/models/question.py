@@ -41,8 +41,7 @@ class QuestionModel():
 
 
         for i in result:
-            question_list.append(dict(question_id=i[0], user_id=i[
-                1], title=i[2], description=i[3]))
+            question_list.append(i)
 
         return question_list
 
@@ -52,8 +51,8 @@ class QuestionModel():
         data = dict(userid=self.user_id, title=self.title,
                     descr=self.description)
 
-        submit = cur.execute("""INSERT INTO questions (user_id, title, description, created_at) VALUES 
-                    (%(userid)s, %(title)s, %(descr)s, current_timestamp )""", data)
+        submit = cur.execute("""INSERT INTO questions (user_id, title, description) VALUES 
+                    (%(userid)s, %(title)s, %(descr)s)""", data)
 
         conn.commit()
 

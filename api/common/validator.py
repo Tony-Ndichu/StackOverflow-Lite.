@@ -15,7 +15,7 @@ def check_if_already_exists(list_name, title):
     """
 
     for item in list_name:
-        if item['title'] == title:
+        if item[2] == title:
             return 'Sorry, This title has already been used in another question'
 
 
@@ -55,17 +55,11 @@ def question_verification(title, description):
     if description.isdigit():
         return 'You cannot post a description with digits only, Please describe with some words'
 
+def make_save_dict(arg1, arg2, arg3):
 
-def check_using_id(list_name, other_id):
-    """use the relevant id to find item in a list"""
+    new_dict = dict(arg1=arg1, arg2=arg2, arg3=arg3)
 
-    my_item = next((item for item in list_name if item[
-                   'question_id'] == other_id), None)
-
-    if my_item:
-        return my_item
-    return False
-
+    return new_dict
 
 def check_quality(item):
     """check answer quality"""
@@ -104,12 +98,9 @@ def user_detail_verification(firstname, lastname, username):
     if firstname.isdigit() or lastname.isdigit() or lastname.isdigit():
         return 'This cannot be digits'
 
-def check_answer_using_id(list_name, other_id):
+def check_using_id(list_name, other_id):
     """use the relevant id to find item in a list"""
 
-    my_item = next((item for item in list_name if item[
-                   'answer_id'] == other_id), None)
-
-    if my_item:
-        return my_item
-    return False
+    for item in list_name:
+        if item[0] == other_id:
+            return item

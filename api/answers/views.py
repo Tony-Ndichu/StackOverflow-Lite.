@@ -61,8 +61,9 @@ class Answer(Resource):
 
         current_user_id = get_jwt_identity()
 
-        save_answer = AnswerModel.save_answer(
-            current_user_id, int(questionid), data['answer'])
+        make_save_dict = validator.make_save_dict(current_user_id, questionid, data['answer'])
+
+        save_answer = AnswerModel.save_answer(make_save_dict)
 
         if save_answer:
             return {"message": "Success!! Your answer has been added"}, 201

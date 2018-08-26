@@ -39,20 +39,16 @@ class AnswerModel():
 
 
         for i in result:
-            answer_list.append(dict(answer_id=i[0], user_id=i[
-                1], question_id=i[2], answer_body=i[3], accepted=i[4]))
+            answer_list.append(i)
 
         return answer_list
 
 
-    def save_answer(user_id, question_id, answer_body):
+    def save_answer(res):
         """save new answer"""
 
-        data = dict(userid=user_id, questionid=question_id,
-                    answerbody=answer_body)
-
         submit = cur.execute("""INSERT INTO answers(user_id, question_id, answer_body, accepted , created_at) VALUES 
-                    (%(userid)s, %(questionid)s, %(answerbody)s, false, current_timestamp )""", data)
+                    (%(arg1)s, %(arg2)s, %(arg3)s, false, current_timestamp )""", res)
 
         conn.commit()
 
