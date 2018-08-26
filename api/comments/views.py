@@ -61,9 +61,9 @@ class Comment(Resource):
         save_comment = CommentModel.save_comment(make_save_dict)
 
         if save_comment:
-            return {"message": "Success!! Your comment has been added"}, 201
+            message =  {"message": "Success!! Your comment has been added"}, 201
 
-        return {"message": "Sorry, an error occured during saving"}
+        return message
 
 API.add_resource(Comment, "/questions/<questionid>/answers/<answerid>/comments")
 

@@ -66,9 +66,9 @@ class Answer(Resource):
         save_answer = AnswerModel.save_answer(make_save_dict)
 
         if save_answer:
-            return {"message": "Success!! Your answer has been added"}, 201
+            message = {"message": "Success!! Your answer has been added"}, 201
 
-        return {"message": "Sorry, an error occured during saving"}
+        return message
 
     @classmethod
     @jwt_required
