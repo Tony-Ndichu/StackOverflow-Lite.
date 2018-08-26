@@ -105,11 +105,11 @@ class AcceptAnswer(Resource):
             return { "message" : "Sorry, questionid must be a number or an integer" }, 400
 
         current_user_id = get_jwt_identity()
-        confirm_that_user_asked_que = AnswerModel.confirm_que_poster(
+        confirm_that_user_asked_que = QuestionModel.check_who_posted(
             current_user_id, question_id)
 
         if confirm_that_user_asked_que:
-            return {"message": confirm_that_user_asked_que}, 401
+            return {"message": "Sorry, you cant accept this answer since you didnt post the question"}, 401
 
         check_if_already_accepted = AnswerModel.check_if_already_accepted(question_id)
 
@@ -119,7 +119,7 @@ class AcceptAnswer(Resource):
         accept_answer = AnswerModel.accept_answer(answer_id)
 
         if accept_answer:
-            return {"message": "Success!! You have accepted this answer"}, 204
+            return {"message": "Success!! You have accepted this answer"}, 200
 
 
 API.add_resource(Answer, "/questions/<questionid>/answers")

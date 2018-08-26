@@ -54,17 +54,6 @@ class AnswerModel():
 
         return "Successfully added answer"
 
-    def confirm_que_poster(current_user_id, question_id):
-        """confirm that the user trying to accept an answer actually posted the question"""
-
-        fetch_question = "SELECT * FROM questions WHERE id = %s;"
-        fetched_question = cur.execute(fetch_question, [question_id])
-        result = cur.fetchall()
-
-        for i in result:
-            if i[1] != current_user_id:
-                return "Sorry, you can't accept this answer since you didnt post the original question"
-
     def check_if_already_accepted(answer_id):
         """check if user already accepted the answers"""
 
