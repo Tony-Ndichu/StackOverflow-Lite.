@@ -105,13 +105,6 @@ class SpecificQuestion(Resource):
     def delete(cls, questionid):
         """this handles deleting the question using it's id"""
 
-        current_user_id = get_jwt_identity()
-
-        check_if_user_posted = QuestionModel.check_who_posted(current_user_id)
-
-        if check_if_user_posted:
-            return {"message" : "Sorry, you can't delete this question, only owner has permission"}, 401
-
         QUESTION_LIST = QuestionModel.get_questions()
 
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
@@ -119,6 +112,13 @@ class SpecificQuestion(Resource):
         if not check_id:
             return {"message":
                     "Sorry, we couldn't find that question, it may have already been deleted"}, 404
+
+        current_user_id = get_jwt_identity()
+
+        check_if_user_posted = QuestionModel.check_who_posted(current_user_id, questionid)
+
+        if check_if_user_posted:
+            return {"message" : "Sorry, you can't delete this question, only owner has permission"}, 401
 
         queid = int(questionid)
         delete_que = QuestionModel.delete_question_and_its_answers(queid)

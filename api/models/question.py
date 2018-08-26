@@ -67,14 +67,14 @@ class QuestionModel():
         cur.execute(delete_answers, [queid])
         conn.commit()
 
-    def check_who_posted(current_user):
-        fetch_question = "SELECT * FROM questions WHERE id = %s;"
-        fetched_question = cur.execute(fetch_question, [current_user])
+    def check_who_posted(current_user_id, questionid):
+        print(current_user_id)
+        fetch_question = "SELECT * FROM questions WHERE id = %s and user_id = %s"
+        fetched_question = cur.execute(fetch_question, [questionid, current_user_id])
         result = cur.fetchall()
 
-        for i in result:
-            if i[1] != current_user:
-                return "Sorry, you can't delete this question, only owner has permission"
+        if len(result) < 1:
+            return "Sorry, you can't delete this question, only owner has permission"
 
     def most_answered():
 
