@@ -32,8 +32,7 @@ def tables(value):
                 user_id int NOT NULL,
                 question_id int NOT NULL,
                 answer_body varchar(255) UNIQUE NOT NULL,
-                accepted varchar(255),
-                created_at timestamp 
+                accepted varchar(255)
             )
             """
 

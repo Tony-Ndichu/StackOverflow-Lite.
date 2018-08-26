@@ -135,6 +135,34 @@ class TestApp(Base):
         response = self.client.get('/api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
         self.assertEqual(response.status_code, 200)
 
+    def test_user_can_post_question(self):
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
+
+        que = self.client.post(
+            'api/v1/questions',
+            data=json.dumps(self.sample_data7),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        self.assertEqual(que.status_code, 201)
+
+    def test_user_cannot_post_same_question_title_twice(self):
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
+
+        self.client.post(
+            'api/v1/questions',
+            data=json.dumps(self.sample_data7),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        que=self.client.post(
+            'api/v1/questions',
+            data=json.dumps(self.sample_data7),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        self.assertEqual(que.status_code, 409)
+
+
     def test_post_question_with_no_title(self):
         """checks that user cannot post a question without a title"""
 

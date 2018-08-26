@@ -91,7 +91,7 @@ def check_if_user_exists(user_list, username, email):
 
 def user_detail_verification(firstname, lastname, username):
     """check if details inputed are of a valid type"""
-    if len(firstname) < 1 or len(lastname) < 1 or len(username) < 1:
+    if len(firstname) < 3 or len(lastname) < 3 or len(username) < 3:
         return 'Too short, please add more characters'
     if len(firstname) > 15 or len(lastname) > 15 or len(username) > 15:
         return 'Too long, please remove some characters'

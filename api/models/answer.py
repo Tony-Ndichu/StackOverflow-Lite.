@@ -47,8 +47,8 @@ class AnswerModel():
     def save_answer(res):
         """save new answer"""
 
-        submit = cur.execute("""INSERT INTO answers(user_id, question_id, answer_body, accepted , created_at) VALUES 
-                    (%(arg1)s, %(arg2)s, %(arg3)s, false, current_timestamp )""", res)
+        submit = cur.execute("""INSERT INTO answers(user_id, question_id, answer_body, accepted ) VALUES 
+                    (%(arg1)s, %(arg2)s, %(arg3)s, false )""", res)
 
         conn.commit()
 
