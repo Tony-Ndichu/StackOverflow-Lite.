@@ -83,7 +83,14 @@ class Answer(Resource):
         check_answer = AnswerModel.get_answers(questionid)
 
         if check_answer:
-            return { "message" : "Success!! Here are your answers" , "list" :  check_answer }, 200
+
+            answer_list=[]
+
+            for i in check_answer:
+                answer_dict = dict(answer_id=i[0], user_id=i[1], question_id=i[2], answer_body=i[3])
+                answer_list.append(answer_dict)
+
+            return { "message" : "Success!! Here are your answers" , "list" :  answer_list }, 200
         return {"message": "Sorry, this question has no answers at the moment."}, 404
 
 
