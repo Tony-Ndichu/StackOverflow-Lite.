@@ -47,7 +47,10 @@ class AllQuestions(Resource):
         QUESTION_LIST = QuestionModel.get_questions()
         if not QUESTION_LIST:
             return {'Empty': 'Sorry, but there are no questions at the moment'}, 404
-        return {"message": "Success!! Here are your records", "list": QUESTION_LIST}, 200
+
+        turn_to_dict = QuestionModel.turn_to_dict(QUESTION_LIST)
+
+        return {"message": "Success!! Here are your records", "list": turn_to_dict }, 200
 
     @classmethod
     @jwt_required

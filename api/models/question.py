@@ -15,6 +15,15 @@ class QuestionModel():
         self.description = description
         self.user_id = user_id
 
+    def turn_to_dict(list):
+        question_list=[]
+
+        for item in list:
+            question_dict = dict(question_id=item[0], user_id = item[1], title = item[2], description = item[3] )
+            question_list.append(question_dict)
+
+        return question_list
+
     def get_questions(*args):
 
         question_list = []
