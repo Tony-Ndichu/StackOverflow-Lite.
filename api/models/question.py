@@ -15,7 +15,7 @@ class QuestionModel():
         self.description = description
         self.user_id = user_id
 
-    def turn_to_dict(list):
+    def turn_to_question_dict(list):
         question_list=[]
 
         for item in list:

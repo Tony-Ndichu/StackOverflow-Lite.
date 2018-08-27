@@ -48,9 +48,9 @@ class AllQuestions(Resource):
         if not QUESTION_LIST:
             return {'Empty': 'Sorry, but there are no questions at the moment'}, 404
 
-        turn_to_dict = QuestionModel.turn_to_dict(QUESTION_LIST)
+        turn_to_question_dict = QuestionModel.turn_to_question_dict(QUESTION_LIST)
 
-        return {"message": "Success!! Here are your records", "list": turn_to_dict }, 200
+        return {"message": "Success!! Here are your records", "list": turn_to_question_dict }, 200
 
     @classmethod
     @jwt_required
@@ -100,7 +100,9 @@ class SpecificQuestion(Resource):
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
         if check_id:
-            return {"message": "Successfully retrieved question", "question": check_id}, 200
+            
+            return {"message": "Successfully retrieved question", "question": dict(questionid=check_id[0], 
+            user_id=check_id[1], title=check_id[2], description=check_id[3])}, 200
         return {'message': 'Oops, that question is missing'}, 404
 
     @classmethod

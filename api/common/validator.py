@@ -100,7 +100,6 @@ def user_detail_verification(firstname, lastname, username):
 
 def check_using_id(list_name, other_id):
     """use the relevant id to find item in a list"""
-
     for item in list_name:
         if item[0] == other_id:
             return item
