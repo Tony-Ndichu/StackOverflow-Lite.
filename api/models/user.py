@@ -37,8 +37,8 @@ class UserModel():
         data = dict(first_name=first_name, last_name=last_name,
                     username=username, email=email, password=generate_password_hash(password))
 
-        submit = cur.execute("""INSERT INTO users (first_name, last_name, username, email, password, created_at) VALUES 
-					(%(first_name)s, %(last_name)s, %(username)s, %(email)s, %(password)s, current_timestamp)""", data)
+        submit = cur.execute("""INSERT INTO users (first_name, last_name, username, email, password) VALUES 
+					(%(first_name)s, %(last_name)s, %(username)s, %(email)s, %(password)s)""", data)
 
         conn.commit()
 

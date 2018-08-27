@@ -35,7 +35,7 @@ class Base(TestCase):
         self.signup_details_false_1 = {
             "first_name" : "J",
             "last_name" : "Doe",
-            "username" : "false1",
+            "username" : "false",
             "email" : "false1@gmail.com",
             "password" : "absdcd1234"
             } 
@@ -43,7 +43,7 @@ class Base(TestCase):
         self.signup_details_false_2 = {
             "first_name" : "John",
             "last_name" : "D",
-            "username" : "false2",
+            "username" : "false",
             "email" : "false2@gmail.com",
             "password" : "absdcd1234"
             } 
@@ -51,7 +51,7 @@ class Base(TestCase):
         self.signup_details_false_3 = {
             "first_name" : "Johntftfghjjhvvjvjhvjvj",
             "last_name" : "Doe",
-            "username" : "false3",
+            "username" : "false",
             "email" : "false3@gmail.com",
             "password" : "absdcd1234"
             } 
@@ -59,7 +59,7 @@ class Base(TestCase):
         self.signup_details_false_4 = {
             "first_name" : "1234",
             "last_name" : "Doe",
-            "username" : "false4",
+            "username" : "false",
             "email" : "false4@gmail.com",
             "password" : "absdcd1234"
             } 
@@ -67,7 +67,7 @@ class Base(TestCase):
         self.signup_details_false_5 = {
             "first_name" : "John",
             "last_name" : "5678",
-            "username" : "false5",
+            "username" : "false",
             "email" : "false5@gmail.com",
             "password" : "absdcd1234"
             } 
@@ -132,8 +132,8 @@ class TestUsers(Base):
         self.assertEqual(req1.status_code, 409)
         self.assertEqual(req2.status_code, 409)
         self.assertEqual(req3.status_code, 409)
-        self.assertEqual(req4.status_code, 409)
-        self.assertEqual(req5.status_code, 409)
+        self.assertEqual(req4.status_code, 400)
+        self.assertEqual(req5.status_code, 400)
 
 
 
