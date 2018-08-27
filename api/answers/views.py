@@ -71,7 +71,6 @@ class Answer(Resource):
         return message
 
     @classmethod
-    @jwt_required
     def get(cls, questionid):
         """Handles getting answers for a specific question"""
 

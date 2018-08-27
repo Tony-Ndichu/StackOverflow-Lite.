@@ -177,7 +177,12 @@ class UserQuestions(Resource):
         get_user_questions = QuestionModel.get_questions(current_user_id)
 
         if get_user_questions:
-            return { "message" : "Success!! Here are your questions" , "question_list" : get_user_questions }, 200
+            user_ques =[]
+            for i in get_user_questions:
+                user_dict = dict(questionid=i[0], user_id=i[1], title=i[2], description=i[3])
+                user_ques.append(user_dict)
+
+            return { "message" : "Success!! Here are your questions" , "question_list" : user_dict }, 200
         return { "message" : "Sorry, you have no questions in our records"}, 404
 
 

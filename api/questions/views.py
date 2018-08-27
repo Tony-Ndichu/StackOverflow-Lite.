@@ -41,7 +41,6 @@ class AllQuestions(Resource):
                         )
 
     @classmethod
-    @jwt_required
     def get(cls):
         """Handles getting a list of all questions"""
         QUESTION_LIST = QuestionModel.get_questions()
@@ -87,7 +86,6 @@ class SpecificQuestion(Resource):
     """this class handles fetching a specific question and deleting it"""
 
     @classmethod
-    @jwt_required
     def get(cls, questionid):
         """this handles getting the question using it's id"""
         try:
@@ -100,7 +98,7 @@ class SpecificQuestion(Resource):
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
         if check_id:
-            
+
             return {"message": "Successfully retrieved question", "question": dict(questionid=check_id[0], 
             user_id=check_id[1], title=check_id[2], description=check_id[3])}, 200
         return {'message': 'Oops, that question is missing'}, 404
