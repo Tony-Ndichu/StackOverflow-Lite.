@@ -13,8 +13,7 @@ def tables(value):
               last_name varchar(255) NOT NULL,
               username varchar(255) UNIQUE NOT NULL,
               email varchar(255) UNIQUE NOT NULL,
-              password varchar(255) NOT NULL,
-              created_at timestamp  
+              password varchar(255) NOT NULL
             )
             """
         
@@ -40,16 +39,14 @@ def tables(value):
                 id bigserial NOT NULL PRIMARY KEY,
                 user_id int NOT NULL,
                 answer_id int NOT NULL,
-                comment_body varchar(255) UNIQUE NOT NULL,
-                created_at timestamp 
+                comment_body varchar(255) UNIQUE NOT NULL
             )
             """
 
         create_token = """CREATE TABLE IF NOT EXISTS tokens (
                 id bigserial NOT NULL PRIMARY KEY,
                 token varchar(255) NOT NULL,
-                expired varchar(255),
-                created_at timestamp 
+                expired varchar(255) 
             )
             """
 

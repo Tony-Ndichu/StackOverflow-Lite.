@@ -11,6 +11,7 @@ from ..models.question import QuestionModel
 from flask_jwt_extended import (create_access_token, create_refresh_token,
 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt,)
 from flask_jwt_extended import JWTManager
+import re
 
 
 APP = Flask(__name__)
@@ -65,6 +66,26 @@ class Registration(Resource):
     def post(cls):
         """Handles posting a user's registration"""
         data = cls.parser.parse_args()
+
+        check_text_validity = validator.check_text_validity(data['first_name'])
+
+        if check_text_validity:
+            return check_text_validity
+
+        check_text_validity = validator.check_text_validity(data['last_name'])
+
+        if check_text_validity:
+            return check_text_validity
+
+        check_text_validity = validator.check_text_validity(data['username'])
+
+        if check_text_validity:
+            return check_text_validity
+
+        check_email_validity = validator.check_email_validity(data['email'])
+
+        if check_email_validity:
+            return check_email_validity
 
         USER_LIST = UserModel.get_all_users()
 

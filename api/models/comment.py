@@ -12,8 +12,8 @@ class CommentModel():
     def save_comment(res):
         """save new answer"""
 
-        submit = cur.execute("""INSERT INTO comments(user_id, answer_id, comment_body, created_at) VALUES 
-                    (%(arg1)s, %(arg2)s, %(arg3)s, current_timestamp )""", res)
+        submit = cur.execute("""INSERT INTO comments(user_id, answer_id, comment_body) VALUES 
+                    (%(arg1)s, %(arg2)s, %(arg3)s)""", res)
 
         conn.commit()
 

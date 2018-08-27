@@ -6,6 +6,26 @@ It is used by both the question and answer views and models
 """
 import psycopg2
 from ..database.connect import conn, cur
+import re
+
+
+
+def check_email_validity(email):
+    """ensure that the email input is valid"""
+    email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+
+    if not re.match(email_regex, email):
+        return {
+                'Status': 'Error',
+                'Message': 'Ooops! {} is not a valid email address'.format(email) }, 400
+
+def check_text_validity(text):
+    text_regex =  re.compile(r"(^[A-Za-z]+$)")
+
+    if not re.match(text_regex, text):
+        return {
+                'Status': 'Error',
+                'Message': 'Ooops! {} is not a valid input'.format(text) }, 400
 
 
 def check_if_already_exists(list_name, title):
