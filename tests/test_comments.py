@@ -9,69 +9,7 @@ from flask_testing import TestCase
 from api.database.connect import conn, cur
 from api.manage import tables
 import os
-
-
-
-class Base(TestCase):
-    """contains config for testing"""
-
-    def create_app(self):
-        """sets config to testing"""
-        self.app = create_app('testing')
-        return self.app
-
-    def setUp(self):
-        tables("create")
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        self.test_client = self.app.test_client()
-        self.sample_data1 = {
-            'title': 'What is a tuple?',
-            'description': 'A tuple is a python data structure'
-        }
-
-        self.answer = {
-            "answer": "This is a sample answer"
-        }
-
-        self.answer2 = {
-            "answer": "This is another sample question"
-        }
-
-        self.comment = {
-            "comment" : "This is a sample comment"
-        }
-
-        self.signup_details = {
-            "first_name" : "John",
-            "last_name" : "Doe",
-            "username" : "josdhndoe",
-            "email" : "johndsdoe@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.login_details = {            
-            "username" : "josdhndoe",
-            "password" : "absdcd1234"           
-            } 
-
-
-
-        self.client.post(
-            '/api/v1/auth/signup',
-            data=json.dumps(self.signup_details),
-            content_type='application/json')
-
-        self.que = self.client.post(
-            '/api/v1/auth/login',
-            data=json.dumps(self.login_details),
-            content_type='application/json')
-
-
-    def tearDown(self):
-        self.app_context.pop() 
-        tables("drop")
-   
+from tests.base import Base
 
 class TestApp(Base):
 
@@ -85,7 +23,7 @@ class TestApp(Base):
         access_token = access_que['access_token']
 
         result = self.client.post(
-            'api/v1/questions', data=json.dumps(self.sample_data1), content_type='application/json',
+            'api/v1/questions', data=json.dumps(self.sample_data_que), content_type='application/json',
              headers = {'Authorization' : 'Bearer '+ access_token })
         return result
 

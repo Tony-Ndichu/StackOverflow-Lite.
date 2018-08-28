@@ -9,87 +9,7 @@ from flask_testing import TestCase
 from api.database.connect import conn, cur
 import os
 from api.manage import tables
-
-
-class Base(TestCase):
-    """contains config for testing"""
-
-    def create_app(self):
-        """sets config to testing"""
-        self.app = create_app('testing')
-        return self.app
-
-    def setUp(self):
-        tables("create")
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        self.test_client = self.app.test_client()
-        self.signup_details = {
-            "first_name" : "John",
-            "last_name" : "Doe",
-            "username" : "josdhndoe",
-            "email" : "johndsdoe@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.signup_details_false_1 = {
-            "first_name" : "J",
-            "last_name" : "Doe",
-            "username" : "false",
-            "email" : "false1@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.signup_details_false_2 = {
-            "first_name" : "John",
-            "last_name" : "D",
-            "username" : "false",
-            "email" : "false2@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.signup_details_false_3 = {
-            "first_name" : "Johntftfghjjhvvjvjhvjvj",
-            "last_name" : "Doe",
-            "username" : "false",
-            "email" : "false3@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.signup_details_false_4 = {
-            "first_name" : "1234",
-            "last_name" : "Doe",
-            "username" : "false",
-            "email" : "false4@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.signup_details_false_5 = {
-            "first_name" : "John",
-            "last_name" : "5678",
-            "username" : "false",
-            "email" : "false5@gmail.com",
-            "password" : "absdcd1234"
-            } 
-
-        self.login_details = {            
-            "username" : "josdhndoe",
-            "password" : "absdcd1234"           
-            } 
-
-        self.login_details_false1 = {            
-            "username" : "josdhndoe",
-            "password" : "absdcd"           
-            } 
-
-        self.login_details_false2 = {            
-            "username" : "josd",
-            "password" : "absdcd1234"           
-            } 
-
-    def tearDown(self):
-        self.app_context.pop()  
-        tables("drop")  
+from tests.base import Base
 
 
 class TestUsers(Base):
@@ -97,7 +17,7 @@ class TestUsers(Base):
     def test_user_can_register(self):
         req = self.client.post(
             '/api/v1/auth/signup',
-            data=json.dumps(self.signup_details),
+            data=json.dumps(self.signup_details_true),
             content_type='application/json')
 
         self.assertEqual(req.status_code, 201)
