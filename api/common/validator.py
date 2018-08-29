@@ -17,7 +17,7 @@ def check_email_validity(email):
     if not re.match(email_regex, email):
         return {
                 'Status': 'Error',
-                'Message': 'Ooops! {} is not a valid email address'.format(email) }, 400
+                'message': 'Ooops! {} is not a valid email address'.format(email) }, 400
 
 def check_text_validity(text):
     text_regex =  re.compile(r"(^[A-Za-z]+$)")
@@ -25,7 +25,7 @@ def check_text_validity(text):
     if not re.match(text_regex, text):
         return {
                 'Status': 'Error',
-                'Message': 'Ooops! {} is not a valid input'.format(text) }, 400
+                'message': 'Ooops! {} is not a valid input'.format(text) }, 400
 
 
 def check_if_already_exists(list_name, title):
