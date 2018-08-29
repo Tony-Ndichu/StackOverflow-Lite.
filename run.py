@@ -8,6 +8,7 @@ from api.manage import tables
 
 APP = create_app(config=os.getenv("CONFIG"))
 
+
 tables("create")
 
 

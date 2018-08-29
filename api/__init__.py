@@ -11,6 +11,7 @@ from .users.views import USER_BLUEPRINT
 from .comments.views import COMMENT_BLUEPRINT
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
+from flask_cors import CORS
 
 
 
@@ -27,5 +28,6 @@ def create_app(config):
 	app.register_blueprint(ANSWER_BLUEPRINT)
 	app.register_blueprint(USER_BLUEPRINT)
 	app.register_blueprint(COMMENT_BLUEPRINT)
+	CORS(app)
 	return app
 
