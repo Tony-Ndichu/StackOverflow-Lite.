@@ -45,8 +45,7 @@ def tables(value):
 
         create_token = """CREATE TABLE IF NOT EXISTS tokens (
                 id bigserial NOT NULL PRIMARY KEY,
-                token varchar(255) NOT NULL,
-                expired varchar(255) 
+                jti varchar(255) NOT NULL
             )
             """
 

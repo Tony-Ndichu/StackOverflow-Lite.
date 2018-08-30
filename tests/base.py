@@ -21,6 +21,7 @@ class Base(TestCase):
         return self.app
 
     def setUp(self):
+        tables("drop")
         tables("create")
         self.app_context = self.app.app_context()
         self.app_context.push()

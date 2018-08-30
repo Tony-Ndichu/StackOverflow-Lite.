@@ -7,6 +7,8 @@ class Base():
     """parent clas that all other classes inherit"""
     DEBUG = False
     TESTING = False
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access']
 
 
 class Development(Base):
@@ -20,6 +22,7 @@ class Test(Base):
     TESTING = True
     DEBUG = True
     PRESERVE_CONTEXT_ON_EXCEPTION = False
+
 
 
 class Production(Base):

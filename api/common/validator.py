@@ -7,6 +7,7 @@ It is used by both the question and answer views and models
 import psycopg2
 from ..database.connect import conn, cur
 import re
+from flask import request
 
 
 
@@ -17,7 +18,7 @@ def check_email_validity(email):
     if not re.match(email_regex, email):
         return {
                 'Status': 'Error',
-                'message': 'Ooops! {} is not a valid email address'.format(email) }, 400
+                'message': "Ooops! '{}' is not a valid email address".format(email) }, 400
 
 def check_text_validity(text):
     text_regex =  re.compile(r"(^[A-Za-z]+$)")
@@ -25,7 +26,7 @@ def check_text_validity(text):
     if not re.match(text_regex, text):
         return {
                 'Status': 'Error',
-                'message': 'Ooops! {} is not a valid input'.format(text) }, 400
+                'message': "Ooops! '{}' is not a valid input. No spaces or special characters allowed".format(text) }, 400
 
 
 def check_if_already_exists(list_name, title):
@@ -123,3 +124,26 @@ def check_using_id(list_name, other_id):
     for item in list_name:
         if item[0] == other_id:
             return item
+
+
+def insert_to_blacklist():
+    auth_token = auth_header.split(" ")[1]  
+    cur.execute("INSERT into tokens(token) values(%s)",[auth_token])
+    conn.commit() 
+
+    return "Logout successful"
+
+def check_if_token_is_invalid():
+
+    auth_header = request.headers.get(1)
+    print(auth_header)
+    if not auth_header:
+        return "You have no Authorization"
+
+    auth_token = auth_header.split("Header ")[1]        
+    fetch_question = "SELECT * FROM tokens WHERE token = %s;"
+    fetched_question = cur.execute(fetch_question, [auth_token])
+    result = cur.fetchall()
+
+    if result:
+        return "You have no access, please login again"

@@ -9,9 +9,11 @@ from ..common import validator
 from ..models.user import UserModel
 from ..models.question import QuestionModel
 from flask_jwt_extended import (create_access_token, create_refresh_token,
-jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt,)
+jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 from flask_jwt_extended import JWTManager
 import re
+from .. import jwt
+from ..database.connect import conn, cur
 
 
 APP = Flask(__name__)
@@ -19,6 +21,8 @@ APP = Flask(__name__)
 
 USER_BLUEPRINT = Blueprint('user', __name__)
 API = Api(USER_BLUEPRINT, prefix='/api/v1')
+
+
 
 
 class Registration(Resource):
@@ -65,7 +69,9 @@ class Registration(Resource):
     @classmethod
     def post(cls):
         """Handles posting a user's registration"""
-        data = cls.parser.parse_args()
+
+        data = cls.parser.parse_args()  
+
 
         check_text_validity = validator.check_text_validity(data['first_name'])
 
@@ -131,6 +137,7 @@ class Login(Resource):
         """this handles a user's login"""
         data = cls.parser.parse_args()
 
+
         check_if_user_exists = UserModel.check_if_exists(data['username'])
 
         if not check_if_user_exists:
@@ -138,7 +145,6 @@ class Login(Resource):
 
         user_check = UserModel.find_by_username(
             data['username'], data['password'])
-
     
         if user_check:
             access_token = create_access_token(identity = user_check, expires_delta=False)
@@ -151,20 +157,20 @@ class Login(Resource):
 
 
 
+
+
 class Logout(Resource):
     """logout a user and revoke his/her jwt identity"""
 
     @classmethod
+    @jwt_required
     def post(cls):
+        jti = get_raw_jwt()['jti']
+        save_jti = "INSERT INTO tokens (jti) VALUES (%s);"
+        cur.execute(save_jti, [jti])
+        conn.commit()
 
-        check_if_logged_out = UserModel.check_if_logged_out()
-
-        if check_if_logged_out:
-            return {"message" : check_if_logged_out }, 409
-
-        expire_token = UserModel.expire_token()
-
-        return { "msg": "Successfully logged out" }, 200
+        return {"message": "Successfully logged out"}, 200
 
 
 class UserQuestions(Resource):

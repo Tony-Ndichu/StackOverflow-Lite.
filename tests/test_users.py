@@ -101,10 +101,11 @@ class TestUsers(Base):
             data=json.dumps(self.login_details),
             content_type='application/json')
 
-        result = json.loads(que.data.decode())
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
 
         req = self.client.post(
             '/api/v1/auth/logout',
-            content_type='application/json')
+            content_type='application/json', headers = {'Authorization' : 'Bearer '+ access_token})
 
         self.assertEqual(req.status_code, 200)

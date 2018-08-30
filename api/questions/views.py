@@ -12,6 +12,7 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 from ..models.answer import AnswerModel
+from .. import jwt
 
 APP = Flask(__name__)
 
@@ -40,6 +41,8 @@ class AllQuestions(Resource):
 
                         )
 
+
+
     @classmethod
     def get(cls):
         """Handles getting a list of all questions"""
@@ -55,9 +58,10 @@ class AllQuestions(Resource):
     @jwt_required
     def post(cls):
         """Handles posting a question"""
+
         current_user_id = get_jwt_identity()
 
-        data = cls.parser.parse_args()
+        data = cls.parser.parse_args()  
 
         QUESTION_LIST = QuestionModel.get_questions()
 

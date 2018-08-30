@@ -52,7 +52,7 @@ class UserModel():
 
     def save_token(access_token):
         """save access_token"""
-        save_que = "INSERT INTO tokens (token, expired) VALUES (%s, 'false');"
+        save_que = "INSERT INTO tokens (jti) VALUES (%s);"
         cur.execute(save_que, [access_token])
         conn.commit()
 

@@ -28,6 +28,7 @@ class TestApp(Base):
         result = self.client.post(
             'api/v1/questions', data=json.dumps(self.sample_data7), content_type='application/json',
              headers = {'Authorization' : 'Bearer '+ access_token })
+
         return result
 
 
@@ -55,6 +56,7 @@ class TestApp(Base):
             data=json.dumps(self.answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        print(access_token)
         self.assertEqual(answer.status_code, 201)
 
     def test_user_cannot_answer_with_empty_content(self):
