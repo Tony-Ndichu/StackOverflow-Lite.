@@ -54,6 +54,20 @@ class QuestionModel():
 
         return question_list
 
+    def get_user_questions(current_user_id):
+
+        question_list = []
+
+        fetch_user_questions = "SELECT * FROM questions WHERE user_id = %s;"
+        fetched_questions = cur.execute(
+            fetch_user_questions, [current_user_id])
+        result = cur.fetchall()
+
+        for i in result:
+            question_list.append(i)
+
+        return question_list
+
     def save_to_db(self):
         """save new qestion"""
 
