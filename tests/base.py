@@ -146,13 +146,6 @@ class Base(TestCase):
             "password" : "absdcd1234"
             } 
 
-        self.signup_details_false_3 = {
-            "first_name" : "Johntftfghjjhvvjvjhvjvj",
-            "last_name" : "Doe",
-            "username" : "false",
-            "email" : "false3@gmail.com",
-            "password" : "absdcd1234"
-            } 
 
         self.signup_details_false_4 = {
             "first_name" : "1234",

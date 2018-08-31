@@ -14,6 +14,9 @@ class TestUsers(Base):
             content_type='application/json')
 
         self.assertEqual(req.status_code, 201)
+        self.assertEqual(req.message, "Success!! User account has been created successfully")
+        
+
 
     def test_user_registration_details(self):
         """ensures user registers with valid details"""
@@ -27,11 +30,6 @@ class TestUsers(Base):
             data=json.dumps(self.signup_details_false_2),
             content_type='application/json')
 
-        req3 = self.client.post(
-            '/api/v1/auth/signup',
-            data=json.dumps(self.signup_details_false_3),
-            content_type='application/json')
-
         req4 = self.client.post(
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details_false_4),
@@ -43,10 +41,17 @@ class TestUsers(Base):
             content_type='application/json')
 
         self.assertEqual(req1.status_code, 409)
+        self.assertIn(req1.message, "is too short, please add more characters")
+
         self.assertEqual(req2.status_code, 409)
-        self.assertEqual(req3.status_code, 409)
+        self.assertIn(req2.message, "is too short, please add more characters")
+
         self.assertEqual(req4.status_code, 400)
+        self.assertEqual(req4.message, "First name cannot be digits only")
+
         self.assertEqual(req5.status_code, 400)
+        self.assertEqual(req5.message, "First name cannot be digits only")
+
 
 
 
@@ -63,6 +68,10 @@ class TestUsers(Base):
             content_type='application/json')
 
         self.assertEqual(req2.status_code, 409)
+        self.assertEqual(req2.message, "Sorry, This username has already been taken")
+
+
+
 
     def test_user_can_login(self):
 
@@ -83,7 +92,9 @@ class TestUsers(Base):
             content_type='application/json')
 
         self.assertEqual(req1.status_code, 200)
-        self.assertEqual(req3.status_code, 404)
+        self.assertEqual(req1.message, "Successfully logged in!!")
+
+
 
 
 
@@ -102,3 +113,4 @@ class TestUsers(Base):
             content_type='application/json', headers = {'Authorization' : 'Bearer '+ access_token})
 
         self.assertEqual(req.status_code, 200)
+        self.assertEqual(req.message, "Successfully logged out")

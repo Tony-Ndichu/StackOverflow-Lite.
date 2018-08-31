@@ -29,6 +29,7 @@ class TestApp(Base):
 
         response = self.client.get('api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.message, "Success!! Here are your records")
 
     def test_get_all_questions_status_code_when_questions_exist(self):
         """checks that a successful 200 status code is given when questions exist"""
@@ -46,6 +47,7 @@ class TestApp(Base):
 
         response = self.client.get('/api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.message, "Success!! Here are your records")
 
     def test_user_can_post_question(self):
         access_que = json.loads(self.que.data.decode())
@@ -57,6 +59,7 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(que.status_code, 201)
+        self.assertEqual(response.message, "Your question has been added successfully")
 
     def test_user_cannot_post_same_question_title_twice(self):
         access_que = json.loads(self.que.data.decode())
@@ -73,7 +76,7 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(que.status_code, 409)
-
+        self.assertEqual(response.message, "Sorry, This title has already been used in another question")
 
     def test_post_question_with_no_title(self):
         """checks that user cannot post a question without a title"""
@@ -174,6 +177,8 @@ class TestApp(Base):
 
         response = self.client.get('/api/v1/questions/1', headers = {'Authorization' : 'Bearer '+ access_token })
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.message, "Successfully retrieved question")
+
 
     def test_user_can_delete_question(self):
         """checks that user can delete a specific question"""
@@ -187,7 +192,7 @@ class TestApp(Base):
             content_type="application/json", headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(result.status_code, 200)
-
+        self.assertEqual(response.message, "Success!! The question has been deleted.")
 
 
     def test_user_can_fetch_all_his_or_her_questions(self):
@@ -199,5 +204,7 @@ class TestApp(Base):
 
         response = self.client.get('/api/v1/auth/questions', headers = {'Authorization' : 'Bearer '+ access_token })
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.message, "Success!! Here are your questions")
+
 
 

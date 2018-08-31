@@ -48,8 +48,9 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(comment.status_code, 201)
+        self.assertEqual(comment.message, "Successfully added Comment")
 
-    def test_user_cannot_add_comment_to_an_answer_taht_doesnt_exist(self):
+    def test_user_cannot_add_comment_to_an_answer_that_doesnt_exist(self):
         """checks that answer exists inorder for comment to be added"""
         self.post_question_for_testing_purposes()
         self.post_answer_for_testing_purposes()
@@ -62,6 +63,8 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(comment.status_code, 404)
+        self.assertEqual(comment.message, "Oops, that answer is missing, you cant add comments to it")
+
 
     def test_user_must_enter_answer_id_as_integer_in_uri(self):
         """checks that users cant do something like 'api/v1/questions/1/answers/one/comments"""
@@ -76,3 +79,5 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         self.assertEqual(comment.status_code, 400)
+        self.assertEqual(comment.message, "Sorry, answerid must be a number or an integer")
+

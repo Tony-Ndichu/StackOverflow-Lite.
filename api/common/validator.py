@@ -117,12 +117,6 @@ def user_detail_verification(firstname, lastname, username):
         return "'{}' is too short, please add more characters".format(lastname)
     if len(username) < 3:
         return "'{}' is too short, please add more characters".format(username)
-    if len(firstname) > 15:
-        return "'{}' is too long, please remove more characters".format(firstname)
-    if len(lastname) > 15:
-        return "'{}' is too long, please remove some characters".format(lastname)
-    if len(username) > 15:
-        return "'{}' is too long, please remove some characters".format(lastname)
     if firstname.isdigit():
         return 'First name cannot be digits only'
     if lastname.isdigit():

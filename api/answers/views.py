@@ -108,7 +108,7 @@ class AcceptAnswer(Resource):
         try:
             val = int(answer_id)
         except ValueError:
-            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+            return { "message" : "Sorry, answerid must be a number or an integer" }, 400
 
         current_user_id = get_jwt_identity()
         confirm_that_user_asked_que = QuestionModel.check_who_posted(
