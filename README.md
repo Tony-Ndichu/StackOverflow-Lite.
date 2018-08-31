@@ -142,6 +142,8 @@
 ### **Set environment variables**
     ```
     (myenv)$ set FLASK_APP=run.py
+    (myenv)$ set CONFIG=development
+    (myenv)$ set DB_URL=postgresql://postgres:tony1234@localhost/stackoverflowlite
     ```
 
 #### **Run the app**
