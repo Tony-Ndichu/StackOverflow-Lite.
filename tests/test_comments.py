@@ -48,8 +48,10 @@ class TestApp(Base):
             data=json.dumps(self.comment),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(comment.data.decode())
+
         self.assertEqual(comment.status_code, 201)
-        self.assertEqual(comment.message, "Successfully added Comment")
+        self.assertEqual(mess['message'], "Success!! Your comment has been added")
 
     def test_user_cannot_add_comment_to_an_answer_that_doesnt_exist(self):
         """checks that answer exists inorder for comment to be added"""
@@ -63,8 +65,10 @@ class TestApp(Base):
             data=json.dumps(self.comment),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(comment.data.decode())
+
         self.assertEqual(comment.status_code, 404)
-        self.assertEqual(comment.message, "Oops, that answer is missing, you cant add comments to it")
+        self.assertEqual(mess['message'], "Oops, that answer is missing, you cant add comments to it")
 
 
     def test_user_must_enter_answer_id_as_integer_in_uri(self):
@@ -79,6 +83,8 @@ class TestApp(Base):
             data=json.dumps(self.comment),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(comment.data.decode())
+
         self.assertEqual(comment.status_code, 400)
-        self.assertEqual(comment.message, "Sorry, answerid must be a number or an integer")
+        self.assertEqual(mess['message'], "Sorry, answerid must be a number or an integer")
 

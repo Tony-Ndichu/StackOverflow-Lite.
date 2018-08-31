@@ -13,9 +13,11 @@ class TestUsers(Base):
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details_true),
             content_type='application/json')
+        mess = json.loads(req.data.decode())
+
 
         self.assertEqual(req.status_code, 201)
-        self.assertEqual(req.message, "Success!! User account has been created successfully")
+        self.assertEqual(mess['message'], "Success!! User account has been created successfully")
         
 
 
@@ -25,33 +27,40 @@ class TestUsers(Base):
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details_false_1),
             content_type='application/json')
+        mess1 = json.loads(req1.data.decode())
 
         req2 = self.client.post(
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details_false_2),
             content_type='application/json')
+        mess2 = json.loads(req2.data.decode())
+
 
         req4 = self.client.post(
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details_false_4),
             content_type='application/json')
+        mess4 = json.loads(req4.data.decode())
+
 
         req5 = self.client.post(
             '/api/v1/auth/signup',
             data=json.dumps(self.signup_details_false_5),
             content_type='application/json')
+        mess5 = json.loads(req5.data.decode())
+
 
         self.assertEqual(req1.status_code, 409)
-        self.assertIn(req1.message, "is too short, please add more characters")
+        self.assertEqual(mess1['message'], "'J' is too short, please add more characters")
 
         self.assertEqual(req2.status_code, 409)
-        self.assertIn(req2.message, "is too short, please add more characters")
+        self.assertEqual(mess2['message'], "'D' is too short, please add more characters")
 
         self.assertEqual(req4.status_code, 400)
-        self.assertEqual(req4.message, "First name cannot be digits only")
+        self.assertEqual(mess4['message'], "Ooops! '1234' is not a valid input. No spaces or special characters allowed")
 
         self.assertEqual(req5.status_code, 400)
-        self.assertEqual(req5.message, "First name cannot be digits only")
+        self.assertEqual(mess5['message'], "Ooops! '5678' is not a valid input. No spaces or special characters allowed")
 
 
 
@@ -68,8 +77,11 @@ class TestUsers(Base):
             data=json.dumps(self.signup_details),
             content_type='application/json')
 
+        mess = json.loads(req2.data.decode())
+
+
         self.assertEqual(req2.status_code, 409)
-        self.assertEqual(req2.message, "Sorry, This username has already been taken")
+        self.assertEqual(mess['message'], "Sorry, This username has already been taken")
 
 
 
@@ -86,14 +98,11 @@ class TestUsers(Base):
             '/api/v1/auth/login',
             data=json.dumps(self.login_details),
             content_type='application/json')
+        mess = json.loads(req1.data.decode())
 
-        req3 = self.client.post(
-            '/api/v1/auth/login',
-            data=json.dumps(self.login_details_false2),
-            content_type='application/json')
 
         self.assertEqual(req1.status_code, 200)
-        self.assertEqual(req1.message, "Successfully logged in!!")
+        self.assertEqual(mess['message'], "Successfully logged in!!")
 
 
 
@@ -113,5 +122,7 @@ class TestUsers(Base):
             '/api/v1/auth/logout',
             content_type='application/json', headers = {'Authorization' : 'Bearer '+ access_token})
 
+        mess = json.loads(req.data.decode())
+
         self.assertEqual(req.status_code, 200)
-        self.assertEqual(req.message, "Successfully logged out")
+        self.assertEqual(mess['message'], "Successfully logged out")

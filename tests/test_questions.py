@@ -29,8 +29,11 @@ class TestApp(Base):
         access_token = result['access_token']
 
         response = self.client.get('api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
+
+        mess = json.loads(response.data.decode())
+
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.message, "Success!! Here are your records")
+        self.assertEqual(mess['message'], "Success!! Here are your records")
 
     def test_get_all_questions_status_code_when_questions_exist(self):
         """checks that a successful 200 status code is given when questions exist"""
@@ -47,8 +50,10 @@ class TestApp(Base):
         access_token = result['access_token']
 
         response = self.client.get('/api/v1/questions', headers = {'Authorization' : 'Bearer '+ access_token })
+        mess = json.loads(response.data.decode())
+
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.message, "Success!! Here are your records")
+        self.assertEqual(mess['message'], "Success!! Here are your records")
 
     def test_user_can_post_question(self):
         access_que = json.loads(self.que.data.decode())
@@ -58,9 +63,10 @@ class TestApp(Base):
             'api/v1/questions',
             data=json.dumps(self.sample_data7),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+        mess = json.loads(que.data.decode())
 
         self.assertEqual(que.status_code, 201)
-        self.assertEqual(response.message, "Your question has been added successfully")
+        self.assertEqual(mess['message'], "Your question has been added successfully")
 
     def test_user_cannot_post_same_question_title_twice(self):
         access_que = json.loads(self.que.data.decode())
@@ -76,8 +82,10 @@ class TestApp(Base):
             data=json.dumps(self.sample_data7),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(que.data.decode())
+
         self.assertEqual(que.status_code, 409)
-        self.assertEqual(response.message, "Sorry, This title has already been used in another question")
+        self.assertEqual(mess['message'], "Sorry, This title has already been used in another question")
 
     def test_post_question_with_no_title(self):
         """checks that user cannot post a question without a title"""
@@ -177,8 +185,11 @@ class TestApp(Base):
         self.post_for_testing_purposes()
 
         response = self.client.get('/api/v1/questions/1', headers = {'Authorization' : 'Bearer '+ access_token })
+
+        mess = json.loads(response.data.decode())
+
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.message, "Successfully retrieved question")
+        self.assertEqual(mess['message'], "Successfully retrieved question")
 
 
     def test_user_can_delete_question(self):
@@ -192,8 +203,10 @@ class TestApp(Base):
             'api/v1/questions/1',
             content_type="application/json", headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(result.data.decode())
+
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(response.message, "Success!! The question has been deleted.")
+        self.assertEqual(mess['message'], "Success!! The question has been deleted.")
 
 
     def test_user_can_fetch_all_his_or_her_questions(self):
@@ -204,8 +217,11 @@ class TestApp(Base):
         self.post_for_testing_purposes()
 
         response = self.client.get('/api/v1/auth/questions', headers = {'Authorization' : 'Bearer '+ access_token })
+
+        mess = json.loads(response.data.decode())
+
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.message, "Success!! Here are your questions")
+        self.assertEqual(mess['message'], "Success!! Here are your questions")
 
 
 

@@ -22,6 +22,7 @@ class TestApp(Base):
             'api/v1/questions', data=json.dumps(self.sample_data7), content_type='application/json',
              headers = {'Authorization' : 'Bearer '+ access_token })
 
+
         return result
 
 
@@ -49,9 +50,11 @@ class TestApp(Base):
             data=json.dumps(self.answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
-        print(access_token)
+        mess = json.loads(answer.data.decode())
+
+
         self.assertEqual(answer.status_code, 201)
-        self.assertEqual(answer.message, "Success!! Your answer has been added")
+        self.assertEqual(mess['message'], "Success!! Your answer has been added")
 
 
 
@@ -61,13 +64,16 @@ class TestApp(Base):
         access_que = json.loads(self.que.data.decode())
         access_token = access_que['access_token']
 
+
         result = self.client.post(
             'api/v1/questions/1/answers',
             data=json.dumps(self.empty_answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(result.data.decode())
+
         self.assertEqual(result.status_code, 409)
-        self.assertEqual(result.message, "Too Short, Please add more input")
+        self.assertEqual(mess['message'], "Too Short, Please add more input")
 
 
     def test_user_can_view_questions_with_the_most_answers(self):
@@ -92,8 +98,10 @@ class TestApp(Base):
             'api/v1/questions/most_answered',
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(result.data.decode())
+
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(result.message, "Here, is your most answered question")
+        self.assertEqual(mess['message'], "Here, is your most answered question")
 
 
     def test_user_can_accept_answer_as_preffered(self):
@@ -108,8 +116,10 @@ class TestApp(Base):
             data=json.dumps(self.answer2),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(accept_que.data.decode())
+
         self.assertEqual(accept_que.status_code, 200)
-        self.assertEqual(accept_que.message, "Success!! You have accepted this answer")
+        self.assertEqual(mess['message'], "Success!! You have accepted this answer")
 
 
     def test_user_can_get_answers_to_specific_question(self):
@@ -124,8 +134,10 @@ class TestApp(Base):
             data=json.dumps(self.answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(answer.data.decode())
+
         self.assertEqual(answer.status_code, 200)  
-        self.assertEqual(answer.message, "Success!! Here are your answers")
+        self.assertEqual(mess['message'], "Success!! Here are your answers")
 
 
 
@@ -141,8 +153,32 @@ class TestApp(Base):
             data=json.dumps(self.answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(answer.data.decode())
+
         self.assertEqual(answer.status_code, 400)
-        self.assertEqual(answer.message, "Sorry, questionid must be a number or an integer")
+        self.assertEqual(mess['message'], "Sorry, questionid must be a number or an integer")
+
+
+    def test_user_must_enter_integer_in_get_answer_url(self):
+        """checks that user doesnt do something like 'api/v1/questions/seven/answers'"""
+
+        
+        self.post_question_for_testing_purposes()
+        self.post_answer_for_testing_purposes()
+        result = json.loads(self.que.data.decode())
+        access_token = result['access_token']  
+
+        answer = self.client.get(
+            'api/v1/questions/string/answers',
+            data=json.dumps(self.answer),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        mess = json.loads(answer.data.decode())
+
+        self.assertEqual(answer.status_code, 400)   
+        self.assertEqual(mess['message'], "Sorry, questionid must be a number or an integer")
+
+
 
 
     def test_user_cannot_post_same_answer_twice(self):
@@ -161,8 +197,10 @@ class TestApp(Base):
             data=json.dumps(self.answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(que.data.decode())
+
         self.assertEqual(que.status_code, 409)
-        self.assertEqual(que.message, "Please enter a different answer, you cannot enter the same answer twice")
+        self.assertEqual(mess['message'], "Please enter a different answer, you cannot enter the same answer twice")
 
 
     def test_user_must_have_posted_question_to_accept_answer_as_preffered(self):
@@ -188,7 +226,9 @@ class TestApp(Base):
             data=json.dumps(self.answer2),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
+        mess = json.loads(accept_que.data.decode())
+
         self.assertEqual(accept_que.status_code, 401)
-        self.assertEqual(accept_que.message, "Sorry, you cant accept this answer since you didnt post the question")
+        self.assertEqual(mess['message'], "Sorry, you cant accept this answer since you didnt post the question")
 
         
