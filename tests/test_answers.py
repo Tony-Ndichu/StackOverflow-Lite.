@@ -145,42 +145,6 @@ class TestApp(Base):
         self.assertEqual(answer.message, "Sorry, questionid must be a number or an integer")
 
 
-    def test_user_must_enter_integer_in_get_answer_url(self):
-        """checks that user doesnt do something like 'api/v1/questions/seven/answers'"""
-
-        
-        self.post_question_for_testing_purposes()
-        self.post_answer_for_testing_purposes()
-        result = json.loads(self.que.data.decode())
-        access_token = result['access_token']  
-
-        answer = self.client.get(
-            'api/v1/questions/string/answers',
-            data=json.dumps(self.answer),
-            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
-
-        self.assertEqual(answer.status_code, 400)   
-        self.assertEqual(answer.message, "Sorry, questionid must be a number or an integer")
-
-
-
-    def test_use_must_integers_in_uri_when_accepting_answer(self):
-        """checks that user doesnt do something like 'api/v1/questions/1/answers/one/accept'"""
-
-        self.post_question_for_testing_purposes()
-        self.post_answer_for_testing_purposes()
-        result = json.loads(self.que.data.decode())
-        access_token = result['access_token']
-
-        accept_que=self.client.put(
-            'api/v1/questions/1/answers/one/accept',
-            data=json.dumps(self.answer2),
-            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
-
-        self.assertEqual(accept_que.status_code, 400)
-        self.assertEqual(accept_que.message, "Sorry, answerid must be a number or an integer")
-
-
     def test_user_cannot_post_same_answer_twice(self):
         """checks that user cannot post exact same answer twice for the same question"""
         self.post_question_for_testing_purposes()
