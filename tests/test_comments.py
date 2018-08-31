@@ -4,6 +4,7 @@
 Handles all the tests related to answers
 """
 from tests.base import Base
+import json
 
 class TestApp(Base):
 
