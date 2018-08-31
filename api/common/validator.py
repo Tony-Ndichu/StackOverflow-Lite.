@@ -109,15 +109,26 @@ def check_if_user_exists(user_list, username, email):
         if item[4] == email:
             return 'Sorry, This email is already in use'
 
-
 def user_detail_verification(firstname, lastname, username):
     """check if details inputed are of a valid type"""
-    if len(firstname) < 3 or len(lastname) < 3 or len(username) < 3:
-        return 'Too short, please add more characters'
-    if len(firstname) > 15 or len(lastname) > 15 or len(username) > 15:
-        return 'Too long, please remove some characters'
-    if firstname.isdigit() or lastname.isdigit() or lastname.isdigit():
-        return 'This cannot be digits'
+    if len(firstname) < 3:
+        return "'{}' is too short, please add more characters".format(firstname)
+    if len(lastname) < 3:
+        return "'{}' is too short, please add more characters".format(lastname)
+    if len(username) < 3:
+        return "'{}' is too short, please add more characters".format(username)
+    if len(firstname) > 15:
+        return "'{}' is too long, please remove more characters".format(firstname)
+    if len(lastname) > 15:
+        return "'{}' is too long, please remove some characters".format(lastname)
+    if len(username) > 15:
+        return "'{}' is too long, please remove some characters".format(lastname)
+    if firstname.isdigit():
+        return 'First name cannot be digits only'
+    if lastname.isdigit():
+        return 'Last name cannot be digits only'
+    if username.isdigit():
+        return 'username cannot be digits only'
 
 def check_using_id(list_name, other_id):
     """use the relevant id to find item in a list"""
