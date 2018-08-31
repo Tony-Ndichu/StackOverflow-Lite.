@@ -96,8 +96,8 @@ class QuestionModel():
         fetched_question = cur.execute(fetch_question, [questionid, current_user_id])
         result = cur.fetchall()
 
-        if not result:
-            return "Sorry, you can't delete this question, only owner has permission"
+        if result:
+            return "You have access to this question"
 
     def most_answered():
 
