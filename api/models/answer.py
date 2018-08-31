@@ -102,3 +102,14 @@ class AnswerModel():
         conn.commit()
 
         return "Successfully updated answer"
+
+    def get_que_answers(question_id):
+        fetch_question = "SELECT * FROM answers WHERE question_id = %s;"
+        fetched_question = cur.execute(fetch_question, [question_id])
+        result = cur.fetchall()
+
+        answer_list = []
+        for i in result:
+            answer_list.append(dict(answer_id=i[0], user_id=i[1], question_id=i[2], answer_body=i[3], accepted=i[4]))
+
+        return answer_list

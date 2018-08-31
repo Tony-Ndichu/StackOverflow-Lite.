@@ -99,12 +99,16 @@ class SpecificQuestion(Resource):
 
         QUESTION_LIST = QuestionModel.get_questions()
 
+        i = AnswerModel.get_que_answers(questionid)
+
+
+
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
         if check_id:
 
             return {"message": "Successfully retrieved question", "question": dict(questionid=check_id[0], 
-            user_id=check_id[1], title=check_id[2], description=check_id[3])}, 200
+            user_id=check_id[1], title=check_id[2], description=check_id[3]) , "its's answers" : i } , 200
         return {'message': 'Oops, that question is missing'}, 404
 
     @classmethod
