@@ -44,6 +44,17 @@ class AnswerModel():
         return answer_list
 
 
+    def get_answers_to_specific_que(questionid):
+        fetch_answers = "SELECT * FROM answers WHERE question_id = %s;"
+        fetched_answers = cur.execute(fetch_answers, [questionid])
+        result = cur.fetchall()
+
+        answer_list = []
+        for i in result:
+            answer_list.append(i)
+
+        return answer_list
+
     def save_answer(res):
         """save new answer"""
 
@@ -53,6 +64,15 @@ class AnswerModel():
         conn.commit()
 
         return "Successfully added answer"
+
+    def check_who_posted(current_user_id, answer_id):
+        print(current_user_id)
+        fetch_question = "SELECT * FROM answers WHERE id = %s and user_id = %s"
+        fetched_question = cur.execute(fetch_question, [answer_id, current_user_id])
+        result = cur.fetchall()
+
+        if not result:
+            return "Sorry, you can't update this answer, only owner has permission"
 
     def check_if_already_accepted(answer_id):
         """check if user already accepted the answers"""
@@ -74,3 +94,11 @@ class AnswerModel():
 
         return "Successfully accepted answer"
 
+    def update_answer(answer_id, answer_body):
+        """accepts and answeer"""
+
+        update_que = "UPDATE answers SET answer_body = %s WHERE id = %s;"
+        cur.execute(update_que, [answer_body, answer_id])
+        conn.commit()
+
+        return "Successfully updated answer"

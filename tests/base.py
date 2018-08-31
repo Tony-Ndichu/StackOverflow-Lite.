@@ -12,6 +12,7 @@ from api.manage import tables
 
 
 
+
 class Base(TestCase):
     """contains config for testing"""
 

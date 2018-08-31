@@ -79,14 +79,14 @@ class Answer(Resource):
         except ValueError:
             return { "message" : "Sorry, questionid must be a number or an integer" }, 400
 
-        check_answer = AnswerModel.get_answers(questionid)
+        check_answer = AnswerModel.get_answers_to_specific_que(questionid)
 
         if check_answer:
 
             answer_list=[]
 
             for i in check_answer:
-                answer_dict = dict(answer_id=i[0], user_id=i[1], question_id=i[2], answer_body=i[3])
+                answer_dict = dict(answer_id=i[0], user_id=i[1], question_id=i[2], answer_body=i[3], accepted=i[4])
                 answer_list.append(answer_dict)
 
             return { "message" : "Success!! Here are your answers" , "list" :  answer_list }, 200
@@ -117,7 +117,7 @@ class AcceptAnswer(Resource):
         if confirm_that_user_asked_que:
             return {"message": "Sorry, you cant accept this answer since you didnt post the question"}, 401
 
-        check_if_already_accepted = AnswerModel.check_if_already_accepted(question_id)
+        check_if_already_accepted = AnswerModel.check_if_already_accepted(answer_id)
 
         if check_if_already_accepted:
             return {"message": check_if_already_accepted}, 409
@@ -127,10 +127,49 @@ class AcceptAnswer(Resource):
         if accept_answer:
             return {"message": "Success!! You have accepted this answer"}, 200
 
+class UpdateAnswer(Resource):
+    """Handles updating an answer's message"""
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('answer', type=str, required=True,
+                        help='Please enter an answer.')
+
+    @classmethod
+    @jwt_required
+    def put(cls, question_id, answer_id):
+        """Handles accepting an answer"""
+
+        data = cls.parser.parse_args()
+
+        try:
+            val = int(question_id)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+
+        try:
+            val = int(answer_id)
+        except ValueError:
+            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+
+        current_user_id = get_jwt_identity()
+        confirm_that_user_posted_answer = AnswerModel.check_who_posted(
+            current_user_id, answer_id)
+
+        if confirm_that_user_posted_answer:
+            return {"message": "Sorry, you cant update this answer since you didnt post it."}, 401
+
+        update_answer = AnswerModel.update_answer(answer_id, data['answer'])
+
+        if update_answer:
+            return {"message": "Success!! You have updated this answer"}, 200
+
 
 API.add_resource(Answer, "/questions/<questionid>/answers")
 API.add_resource(
     AcceptAnswer, "/questions/<question_id>/answers/<answer_id>/accept")
+
+API.add_resource(
+    UpdateAnswer, "/questions/<question_id>/answers/<answer_id>/update")
 
 if __name__ == '__main__':
     APP.run()

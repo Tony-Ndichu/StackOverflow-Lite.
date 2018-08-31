@@ -3,15 +3,7 @@
 #app/test/test_answers.py
 Handles all the tests related to answers
 """
-import json
-from api import create_app
-from flask_testing import TestCase
-from api.database.connect import conn, cur
-from api.manage import tables
 from tests.base import Base
-import os
-
-
 
 
 class TestApp(Base):
