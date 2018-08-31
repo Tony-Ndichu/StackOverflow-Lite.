@@ -124,7 +124,7 @@ class SpecificQuestion(Resource):
 
         check_if_user_posted = QuestionModel.check_who_posted(current_user_id, questionid)
 
-        if not check_if_user_posted:
+        if check_if_user_posted:
             return {"message" : "Sorry, you can't delete this question, only owner has permission"}, 401
 
         queid = int(questionid)
