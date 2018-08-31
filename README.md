@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite..svg?branch=develop&cacheBuster=1)](https://travis-ci.com/Tony-Ndichu/StackOverflow-Lite.)
 [![Coverage Status](https://coveralls.io/repos/github/Tony-Ndichu/StackOverflow-Lite./badge.svg?branch=develop&cacheBuster=1)](https://coveralls.io/github/Tony-Ndichu/StackOverflow-Lite.?branch=develop)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c10ba3fef8ed9ae5b71c/test_coverage)](https://codeclimate.com/github/Tony-Ndichu/StackOverflow-Lite./test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c10ba3fef8ed9ae5b71c/maintainability)](https://codeclimate.com/github/Tony-Ndichu/StackOverflow-Lite./maintainability)
 # StackOverFlow-Lite.
 
 ## Introduction
