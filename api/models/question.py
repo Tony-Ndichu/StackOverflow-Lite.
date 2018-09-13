@@ -19,7 +19,7 @@ class QuestionModel():
         question_list=[]
 
         for item in list:
-            question_dict = dict(question_id=item[0], user_id = item[1], title = item[2], description = item[3] )
+            question_dict = dict(question_id=item[0], user_id = item[1], user_name = item[4] , title = item[2], description = item[3], no_of_answers = item[5] )
             question_list.append(question_dict)
 
         return question_list
@@ -30,14 +30,22 @@ class QuestionModel():
 
         if args is not None:
             for current_user_id in args:
-                fetch_user_questions = "SELECT * FROM questions WHERE user_id = %s;"
+                fetch_user_questions = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
+                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+                                             FROM QUESTIONS Q
+                                             INNER JOIN users U ON Q.user_id = U.id
+                                            WHERE Q.user_id = %s;"""
+
                 fetched_questions = cur.execute(
                     fetch_user_questions, [current_user_id])
                 result = cur.fetchall()
 
 
-
-        que = cur.execute("SELECT * FROM questions")
+        que = cur.execute("""SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
+             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+             FROM QUESTIONS Q
+             INNER JOIN users U ON Q.user_id = U.id
+             ;""")
 
         try:
             que
@@ -47,6 +55,8 @@ class QuestionModel():
             cur
 
         result = cur.fetchall()
+        print(result)
+
 
 
         for i in result:
