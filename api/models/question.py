@@ -34,7 +34,9 @@ class QuestionModel():
                                              (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
                                              FROM QUESTIONS Q
                                              INNER JOIN users U ON Q.user_id = U.id
-                                            WHERE Q.user_id = %s;"""
+                                            WHERE Q.user_id = %s
+                                                ORDER BY Q.id DESC
+                                                ;"""
 
                 fetched_questions = cur.execute(
                     fetch_user_questions, [current_user_id])
@@ -45,6 +47,7 @@ class QuestionModel():
              (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
              FROM QUESTIONS Q
              INNER JOIN users U ON Q.user_id = U.id
+             ORDER BY Q.id DESC
              ;""")
 
         try:

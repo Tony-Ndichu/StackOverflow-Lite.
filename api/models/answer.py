@@ -21,12 +21,18 @@ class AnswerModel():
 
         if args is not None:
             for questionid in args:
-                fetch_user_answers = "SELECT * FROM answers WHERE question_id = %s;"
+                fetch_user_answers = """SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted
+                 FROM answers A 
+                 INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
+                 ORDER BY A.id DESC ;"""
                 fetched_answers = cur.execute(fetch_user_answers, [questionid])
                 result = cur.fetchall()
 
 
-        que = cur.execute("SELECT * FROM answers")
+        que = cur.execute("""SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted
+                 FROM answers A 
+                 INNER JOIN users U ON A.user_id = U.id
+                 ORDER BY A.id DESC ;""")
 
         try:
             que
@@ -45,7 +51,11 @@ class AnswerModel():
 
 
     def get_answers_to_specific_que(questionid):
-        fetch_answers = "SELECT * FROM answers WHERE question_id = %s;"
+        fetch_answers = """SELECT A.id, A.user_id, U.username, A.question_id, A.answer_body, A.accepted
+                 FROM answers A 
+                 INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
+                 ORDER BY A.id DESC ;"""
+
         fetched_answers = cur.execute(fetch_answers, [questionid])
         result = cur.fetchall()
 
@@ -104,12 +114,16 @@ class AnswerModel():
         return "Successfully updated answer"
 
     def get_que_answers(question_id):
-        fetch_question = "SELECT * FROM answers WHERE question_id = %s;"
+        fetch_question = """SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted, U.username
+                 FROM answers A 
+                 INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
+                 ORDER BY A.id DESC ;"""
+
         fetched_question = cur.execute(fetch_question, [question_id])
         result = cur.fetchall()
 
         answer_list = []
         for i in result:
-            answer_list.append(dict(answer_id=i[0], user_id=i[1], question_id=i[2], answer_body=i[3], accepted=i[4]))
+            answer_list.append(dict(answer_id=i[0], user_id=i[1], user_name = i[5], question_id=i[2], answer_body=i[3], accepted=i[4]))
 
         return answer_list

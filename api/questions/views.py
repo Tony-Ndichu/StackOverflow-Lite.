@@ -48,7 +48,7 @@ class AllQuestions(Resource):
         """Handles getting a list of all questions"""
         QUESTION_LIST = QuestionModel.get_questions()
         if not QUESTION_LIST:
-            return {'Empty': 'Sorry, but there are no questions at the moment'}, 404
+            return {'message': 'Sorry, but there are no questions at the moment'}, 404
 
         turn_to_question_dict = QuestionModel.turn_to_question_dict(QUESTION_LIST)
 
@@ -108,7 +108,7 @@ class SpecificQuestion(Resource):
         if check_id:
 
             return {"message": "Successfully retrieved question", "question": dict(questionid=check_id[0], 
-            user_id=check_id[1], title=check_id[2], description=check_id[3]) , "its's answers" : i } , 200
+            user_id=check_id[1], user_name=check_id[4], title=check_id[2], description=check_id[3], no_of_answers=check_id[5]) , "answers" : i } , 200
         return {'message': 'Oops, that question is missing'}, 404
 
     @classmethod
