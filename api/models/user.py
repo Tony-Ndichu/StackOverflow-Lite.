@@ -31,6 +31,27 @@ class UserModel():
 
         return result
 
+    def get_profile(current_user_id):
+        """retrieve a user's profile details"""
+        user_profile = []
+
+        fetch_profile = """SELECT U.id, U.first_name, U.last_name, U.username, U.email,
+                                             (SELECT COUNT(Q.id) FROM questions Q WHERE Q.user_id = U.id) as questioncount,
+                                             (SELECT COUNT(A.id) FROM answers A WHERE A.user_id = U.id) as answercount
+                                             FROM users U
+                                            WHERE U.id = %s
+                                                ;"""
+
+        fetched_profile = cur.execute(fetch_profile, [current_user_id])
+        result = cur.fetchall()
+
+        for item in result:
+            user_dict = dict(user_id=item[0], first_name = item[1], last_name = item[2] , username = item[3], email = item[4], no_of_questions = item[5], no_of_answers = item[6])
+            user_profile.append(user_dict)
+
+        return user_profile
+
+
     def create_user(first_name, last_name, username, email, password):
         """save new user data"""
 

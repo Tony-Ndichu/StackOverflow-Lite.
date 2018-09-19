@@ -23,7 +23,20 @@ USER_BLUEPRINT = Blueprint('user', __name__)
 API = Api(USER_BLUEPRINT, prefix='/api/v1')
 
 
+class Profile(Resource):
+    """
+    this class deals with getting a user's details
+    """
+    @classmethod
+    @jwt_required
+    def get(cls):
+        """Handles getting all user profile details"""
 
+        current_user_id = get_jwt_identity()
+
+        USER_PROFILE = UserModel.get_profile(current_user_id)
+
+        return {"message": "Success!! Here are your profile details", "list": USER_PROFILE }, 200
 
 class Registration(Resource):
     """
@@ -191,7 +204,7 @@ class UserQuestions(Resource):
             return { "message" : "Success!! Here are your questions" , "question_list" : user_ques }, 200
         return { "message" : "Sorry, you have no questions in our records"}, 404
 
-
+API.add_resource(Profile, "/auth/profile")
 API.add_resource(Registration, "/auth/signup")
 API.add_resource(Login, "/auth/login")
 API.add_resource(Logout, "/auth/logout")
