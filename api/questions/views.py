@@ -143,19 +143,21 @@ class MostAnswered(Resource):
     @jwt_required
     def get(cls):
         """Handles getting a list of all questions"""
-        check_if_answers = AnswerModel.get_answers()
+        current_user_id = get_jwt_identity()
 
-        if not check_if_answers:
-            return { "message" : "No answers exist at the moment"}, 404
+        check_if_answers = QuestionModel.get_user_answers(current_user_id)
 
-        most_answered = QuestionModel.most_answered()
+        if check_if_answers:
+            return { "message" : "Sorry, none of your questions have any answers at the moment" }, 404
+
+        most_answered = QuestionModel.most_answered(current_user_id)
 
         if most_answered:
-            return { "message" : "Here, is your most answered question", "question" : most_answered  }, 200
+            return { "message" : "Here, are your most answered questions", "list" : most_answered  }, 200
 
 API.add_resource(AllQuestions, "/questions")
 API.add_resource(SpecificQuestion, "/questions/<questionid>")
-API.add_resource(MostAnswered, "/questions/most_answered")
+API.add_resource(MostAnswered, "/auth/questions/most_answered")
 
 
 

@@ -71,7 +71,13 @@ class QuestionModel():
 
         question_list = []
 
-        fetch_user_questions = "SELECT * FROM questions WHERE user_id = %s;"
+        fetch_user_questions = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
+                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+                                             FROM QUESTIONS Q
+                                             INNER JOIN users U ON Q.user_id = U.id
+                                            WHERE Q.user_id = %s
+                                                ORDER BY Q.id DESC
+                                                ;"""
         fetched_questions = cur.execute(
             fetch_user_questions, [current_user_id])
         result = cur.fetchall()
@@ -112,33 +118,49 @@ class QuestionModel():
         if not result:
             return "Sorry, you can't delete this question, only owner has permission"
 
-    def most_answered():
+    def most_answered(current_user_id):
 
-        most_answered =[]
         final_result = []
 
-        que = cur.execute("SELECT question_id, COUNT(id) FROM answers GROUP BY question_id ORDER BY COUNT(id) DESC ")
+        fetch_question = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
+                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+                                             FROM QUESTIONS Q
+                                             INNER JOIN users U ON Q.user_id = U.id
+                                             INNER JOIN answers A ON A.question_id = Q.id
+                                             WHERE Q.user_id = %s
+                                             GROUP BY A.question_id ,Q.id, U.username
+                                              ORDER BY answercount DESC                                                     
+                                                ;"""
 
-        result = cur.fetchall()
-
-        for i in result:
-            if i[1] == 0:
-                return {"message" : "Sorry, none of the questions have any answers at the moment" }
-            most_answered.append(dict(question_id=i[0], no_of_answers=i[1]))
-
-        questionid = most_answered[0]['question_id']
-        no_of_answers = most_answered[0]['no_of_answers']
-
-        fetch_question = "SELECT * FROM questions WHERE id = %s;"
-        fetched_question = cur.execute(fetch_question, [questionid])
+        fetched_question = cur.execute(fetch_question, [current_user_id])
         que_result = cur.fetchall()
 
+        if not que_result:
+            return { "message" : "Sorry, none of your questions have any answers at the moment"}
+
         for i in que_result:
-            final_result.append(dict(question_id=questionid, no_of_answers=no_of_answers,
-                                    question_title=i[2], question_description=i[3]))
+            final_result.append(dict(question_id=i[0], user_id = i[1], no_of_answers=i[5],
+                                    title=i[2], description=i[3]))
 
         return final_result
 
 
-        
+    def get_user_answers(current_user_id):
 
+        final_result = []
+
+        fetch_question = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
+                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+                                             FROM QUESTIONS Q
+                                             INNER JOIN users U ON Q.user_id = U.id
+                                             INNER JOIN answers A ON A.question_id = Q.id
+                                             WHERE Q.user_id = %s
+                                             GROUP BY A.question_id ,Q.id, U.username
+                                              ORDER BY answercount DESC                                                     
+                                                ;"""
+
+        fetched_question = cur.execute(fetch_question, [current_user_id])
+        que_result = cur.fetchall()
+
+        if not que_result:
+            return { "message" : "Sorry, none of your questions have any answers at the moment"}

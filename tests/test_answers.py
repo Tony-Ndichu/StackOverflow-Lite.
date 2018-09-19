@@ -95,13 +95,13 @@ class TestApp(Base):
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         result = self.client.get(
-            'api/v1/questions/most_answered',
+            'api/v1/auth/questions/most_answered',
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
         mess = json.loads(result.data.decode())
 
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(mess['message'], "Here, is your most answered question")
+        self.assertEqual(mess['message'], "Here, are your most answered questions")
 
 
     def test_user_can_accept_answer_as_preffered(self):
