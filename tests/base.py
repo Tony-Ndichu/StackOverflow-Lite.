@@ -84,6 +84,11 @@ class Base(TestCase):
             "password" : "absdcd1234"
             } 
 
+        self.login_details_true = {
+            "username" : "tommyfiger",
+            "password" : "absdcd1234"
+        }
+
         self.login_details = {            
             "username" : "josdhndoe",
             "password" : "absdcd1234"           
@@ -94,6 +99,10 @@ class Base(TestCase):
          #ANSWER TEST DATA
         self.answer = {
             "answer": "This is a sample answer"
+        }
+
+        self.answer_new = {
+            "answer" : "This is an updated answer"
         }
 
         self.answer2 = {
@@ -118,6 +127,14 @@ class Base(TestCase):
         #COMMENT TEST DATA
         self.comment = {
             "comment" : "This is a sample comment"
+        }
+
+        self.comment_empty = {
+           
+        }
+
+        self.comment_short = {
+            "comment" : "T"
         }
 
         self.sample_data_que = {

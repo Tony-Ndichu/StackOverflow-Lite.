@@ -31,7 +31,7 @@ def check_text_validity(text):
 
 def check_if_already_exists(list_name, title):
     """"
-    check if the question title or description
+    check if the question title
     already exists in storage
     """
 
@@ -85,7 +85,7 @@ def make_save_dict(arg1, arg2, arg3):
 def check_quality(item):
     """check answer quality"""
 
-    if len(item) < 1:
+    if len(item) < 2:
         return 'Too Short, Please add more input'
 
 
@@ -130,25 +130,3 @@ def check_using_id(list_name, other_id):
         if item[0] == other_id:
             return item
 
-
-def insert_to_blacklist():
-    auth_token = auth_header.split(" ")[1]  
-    cur.execute("INSERT into tokens(token) values(%s)",[auth_token])
-    conn.commit() 
-
-    return "Logout successful"
-
-def check_if_token_is_invalid():
-
-    auth_header = request.headers.get(1)
-    print(auth_header)
-    if not auth_header:
-        return "You have no Authorization"
-
-    auth_token = auth_header.split("Header ")[1]        
-    fetch_question = "SELECT * FROM tokens WHERE token = %s;"
-    fetched_question = cur.execute(fetch_question, [auth_token])
-    result = cur.fetchall()
-
-    if result:
-        return "You have no access, please login again"

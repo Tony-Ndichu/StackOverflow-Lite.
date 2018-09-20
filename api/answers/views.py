@@ -137,7 +137,7 @@ class UpdateAnswer(Resource):
     @classmethod
     @jwt_required
     def put(cls, question_id, answer_id):
-        """Handles accepting an answer"""
+        """Handles updating an answer"""
 
         data = cls.parser.parse_args()
 
@@ -149,7 +149,7 @@ class UpdateAnswer(Resource):
         try:
             val = int(answer_id)
         except ValueError:
-            return { "message" : "Sorry, questionid must be a number or an integer" }, 400
+            return { "message" : "Sorry, answerid must be a number or an integer" }, 400
 
         current_user_id = get_jwt_identity()
         confirm_that_user_posted_answer = AnswerModel.check_who_posted(
@@ -170,6 +170,3 @@ API.add_resource(
 
 API.add_resource(
     UpdateAnswer, "/questions/<question_id>/answers/<answer_id>/update")
-
-if __name__ == '__main__':
-    APP.run()

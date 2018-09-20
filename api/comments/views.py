@@ -30,7 +30,7 @@ class Comment(Resource):
     @classmethod
     @jwt_required
     def post(cls, questionid, answerid):
-        """Handles posting of answers"""
+        """Handles posting of comments"""
 
         try:
             val = int(answerid)
@@ -41,6 +41,12 @@ class Comment(Resource):
 
 
         ANSWER_LIST = AnswerModel.get_answers()
+
+        exists = validator.check_if_already_exists( ANSWER_LIST, data['comment'])
+
+        if exists:
+            return {"message": exists}, 409
+
 
         check_question = validator.check_using_id(
             ANSWER_LIST, int(answerid))

@@ -105,7 +105,23 @@ class TestUsers(Base):
         self.assertEqual(mess['message'], "Successfully logged in!!")
 
 
+    def test_user_cannot_login_With_fake_credentials(self):
 
+        self.client.post(
+            '/api/v1/auth/signup',
+            data=json.dumps(self.signup_details),
+            content_type='application/json')    
+
+
+        req1 = self.client.post(
+            '/api/v1/auth/login',
+            data=json.dumps(self.login_details_true),
+            content_type='application/json')
+        mess = json.loads(req1.data.decode())
+
+
+        self.assertEqual(req1.status_code, 404)
+        self.assertEqual(mess['message'], "Sorry, we have no user with those credentials")
 
 
     def test_user_can_logout(self):
@@ -126,3 +142,43 @@ class TestUsers(Base):
 
         self.assertEqual(req.status_code, 200)
         self.assertEqual(mess['message'], "Successfully logged out")
+
+    def test_user_can_fetch_their_profile(self):
+        req = self.client.post(
+            '/api/v1/auth/signup',
+            data=json.dumps(self.signup_details_true),
+            content_type='application/json')
+
+        que = self.client.post(
+            '/api/v1/auth/login',
+            data=json.dumps(self.login_details_true),
+            content_type='application/json')
+
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
+
+        req2 = self.client.get(
+            '/api/v1/auth/profile',
+            content_type='application/json', headers = {'Authorization' : 'Bearer '+ access_token})
+
+        mess = json.loads(req2.data.decode())
+
+        self.assertEqual(req2.status_code, 200)
+        self.assertEqual(mess['message'], "Success!! Here are your profile details")
+
+    def test_user_can_fetch_all_his_or_her_questions(self):
+        """get all questions belonging to the logged in user"""
+        result = json.loads(self.que.data.decode())
+        access_token = result['access_token']
+
+        self.client.post(
+            'api/v1/questions',
+            data=json.dumps(self.sample_data7),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        response = self.client.get('/api/v1/auth/questions', headers = {'Authorization' : 'Bearer '+ access_token })
+
+        mess = json.loads(response.data.decode())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(mess['message'], "Success!! Here are your questions")

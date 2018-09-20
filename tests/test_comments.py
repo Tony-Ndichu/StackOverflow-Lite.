@@ -88,3 +88,30 @@ class TestApp(Base):
         self.assertEqual(comment.status_code, 400)
         self.assertEqual(mess['message'], "Sorry, answerid must be a number or an integer")
 
+
+    def test_comment_quality_is_checked(self):
+        """checks that an answer isnt too short for example"""
+
+        self.post_question_for_testing_purposes()
+        self.post_answer_for_testing_purposes()
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
+
+        comment = self.client.post(
+            'api/v1/questions/1/answers/1/comments',
+            data=json.dumps(self.comment_short),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        comment2 = self.client.post(
+            'api/v1/questions/1/answers/1/comments',
+            data=json.dumps(self.comment_empty),
+            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+
+        mess = json.loads(comment.data.decode())
+        mess2 = json.loads(comment2.data.decode())
+
+        self.assertEqual(comment.status_code, 409)
+        self.assertEqual(mess['message'], "Too Short, Please add more input")
+
+        self.assertEqual(comment2.status_code, 400)
+        self.assertEqual(mess2['message']['comment'], "Please enter a comment.")

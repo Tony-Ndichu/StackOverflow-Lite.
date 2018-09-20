@@ -71,25 +71,6 @@ class UserModel():
 
         return result
 
-    def save_token(access_token):
-        """save access_token"""
-        save_que = "INSERT INTO tokens (jti) VALUES (%s);"
-        cur.execute(save_que, [access_token])
-        conn.commit()
-
-    def expire_token():
-        """turn the tken to expired"""
-        update_que = cur.execute("UPDATE tokens SET expired = True WHERE expired = 'false';")
-        conn.commit()
-
-    def check_if_logged_out():
-        """check if user is already logged out"""
-        fetch_question = cur.execute("SELECT * FROM tokens WHERE expired = 'false';")
-        result = cur.fetchall()
-
-        if not result:
-            return "You have already been logged out"
-
     def find_by_username(username, password):
         """check user dedtails on login"""
         user_list = []

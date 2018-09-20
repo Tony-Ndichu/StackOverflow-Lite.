@@ -209,19 +209,5 @@ class TestApp(Base):
         self.assertEqual(mess['message'], "Success!! The question has been deleted.")
 
 
-    def test_user_can_fetch_all_his_or_her_questions(self):
-        """get all questions belonging to the logged in user"""
-        result = json.loads(self.que.data.decode())
-        access_token = result['access_token']
-
-        self.post_for_testing_purposes()
-
-        response = self.client.get('/api/v1/auth/questions', headers = {'Authorization' : 'Bearer '+ access_token })
-
-        mess = json.loads(response.data.decode())
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(mess['message'], "Success!! Here are your questions")
-
 
 

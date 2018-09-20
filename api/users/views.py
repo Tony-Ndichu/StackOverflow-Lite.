@@ -161,15 +161,10 @@ class Login(Resource):
     
         if user_check:
             access_token = create_access_token(identity = user_check, expires_delta=False)
-            save_token =  UserModel.save_token(access_token)
 
             return {"message": "Successfully logged in!!", "access_token" : access_token }, 200
 
         return {"message": "Sorry, wrong credentials" }, 401
-
-
-
-
 
 
 class Logout(Resource):
@@ -207,6 +202,3 @@ API.add_resource(Login, "/auth/login")
 API.add_resource(Logout, "/auth/logout")
 API.add_resource(UserQuestions, "/auth/questions")
 
-
-if __name__ == '__main__':
-    APP.run()
