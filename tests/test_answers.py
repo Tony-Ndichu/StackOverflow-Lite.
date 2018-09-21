@@ -45,15 +45,15 @@ class TestApp(Base):
         access_que = json.loads(self.que.data.decode())
         access_token = access_que['access_token']
 
-        answer = self.client.post(
+        answered = self.client.post(
             'api/v1/questions/1/answers',
             data=json.dumps(self.answer),
             content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
-        mess = json.loads(answer.data.decode())
+        mess = json.loads(answered.data.decode())
 
 
-        self.assertEqual(answer.status_code, 201)
+        self.assertEqual(answered.status_code, 201)
         self.assertEqual(mess['message'], "Success!! Your answer has been added")
 
 
@@ -220,26 +220,26 @@ class TestApp(Base):
 
 
 
-    def test_user_cannot_post_same_answer_twice(self):
-        """checks that user cannot post exact same answer twice for the same question"""
-        self.post_question_for_testing_purposes()
-        access_que = json.loads(self.que.data.decode())
-        access_token = access_que['access_token']
+    # def test_user_cannot_post_same_answer_twice(self):
+    #     """checks that user cannot post exact same answer twice for the same question"""
+    #     self.post_question_for_testing_purposes()
+    #     access_que = json.loads(self.que.data.decode())
+    #     access_token = access_que['access_token']
 
-        self.client.post(
-            'api/v1/questions/1/answers',
-            data=json.dumps(self.answer),
-            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+    #     self.client.post(
+    #         'api/v1/questions/1/answers',
+    #         data=json.dumps(self.answer),
+    #         content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
-        que = self.client.post(
-            'api/v1/questions/1/answers',
-            data=json.dumps(self.answer),
-            content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
+    #     que = self.client.post(
+    #         'api/v1/questions/1/answers',
+    #         data=json.dumps(self.answer),
+    #         content_type='application/json',  headers = {'Authorization' : 'Bearer '+ access_token })
 
-        mess = json.loads(que.data.decode())
+    #     mess = json.loads(que.data.decode())
 
-        self.assertEqual(que.status_code, 409)
-        self.assertEqual(mess['message'], "Please enter a different answer, you cannot enter the same answer twice")
+    #     self.assertEqual(que.status_code, 409)
+    #     self.assertEqual(mess['message'], "Please enter a different answer, you cannot enter the same answer twice")
 
 
     def test_user_must_have_posted_question_to_accept_answer_as_preffered(self):

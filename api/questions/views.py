@@ -83,7 +83,6 @@ class AllQuestions(Resource):
 
         if save_to_db:
             return {'message': 'Your question has been added successfully'}, 201
-        return {'message': 'Sorry. an error occured during saving'}, 409
 
 
 class SpecificQuestion(Resource):
@@ -101,13 +100,11 @@ class SpecificQuestion(Resource):
 
         i = AnswerModel.get_que_answers(questionid)
 
-
-
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
         if check_id:
 
-            return {"message": "Successfully retrieved question", "question": dict(questionid=check_id[0], 
+            return { "message": "Successfully retrieved question", "question": dict(questionid=check_id[0], 
             user_id=check_id[1], user_name=check_id[4], title=check_id[2], description=check_id[3], no_of_answers=check_id[5]) , "answers" : i } , 200
         return {'message': 'Oops, that question is missing'}, 404
 
@@ -137,29 +134,7 @@ class SpecificQuestion(Resource):
 
         return {"message": "Success!! The question has been deleted."}, 200
 
-class MostAnswered(Resource):
-    """handles getting most answered question"""
-    @classmethod
-    @jwt_required
-    def get(cls):
-        """Handles getting a list of all questions"""
-        current_user_id = get_jwt_identity()
 
-        check_if_answers = QuestionModel.get_user_answers(current_user_id)
-
-        if check_if_answers:
-            return { "message" : "Sorry, none of your questions have any answers at the moment" }, 404
-
-        most_answered = QuestionModel.most_answered(current_user_id)
-
-        if most_answered:
-            return { "message" : "Here, are your most answered questions", "list" : most_answered  }, 200
 
 API.add_resource(AllQuestions, "/questions")
 API.add_resource(SpecificQuestion, "/questions/<questionid>")
-API.add_resource(MostAnswered, "/auth/questions/most_answered")
-
-
-
-if __name__ == '__main__':
-    APP.run()

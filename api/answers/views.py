@@ -48,11 +48,11 @@ class Answer(Resource):
         if not check_question:
             return {'message': 'Oops, that question is missing, you cant add answers to it'}, 404
 
-        check_answer = validator.check_for_answer(data['answer'])
+        # check_answer = validator.check_for_answer(data['answer'])
 
-        if check_answer:
-            return {"message":
-                    "Please enter a different answer, you cannot enter the same answer twice"}, 409
+        # if check_answer:
+        #     return {"message":
+        #             "Please enter a different answer, you cannot enter the same answer twice"}, 409
 
         check_quality = validator.check_quality(data['answer'])
 
@@ -66,9 +66,7 @@ class Answer(Resource):
         save_answer = AnswerModel.save_answer(make_save_dict)
 
         if save_answer:
-            message = {"message": "Success!! Your answer has been added"}, 201
-
-        return message
+            return { "message": save_answer }, 201
 
     @classmethod
     def get(cls, questionid):

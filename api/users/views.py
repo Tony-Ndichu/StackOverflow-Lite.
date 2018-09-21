@@ -156,16 +156,14 @@ class Login(Resource):
         if not check_if_user_exists:
             return { "message" : "Sorry, we have no user with those credentials"}, 404
 
-        user_check = UserModel.find_by_username(
-            data['username'], data['password'])
+        user_check = UserModel.find_by_username(data['username'], data['password'])
     
         if user_check:
             access_token = create_access_token(identity = user_check, expires_delta=False)
 
             return {"message": "Successfully logged in!!", "access_token" : access_token }, 200
 
-        return {"message": "Sorry, wrong credentials" }, 401
-
+        return {"message": "Sorry, that password is invalid" }, 404
 
 class Logout(Resource):
     """logout a user and revoke his/her jwt identity"""
@@ -196,9 +194,28 @@ class UserQuestions(Resource):
             return { "message" : "Success!! Here are your questions" , "list" : user_ques }, 200
         return { "message" : "Sorry, you have no questions in our records"}, 404
 
+class MostAnswered(Resource):
+    """handles getting most answered question"""
+    @classmethod
+    @jwt_required
+    def get(cls):
+        """Handles getting a list of all questions"""
+        current_user_id = get_jwt_identity()
+
+        check_if_answers = QuestionModel.get_user_answers(current_user_id)
+
+        if check_if_answers:
+            return { "message" : "Sorry, none of your questions have any answers at the moment" }, 404
+
+        most_answered = QuestionModel.most_answered(current_user_id)
+
+        if most_answered:
+            return { "message" : "Here, are your most answered questions", "list" : most_answered  }, 200
+
+
 API.add_resource(Profile, "/auth/profile")
 API.add_resource(Registration, "/auth/signup")
 API.add_resource(Login, "/auth/login")
 API.add_resource(Logout, "/auth/logout")
 API.add_resource(UserQuestions, "/auth/questions")
-
+API.add_resource(MostAnswered, "/auth/questions/most_answered")

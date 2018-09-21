@@ -76,6 +76,14 @@ class Base(TestCase):
             "password" : "absdcd1234"
             }
 
+        self.signup_details_used_email = {
+            "first_name" : "John",
+            "last_name" : "Doe",
+            "username" : "josdhndoer",
+            "email" : "johndsdoe@gmail.com",
+            "password" : "absdcd1234"
+            }
+
         self.signup_details_true = {
             "first_name" : "Tommy",
             "last_name" : "Hilfiger",
@@ -92,6 +100,11 @@ class Base(TestCase):
         self.login_details = {            
             "username" : "josdhndoe",
             "password" : "absdcd1234"           
+            } 
+
+        self.login_details_wrong_password = {            
+            "username" : "josdhndoe",
+            "password" : "absdcd12345"           
             } 
 
          ##end of questions test data
@@ -164,6 +177,8 @@ class Base(TestCase):
             } 
 
 
+
+
         self.signup_details_false_4 = {
             "first_name" : "1234",
             "last_name" : "Doe",
@@ -179,6 +194,48 @@ class Base(TestCase):
             "email" : "false5@gmail.com",
             "password" : "absdcd1234"
             } 
+
+        self.signup_details_false_6 = {
+            "first_name" : "John",
+            "last_name" : "Doe",
+            "username" : "Johnny",
+            "email" : "false6gmailcom",
+            "password" : "absdcd1234"
+            } 
+
+        self.signup_details_false_7 = {
+            "first_name" : "1111",
+            "last_name" : "Doe",
+            "username" : "Johnny",
+            "email" : "false6gmailcom",
+            "password" : "absdcd1234"
+            } 
+
+        self.signup_details_false_8 = {
+            "first_name" : "John",
+            "last_name" : "1111",
+            "username" : "Johnny",
+            "email" : "false6gmailcom",
+            "password" : "absdcd1234"
+            } 
+
+        self.signup_details_false_9 = {
+            "first_name" : "John",
+            "last_name" : "Doe",
+            "username" : "1111",
+            "email" : "false6gmailcom",
+            "password" : "absdcd1234"
+            } 
+
+
+        self.signup_details_false_10 = {
+            "first_name" : "John",
+            "last_name" : "Doe",
+            "username" : "J",
+            "email" : "false6@gmail.com",
+            "password" : "absdcd1234"
+            } 
+
 
         self.login_details = {            
             "username" : "josdhndoe",

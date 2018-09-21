@@ -14,15 +14,14 @@ class UserModel():
     def get_all_users():
         """retrieve all users from the database"""
         user_list = []
-        conn
         que = cur.execute("SELECT * FROM users")
 
-        try:
-            que
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-            conn
-            cur
+        # try:
+        #     que
+        # except (Exception, psycopg2.DatabaseError) as error:
+        #     print(error)
+        #     conn
+        #     cur
 
         result = cur.fetchall()
 
@@ -74,16 +73,14 @@ class UserModel():
     def find_by_username(username, password):
         """check user dedtails on login"""
         user_list = []
-
-        conn
         que = cur.execute("SELECT * FROM users")
 
-        try:
-            que
-        except (Exception, psycopg2.DatabaseError) as error:
-            conn
-            cur
-            que
+        # try:
+        #     que
+        # except (Exception, psycopg2.DatabaseError) as error:
+        #     conn
+        #     cur
+        #     que
 
         result = cur.fetchall()
 

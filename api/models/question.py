@@ -24,23 +24,23 @@ class QuestionModel():
 
         return question_list
 
-    def get_questions(*args):
+    def get_questions():
 
         question_list = []
 
-        if args is not None:
-            for current_user_id in args:
-                fetch_user_questions = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
-                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
-                                             FROM QUESTIONS Q
-                                             INNER JOIN users U ON Q.user_id = U.id
-                                            WHERE Q.user_id = %s
-                                                ORDER BY Q.id DESC
-                                                ;"""
+        # if args is not None:
+        #     for current_user_id in args:
+        #         fetch_user_questions = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
+        #                                      (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+        #                                      FROM QUESTIONS Q
+        #                                      INNER JOIN users U ON Q.user_id = U.id
+        #                                     WHERE Q.user_id = %s
+        #                                         ORDER BY Q.id DESC
+        #                                         ;"""
 
-                fetched_questions = cur.execute(
-                    fetch_user_questions, [current_user_id])
-                result = cur.fetchall()
+        #         fetched_questions = cur.execute(
+        #             fetch_user_questions, [current_user_id])
+        #         result = cur.fetchall()
 
 
         que = cur.execute("""SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
@@ -50,17 +50,14 @@ class QuestionModel():
              ORDER BY Q.id DESC
              ;""")
 
-        try:
-            que
-        except (Exception, psycopg2.DatabaseError) as error:
-            print (error)
-            conn
-            cur
+        # try:
+        #     que
+        # except (Exception, psycopg2.DatabaseError) as error:
+        #     print (error)
+        #     conn
+        #     cur
 
         result = cur.fetchall()
-        print(result)
-
-
 
         for i in result:
             question_list.append(i)
@@ -110,7 +107,7 @@ class QuestionModel():
         conn.commit()
 
     def check_who_posted(current_user_id, questionid):
-        print(current_user_id)
+
         fetch_question = "SELECT * FROM questions WHERE id = %s and user_id = %s"
         fetched_question = cur.execute(fetch_question, [questionid, current_user_id])
         result = cur.fetchall()
@@ -146,8 +143,6 @@ class QuestionModel():
 
 
     def get_user_answers(current_user_id):
-
-        final_result = []
 
         fetch_question = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
                                              (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount

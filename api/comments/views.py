@@ -42,16 +42,10 @@ class Comment(Resource):
 
         ANSWER_LIST = AnswerModel.get_answers()
 
-        exists = validator.check_if_already_exists( ANSWER_LIST, data['comment'])
-
-        if exists:
-            return {"message": exists}, 409
-
-
-        check_question = validator.check_using_id(
+        check_answer = validator.check_using_id(
             ANSWER_LIST, int(answerid))
 
-        if not check_question:
+        if not check_answer:
             return {'message': 'Oops, that answer is missing, you cant add comments to it'}, 404
 
         check_quality = validator.check_quality(data['comment'])
@@ -73,5 +67,3 @@ class Comment(Resource):
 
 API.add_resource(Comment, "/questions/<questionid>/answers/<answerid>/comments")
 
-if __name__ == '__main__':
-    APP.run()

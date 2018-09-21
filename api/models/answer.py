@@ -3,30 +3,24 @@
 #app/api/models/answer.py
 This is the answer model
 """
-from datetime import datetime
 from ..database.connect import conn, cur
 
 
 class AnswerModel():
     """handles operations for the answers"""
 
-    def __init__(self, answer):
-        self.answer = answer
-        self.answer_date = datetime.now()
+    def get_answers():
 
-    def get_answers(*args):
-
-        user_details=[]
         answer_list = []
 
-        if args is not None:
-            for questionid in args:
-                fetch_user_answers = """SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted
-                 FROM answers A 
-                 INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
-                 ORDER BY A.id DESC ;"""
-                fetched_answers = cur.execute(fetch_user_answers, [questionid])
-                result = cur.fetchall()
+        # if args is not None:
+        #     for questionid in args:
+        #         fetch_user_answers = """SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted
+        #          FROM answers A 
+        #          INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
+        #          ORDER BY A.id DESC ;"""
+        #         fetched_answers = cur.execute(fetch_user_answers, [questionid])
+        #         result = cur.fetchall()
 
 
         que = cur.execute("""SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted
@@ -34,15 +28,7 @@ class AnswerModel():
                  INNER JOIN users U ON A.user_id = U.id
                  ORDER BY A.id DESC ;""")
 
-        try:
-            que
-        except (Exception, psycopg2.DatabaseError) as error:
-            print (error)
-            conn
-            cur
-
         result = cur.fetchall()
-
 
         for i in result:
             answer_list.append(i)
@@ -73,16 +59,16 @@ class AnswerModel():
 
         conn.commit()
 
-        return "Successfully added answer"
+        return "Success!! Your answer has been added"
 
     def check_who_posted(current_user_id, answer_id):
-        print(current_user_id)
+
         fetch_question = "SELECT * FROM answers WHERE id = %s and user_id = %s"
         fetched_question = cur.execute(fetch_question, [answer_id, current_user_id])
         result = cur.fetchall()
 
         if not result:
-            return "Sorry, you can't update this answer, only owner has permission"
+            return True
 
     def check_if_already_accepted(answer_id):
         """check if user already accepted the answers"""
@@ -96,7 +82,7 @@ class AnswerModel():
                 return "You have already accepted this answer"
 
     def accept_answer(answer_id):
-        """accepts and answeer"""
+        """accepts an answer"""
 
         update_que = "UPDATE answers SET accepted = true WHERE id = %s;"
         cur.execute(update_que, [answer_id])
@@ -105,7 +91,7 @@ class AnswerModel():
         return "Successfully accepted answer"
 
     def update_answer(answer_id, answer_body):
-        """accepts and answeer"""
+        """updates an answer"""
 
         update_que = "UPDATE answers SET answer_body = %s WHERE id = %s;"
         cur.execute(update_que, [answer_body, answer_id])

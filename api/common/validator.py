@@ -4,29 +4,23 @@
 This module contains all the cide used to validate input
 It is used by both the question and answer views and models
 """
-import psycopg2
+
 from ..database.connect import conn, cur
 import re
-from flask import request
-
-
 
 def check_email_validity(email):
     """ensure that the email input is valid"""
     email_regex = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
     if not re.match(email_regex, email):
-        return {
-                'Status': 'Error',
-                'message': "Ooops! '{}' is not a valid email address".format(email) }, 400
+        return { 'message': "Ooops! '{}' is not a valid email address".format(email) }, 400
 
 def check_text_validity(text):
+    """ensures that the text input is valid"""
     text_regex =  re.compile(r"(^[A-Za-z]+$)")
 
     if not re.match(text_regex, text):
-        return {
-                'Status': 'Error',
-                'message': "Ooops! '{}' is not a valid input. No spaces or special characters allowed".format(text) }, 400
+        return {'message': "Ooops! '{}' is not a valid input. No spaces or special characters allowed".format(text) }, 400
 
 
 def check_if_already_exists(list_name, title):
@@ -41,24 +35,24 @@ def check_if_already_exists(list_name, title):
 
 
 
-def check_for_answer(answer):
-    """check if a similar answer exists"""
-    answer_list = []
-    conn
-    que = cur.execute("SELECT * FROM answers")
+# def check_for_answer(answer):
+#     """check if a similar answer exists"""
+#     answer_list = []
 
-    try:
-        que
-    except (Exception, psycopg2.DatabaseError) as error:
-        print (error)
-        conn
-        cur
+#     que = cur.execute("SELECT * FROM answers")
 
-    result = cur.fetchall()    
+#     # try:
+#     #     que
+#     # except (Exception, psycopg2.DatabaseError) as error:
+#     #     print (error)
+#     #     conn
+#     #     cur
 
-    for item in result:
-        if item[3] == answer:
-            return True
+#     result = cur.fetchall()    
+
+#     for item in result:
+#         if item[3] == answer:
+#             return True
 
 
 def question_verification(title, description):
@@ -87,17 +81,6 @@ def check_quality(item):
 
     if len(item) < 2:
         return 'Too Short, Please add more input'
-
-
-def find_answers_to_a_question(list_name, question_id):
-    """find all the answers posted to a question"""
-
-    my_items = [element for element in list_name if element[
-        'question_id'] == question_id]
-
-    if my_items:
-        return my_items
-    return False
 
 
 def check_if_user_exists(user_list, username, email):

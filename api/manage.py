@@ -30,7 +30,7 @@ def tables(value):
                 id bigserial NOT NULL PRIMARY KEY,
                 user_id int NOT NULL,
                 question_id int NOT NULL,
-                answer_body varchar(255) UNIQUE NOT NULL,
+                answer_body varchar(255) NOT NULL,
                 accepted varchar(255)
             )
             """
@@ -39,7 +39,7 @@ def tables(value):
                 id bigserial NOT NULL PRIMARY KEY,
                 user_id int NOT NULL,
                 answer_id int NOT NULL,
-                comment_body varchar(255) UNIQUE NOT NULL
+                comment_body varchar(255) NOT NULL
             )
             """
 
