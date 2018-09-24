@@ -81,9 +81,11 @@ class AnswerModel():
             if i[4] == 'true':
                 return "You have already accepted this answer"
 
-    def accept_answer(answer_id):
+    def accept_answer(question_id, answer_id):
         """accepts an answer"""
-
+        unaccept_all = "UPDATE answers SET accepted = false WHERE question_id = %s";
+        cur.execute(unaccept_all, [question_id])
+        conn.commit()
         update_que = "UPDATE answers SET accepted = true WHERE id = %s;"
         cur.execute(update_que, [answer_id])
         conn.commit()
@@ -99,17 +101,27 @@ class AnswerModel():
 
         return "Successfully updated answer"
 
-    def get_que_answers(question_id):
-        fetch_question = """SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted, U.username
+    def get_que_answers(current_user_id, question_id):
+        X = 0
+        Y = 2
+        user_id = current_user_id
+       
+        print(current_user_id)
+        fetch_question = """SELECT A.id, A.user_id, A.question_id, A.answer_body, A.accepted, U.username,
+            (SELECT COUNT(X.id) FROM upvotes X WHERE X.answer_id = A.id) as upvotes,
+            (SELECT COUNT(Y.id) FROM downvotes Y WHERE Y.answer_id = A.id) as downvotes,
+            (SELECT COUNT(X.id) FROM upvotes X WHERE X.answer_id = A.id and X.user_id = %s) as already_upvoted,
+            (SELECT COUNT(Y.id) FROM downvotes Y WHERE Y.answer_id = A.id and Y.user_id = %s) as already_downvoted
                  FROM answers A 
                  INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
                  ORDER BY A.id DESC ;"""
 
-        fetched_question = cur.execute(fetch_question, [question_id])
+        fetched_question = cur.execute(fetch_question, [user_id, user_id, question_id])
         result = cur.fetchall()
 
         answer_list = []
         for i in result:
-            answer_list.append(dict(answer_id=i[0], user_id=i[1], user_name = i[5], question_id=i[2], answer_body=i[3], accepted=i[4]))
-
+            answer_list.append(dict(answer_id=i[0], user_id=i[1], user_name = i[5], question_id=i[2], answer_body=i[3], accepted=i[4], upvotes=i[6], downvotes=i[7],  upvote_id = X + 1,  downvote_id = Y + 1, already_upvoted = i[8], already_downvoted = i[9]))
+            X += 1
+            Y += 1
         return answer_list

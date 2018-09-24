@@ -217,9 +217,13 @@ class TestApp(Base):
 
     def test_user_must_enter_question_id_as_integer_in_uri(self):
         """checks that users cant do something like 'api/v1/questions/one """
+
+        access_que = json.loads(self.que.data.decode())
+        access_token = access_que['access_token']
+        
         self.post_for_testing_purposes()
 
-        response = self.client.get('/api/v1/questions/one')
+        response = self.client.get('/api/v1/questions/one', headers = {'Authorization' : 'Bearer '+ access_token })
 
         mess = json.loads(response.data.decode())
 

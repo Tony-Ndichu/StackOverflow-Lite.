@@ -1,5 +1,5 @@
 """
-#app/api/answers/view.py
+#app/api/answers/views.py
 This is the module that handles answers and their methods
 """
 from datetime import datetime
@@ -120,7 +120,7 @@ class AcceptAnswer(Resource):
         if check_if_already_accepted:
             return {"message": check_if_already_accepted}, 409
 
-        accept_answer = AnswerModel.accept_answer(answer_id)
+        accept_answer = AnswerModel.accept_answer(question_id, answer_id)
 
         if accept_answer:
             return {"message": "Success!! You have accepted this answer"}, 200

@@ -49,9 +49,22 @@ def tables(value):
             )
             """
 
+        create_upvotes = """CREATE TABLE IF NOT EXISTS upvotes (
+                id bigserial NOT NULL PRIMARY KEY,
+                user_id int NOT NULL,
+                answer_id int NOT NULL
+            )
+            """
+
+        create_downvotes = """CREATE TABLE IF NOT EXISTS downvotes (
+                id bigserial NOT NULL PRIMARY KEY,
+                user_id int NOT NULL,
+                answer_id int NOT NULL
+            )
+            """
 
 
-        table_list= [create_users , create_questions , create_answers, create_token, create_comments ]
+        table_list= [create_users , create_questions , create_answers, create_token, create_comments , create_upvotes, create_downvotes]
 
     elif value == "drop":
         """ 
@@ -67,7 +80,11 @@ def tables(value):
 
         drop_token = "DROP TABLE IF EXISTS token"
 
-        table_list= [drop_users , drop_questions , drop_answers, drop_token, drop_comments ]
+        drop_upvotes ="DROP TABLE IF EXISTS upvotes"
+
+        drop_downvotes ="DROP TABLE IF EXISTS downvotes"
+
+        table_list= [drop_users , drop_questions , drop_answers, drop_token, drop_comments, drop_upvotes , drop_downvotes ]
             
     try:
         # create table one by one

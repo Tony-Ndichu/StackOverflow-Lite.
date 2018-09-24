@@ -89,6 +89,7 @@ class SpecificQuestion(Resource):
     """this class handles fetching a specific question and deleting it"""
 
     @classmethod
+    @jwt_required
     def get(cls, questionid):
         """this handles getting the question using it's id"""
         try:
@@ -98,7 +99,9 @@ class SpecificQuestion(Resource):
 
         QUESTION_LIST = QuestionModel.get_questions()
 
-        i = AnswerModel.get_que_answers(questionid)
+        current_user_id = get_jwt_identity()
+
+        i = AnswerModel.get_que_answers(current_user_id, questionid)
 
         check_id = validator.check_using_id(QUESTION_LIST, int(questionid))
 
