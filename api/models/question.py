@@ -5,6 +5,7 @@ This is the question model
 """
 import psycopg2
 from ..database.connect import conn, cur
+from .answer import AnswerModel
 
 
 class QuestionModel():
@@ -19,7 +20,7 @@ class QuestionModel():
         question_list=[]
 
         for item in list:
-            question_dict = dict(question_id=item[0], user_id = item[1], user_name = item[4] , title = item[2], description = item[3], no_of_answers = item[5] )
+            question_dict = dict(question_id=item[0], user_id = item[1], user_name = item[4] , title = item[2], description = item[3], no_of_answers = item[5] , time = AnswerModel.myconverter(time = item[6]))
             question_list.append(question_dict)
 
         return question_list
@@ -44,7 +45,8 @@ class QuestionModel():
 
 
         que = cur.execute("""SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
-             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount,
+             Q.created_at
              FROM QUESTIONS Q
              INNER JOIN users U ON Q.user_id = U.id
              ORDER BY Q.id DESC
@@ -69,11 +71,12 @@ class QuestionModel():
         question_list = []
 
         fetch_user_questions = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
-                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount,
+                                             Q.created_at
                                              FROM QUESTIONS Q
                                              INNER JOIN users U ON Q.user_id = U.id
                                             WHERE Q.user_id = %s
-                                                ORDER BY Q.id DESC
+                                                ORDER BY Q.created_at DESC
                                                 ;"""
         fetched_questions = cur.execute(
             fetch_user_questions, [current_user_id])
@@ -120,7 +123,8 @@ class QuestionModel():
         final_result = []
 
         fetch_question = """SELECT Q.id, Q.user_id, Q.title, Q.description, U.username,
-                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount
+                                             (SELECT COUNT(A.question_id) FROM answers A WHERE A.question_id = Q.id) as answercount,
+                                             Q.created_at
                                              FROM QUESTIONS Q
                                              INNER JOIN users U ON Q.user_id = U.id
                                              INNER JOIN answers A ON A.question_id = Q.id
@@ -137,7 +141,7 @@ class QuestionModel():
 
         for i in que_result:
             final_result.append(dict(question_id=i[0], user_id = i[1], no_of_answers=i[5],
-                                    title=i[2], description=i[3]))
+                                    title=i[2], description=i[3], time = AnswerModel.myconverter(time = i[6]) ))
 
         return final_result
 

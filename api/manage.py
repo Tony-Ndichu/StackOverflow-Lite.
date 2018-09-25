@@ -22,7 +22,8 @@ def tables(value):
                 id bigserial NOT NULL PRIMARY KEY,
                 user_id int NOT NULL,
                 title varchar(100) UNIQUE NOT NULL,
-                description varchar(255) NOT NULL 
+                description varchar(255) NOT NULL,
+                created_at timestamp NOT NULL DEFAULT now()
             )
             """
 
@@ -31,7 +32,8 @@ def tables(value):
                 user_id int NOT NULL,
                 question_id int NOT NULL,
                 answer_body varchar(255) NOT NULL,
-                accepted varchar(255)
+                accepted varchar(255),
+                created_at timestamp NOT NULL DEFAULT now()
             )
             """
 

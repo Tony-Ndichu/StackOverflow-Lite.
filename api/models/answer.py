@@ -4,6 +4,8 @@
 This is the answer model
 """
 from ..database.connect import conn, cur
+import json
+import datetime
 
 
 class AnswerModel():
@@ -111,17 +113,62 @@ class AnswerModel():
             (SELECT COUNT(X.id) FROM upvotes X WHERE X.answer_id = A.id) as upvotes,
             (SELECT COUNT(Y.id) FROM downvotes Y WHERE Y.answer_id = A.id) as downvotes,
             (SELECT COUNT(X.id) FROM upvotes X WHERE X.answer_id = A.id and X.user_id = %s) as already_upvoted,
-            (SELECT COUNT(Y.id) FROM downvotes Y WHERE Y.answer_id = A.id and Y.user_id = %s) as already_downvoted
+            (SELECT COUNT(Y.id) FROM downvotes Y WHERE Y.answer_id = A.id and Y.user_id = %s) as already_downvoted,
+            A.created_at
                  FROM answers A 
                  INNER JOIN users U ON A.user_id = U.id WHERE A.question_id = %s
-                 ORDER BY A.id DESC ;"""
+                 ORDER BY A.created_at DESC ;"""
 
         fetched_question = cur.execute(fetch_question, [user_id, user_id, question_id])
         result = cur.fetchall()
 
         answer_list = []
         for i in result:
-            answer_list.append(dict(answer_id=i[0], user_id=i[1], user_name = i[5], question_id=i[2], answer_body=i[3], accepted=i[4], upvotes=i[6], downvotes=i[7],  upvote_id = X + 1,  downvote_id = Y + 1, already_upvoted = i[8], already_downvoted = i[9]))
+            answer_list.append(dict(answer_id=i[0], user_id=i[1], user_name = i[5], question_id=i[2], answer_body=i[3], accepted=i[4], upvotes=i[6], downvotes=i[7],  upvote_id = X + 1,  downvote_id = Y + 1, already_upvoted = i[8], already_downvoted = i[9], time = AnswerModel.myconverter(time = i[10])))
             X += 1
             Y += 1
         return answer_list
+
+
+    def myconverter(time=False):
+        """
+        Get a datetime object or a int() Epoch timestamp and return a
+        pretty string like 'an hour ago', 'Yesterday', '3 months ago',
+        'just now', etc
+        """
+        from datetime import datetime
+        now = datetime.now()
+        if type(time) is int:
+            diff = now - datetime.fromtimestamp(time)
+        elif isinstance(time,datetime):
+            diff = now - time
+        elif not time:
+            diff = now - now
+        second_diff = diff.seconds
+        day_diff = diff.days
+
+        if day_diff < 0:
+            return ''
+
+        if day_diff == 0:
+            if second_diff < 10:
+                return "just now"
+            if second_diff < 60:
+                return str(second_diff) + " seconds ago"
+            if second_diff < 120:
+                return "a minute ago"
+            if second_diff < 3600:
+                return str(int(round(second_diff / 60))) + " minutes ago"
+            if second_diff < 7200:
+                return "an hour ago"
+            if second_diff < 86400:
+                return str(int(round(second_diff / 3600))) + " hours ago"
+        if day_diff == 1:
+            return "Yesterday"
+        if day_diff < 7:
+            return str(day_diff) + " days ago"
+        if day_diff < 31:
+            return str(day_diff / 7) + " weeks ago"
+        if day_diff < 365:
+            return str(day_diff / 30) + " months ago"
+        return str(day_diff / 365) + " years ago"
