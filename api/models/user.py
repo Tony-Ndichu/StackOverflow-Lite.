@@ -87,13 +87,6 @@ class UserModel():
         for i in result:
 
             if i[3] == username and check_password_hash(i[5], password):
-                
-                user_list.append(i[0])
-                user_list.append(i[3])
-
+                user_list.append(i)
 
         return user_list
-
-
-            
-
