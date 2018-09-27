@@ -161,7 +161,7 @@ class Login(Resource):
         if user_check:
             access_token = create_access_token(identity = user_check, expires_delta=False)
 
-            return {"message": "Successfully logged in!!", "access_token" : access_token, "user_id" : user_check }, 200
+            return {"message": "Successfully logged in!!", "access_token" : access_token, "user_id" : user_check[0], "user_name" : user_check[1] }, 200
 
         return {"message": "Sorry, that password is invalid" }, 404
 
