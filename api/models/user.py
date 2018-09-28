@@ -13,7 +13,6 @@ class UserModel():
 
     def get_all_users():
         """retrieve all users from the database"""
-        user_list = []
         que = cur.execute("SELECT * FROM users")
 
         # try:
@@ -24,10 +23,6 @@ class UserModel():
         #     cur
 
         result = cur.fetchall()
-
-        for i in result:
-            user_list.append(result)
-
         return result
 
     def get_profile(current_user_id):
@@ -72,7 +67,7 @@ class UserModel():
 
     def find_by_username(username, password):
         """check user dedtails on login"""
-        user_list = []
+        users_list = []
         que = cur.execute("SELECT * FROM users")
 
         # try:
@@ -87,6 +82,9 @@ class UserModel():
         for i in result:
 
             if i[3] == username and check_password_hash(i[5], password):
-                user_list.append(i)
+                
+                users_list.extend((i[0] , i[3]))
 
-        return user_list
+        return users_list
+
+    
