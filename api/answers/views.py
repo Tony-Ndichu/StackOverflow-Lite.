@@ -139,6 +139,9 @@ class UpdateAnswer(Resource):
 
         data = cls.parser.parse_args()
 
+        if data['answer'] == '':
+            return {"message" : "Sorry, add some characters to edit" }, 400
+
         try:
             val = int(question_id)
         except ValueError:
